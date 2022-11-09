@@ -1,0 +1,41 @@
+$color: #fff
+$header-font-size: 2rem
+
+$small-font-size: 1.0rem
+
+.main-content
+  .current-season
+    max-width: 150rem
+    margin: 0 auto
+  .current-season-header
+    padding: 0 0 2rem 0
+    h1
+      font-size: $header-font-size
+      color: $color
+      margin: 0
+
+  .no-current-season
+    margin: 5rem 0 0 0
+    h1
+      color: $color
+      font-size: $header-font-size
+
+@media (max-width: 530px)
+  .current-season
+    .card2-container
+      .card2
+        .content-container
+          padding: 1rem 0
+          .content-header
+            .header-text
+              font-size: 1.4rem
+          .header-text-bg
+            top: -5rem
+            left: -6.6rem
+          .division-team-stats
+            td
+              font-size: $small-font-size
+          .stats-table
+            .stats-header
+              td
+                font-size: $small-font-size

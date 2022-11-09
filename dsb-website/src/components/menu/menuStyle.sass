@@ -1,0 +1,60 @@
+$menu-text-color: #363636
+$menu-font-size: 1.5rem
+
+.main-menu
+  position: fixed
+  top: 0
+  left: -20rem
+  z-index: 1
+  transition: left 200ms ease-in-out
+  height: 100vh
+  &.opened
+    left: 0
+  .menu-content
+    position: absolute
+    top: 0
+    left: 0
+    height: 100%
+    width: 20rem
+    background: var(--prime1)
+    box-shadow: -1rem 6rem 2rem 0rem #000000
+    ul
+      position: relative
+      top: 25%
+      transform: translate(0, -50%)
+      padding: 0
+      li
+        //text-align: left
+        font-size: 2rem
+        padding: 0.2rem 0
+        a
+          text-decoration: none
+          font-size: $menu-font-size
+          color: $menu-text-color
+          &:visited
+            color: $menu-text-color
+  .menu-button-container
+    position: absolute
+    top: 0
+    left: 0
+    width: 25rem
+    height: 5rem
+    border-radius: 0 0 2rem 0
+    overflow: hidden
+    box-shadow: -0.5rem -0.5rem 2rem 0rem #000000
+  .menu-button
+    position: absolute
+    top: 0
+    left: 20rem
+    background: var(--prime1)
+    width: 5rem
+    height: 5rem
+    cursor: pointer
+    border-radius: 0 0 2rem 0
+    .menu-button-icon
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%, -50%)
+      font-size: 3.2rem
+      user-select: none
