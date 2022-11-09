@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
-using Commons;
 
 namespace WebAPI.Challonge
 {
@@ -11,7 +9,7 @@ namespace WebAPI.Challonge
         
         public Core.Data.Match.Match ToDatabaseFormat()
         {
-
+            
             var numbers1 = Regex.Matches(Match.Score, @"^-?\d+")
                 //.Cast<Match>()
                 .Select(m => m.Value)

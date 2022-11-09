@@ -52,6 +52,16 @@ namespace WebAPI.Utils
 
                 databaseData.Id = oldVersion.Id;
                 databaseData.Uuid = oldVersion.Uuid;
+
+                if (!databaseData.ShouldUpdateGroupsData)
+                {
+                    databaseData.GroupAmount = oldVersion.GroupAmount;
+                    databaseData.Groups = oldVersion.Groups;
+                }
+                
+                //set update var to false after updating
+                databaseData.ShouldUpdateGroupsData = false;
+                
                 TournamentController.Instance.UpdateOneComplete(databaseData);
             }
             catch (Exception e)

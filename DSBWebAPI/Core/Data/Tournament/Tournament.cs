@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Core.Controller;
 using Core.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
@@ -20,6 +19,10 @@ namespace Core.Data.Tournament
         public List<Participant.Participant> Participants { get; set; } = new List<Participant.Participant>();
         public List<Match.Match> Matches { get; set; } = new List<Match.Match>();
 
+        public bool IsGroup { get; set; } = false;
+        public int GroupAmount { get; set; } = -1;
+        public List<List<int>> Groups { get; set; } = new List<List<int>>();
+        public bool ShouldUpdateGroupsData { get; set; } = true;
     }
 
 }

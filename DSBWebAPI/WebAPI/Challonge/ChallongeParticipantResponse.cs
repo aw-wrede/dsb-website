@@ -11,7 +11,8 @@ namespace WebAPI.Challonge
             return new Participant
             {
                 ChallongeId = Participant.Id,
-                Name = Participant.Name
+                Name = Participant.Name,
+                GroupIds = Participant.GroupIds
             };
         }
     }
