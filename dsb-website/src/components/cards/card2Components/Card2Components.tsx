@@ -26,7 +26,7 @@ export function Card2DivisionComponent({tournament, color}) {
                         <div className="content">
                             <img className="header-text-bg" src="/images/splat.svg" alt=""/>
                             <div className="content-header">
-                                <p className="header-text">{tournament.name.replace(/^Season \d/, "")}</p>
+                                <p className="header-text">{tournament.name.replace(/^Season \d /, "").replace(/^DSB Season \d /, "")}</p>
 
                             </div>
                             <table className="stats-table">
@@ -43,7 +43,7 @@ export function Card2DivisionComponent({tournament, color}) {
                                 {tournament.participants.map((participant, index) => (
                                     <tr key={participant.id} className="division-team-stats">
                                         <td>{index+1}</td>
-                                        <td className="text-left">{participant.name}</td>
+                                        <td className="text-left">{trimTeamname(participant.name)}</td>
                                         <td>{participant.wins}-{participant.matchesPlayed-participant.wins}-0</td>
                                         <td>{participant.roundsWon}</td>
                                         <td>{participant.difference}</td>
@@ -59,6 +59,16 @@ export function Card2DivisionComponent({tournament, color}) {
 
         </div>
     )
+}
+
+function trimTeamname(name:string) {
+    const maxLength = 24
+    if(name.length <= maxLength) {
+        return name
+    }
+
+    return `${name.substring(0, maxLength)}...`
+
 }
 
 export class Card2TeamComponent extends Component<{ staffMember: StaffMember }> {

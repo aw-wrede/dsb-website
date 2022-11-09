@@ -45,13 +45,16 @@ export default function SiteSeason() {
         <section className="main-content arrow-background fill-site">
             {IS_A_CURRENT_SEASON ? (
                 <div>
+                    <div className="season-banner">
+                        <img src="/images/dsb_season_6_banner.png" alt=""/>
+                    </div>
                     <div className="current-season-header">
                         <h1>{CURRENT_SEASON_NAME}</h1>
                         <h1>{CURRENT_SEASON_DATE}</h1>
                     </div>
                     <div className="current-season flex wrap flex-center">
-                        {tournaments.map(tournament => (
-                            <Card2DivisionComponent key={tournament.uuid} tournament={tournament} color={"#04b9f1"} />
+                        {tournaments.map(tournament => ( //#04b9f1
+                            <Card2DivisionComponent key={tournament.uuid} tournament={tournament} color={"#ff3a36"} />
                         ))}
                     </div>
                 </div>) : (
