@@ -31,7 +31,7 @@ export default function Header2MenuComponent({activeSite}) {
                     <li className={`${activeSite === SITE_HOME ? "current" : ""}`}><a href={SITE_HOME}>Home</a></li>
                     <li className={`${activeSite === "/team" ? "current" : ""}`}><a href="/team">Team</a></li>
                     <li className={`${activeSite === "/season" ? "current" : ""}`}><a href="/season">Aktuelle Season</a></li>
-                    <li className={`${activeSite === "/dsl" ? "current" : ""}`}><a href="/dsl">DSL</a></li>
+
                     <li className={`${activeSite === SITE_ARCHIVE ? "current" : ""}`}><a href={SITE_ARCHIVE}>Turnier-Archiv</a></li>
                 </ul>
             </div>

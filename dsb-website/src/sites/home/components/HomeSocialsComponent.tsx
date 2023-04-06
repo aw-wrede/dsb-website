@@ -1,4 +1,11 @@
-import {DISCORD_LINK, TWITCH_LINK, TWITTER_LINK, YOUTUBE_LINK} from "../../../definitions/constants";
+import {
+    DISCORD_LINK,
+    INSTAGRAM_LINK,
+    TIKTOK_LINK,
+    TWITCH_LINK,
+    TWITTER_LINK,
+    YOUTUBE_LINK
+} from "../../../definitions/constants";
 import {
     DISCORD_LOOKING_FOR_CHANNEL_PLAYER,
     DISCORD_LOOKING_FOR_CHANNEL_TEAM,
@@ -26,6 +33,8 @@ export default function HomeSocialsComponent() {
                     <SocialObject href={TWITCH_LINK} logo={"/logos/twitch-white.svg"} className="twitch"/>
                     <SocialObject href={YOUTUBE_LINK} logo={"/logos/youtube-white.png"} className="youtube"/>
                     <SocialObject href={TWITTER_LINK} logo={"/logos/twitter-white.svg"} className="twitter"/>
+                    <SocialObject href={INSTAGRAM_LINK} logo={"/logos/instagram-white.svg"} className="instagram"/>
+                    <SocialObject href={TIKTOK_LINK} logo={"/logos/tiktok-white.svg"} className="tiktok"/>
                 </div>
             </div>
         </div>

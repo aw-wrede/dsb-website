@@ -29,6 +29,6 @@ export const CURRENT_SEASON_TOURNAMENTS = [
 ]
 
 export const DISCORD_NAME = "Deutsche Splatoon Bundesliga"
-export const DISCORD_TEAMS_LAST_SEASON = 63
+export const DISCORD_TEAMS_LAST_SEASON = 95
 export const DISCORD_LOOKING_FOR_CHANNEL_PLAYER = "#looking4player"
 export const DISCORD_LOOKING_FOR_CHANNEL_TEAM = "#looking4team"

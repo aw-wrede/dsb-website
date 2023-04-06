@@ -11,6 +11,7 @@ import {
 import {Card2DivisionComponent, Card2TeamComponent} from "../../components/cards/card2Components/Card2Components";
 
 import "./seasonStyle.sass"
+import FooterComponent from "../../components/footer/FooterComponent";
 
 export default function SiteSeason() {
 
@@ -49,8 +50,8 @@ export default function SiteSeason() {
                         <img src="/images/dsb_season_6_banner.png" alt=""/>
                     </div>
                     <div className="current-season-header">
-                        <h1>{CURRENT_SEASON_NAME}</h1>
-                        <h1>{CURRENT_SEASON_DATE}</h1>
+                        {/*<h1>{CURRENT_SEASON_NAME}</h1>
+                           <h1>{CURRENT_SEASON_DATE}</h1>*/}
                     </div>
                     <div className="current-season flex wrap flex-center">
                         {tournaments.map(tournament => ( //#04b9f1
@@ -64,7 +65,7 @@ export default function SiteSeason() {
                     </div>
                 </div>
             )}
-
+            <FooterComponent />
         </section>
     )
 }

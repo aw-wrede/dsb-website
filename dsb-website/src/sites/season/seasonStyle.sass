@@ -3,16 +3,20 @@ $header-font-size: 2rem
 
 $small-font-size: 1.0rem
 
+$max-width-banner: 100rem
+$max-width-content: 150rem
+
 .main-content
   .season-banner
     width: 100%
-    max-width: 100rem
+    max-width: $max-width-banner
     margin: 0 auto
     overflow: hidden
     img
+      border-radius: 2rem
       width: 100%
   .current-season
-    max-width: 150rem
+    max-width: $max-width-content
     margin: 0 auto
   .current-season-header
     padding: 0 0 2rem 0
@@ -26,6 +30,13 @@ $small-font-size: 1.0rem
     h1
       color: $color
       font-size: $header-font-size
+      text-align: center
+
+@media (max-width: 1000px)
+  .main-content
+    .season-banner
+      img
+        border-radius: 0
 
 @media (max-width: 530px)
   .current-season
@@ -45,4 +56,8 @@ $small-font-size: 1.0rem
           .stats-table
             .stats-header
               td
+                font-size: $small-font-size
+          .tables-container
+            &.group-division
+              p
                 font-size: $small-font-size

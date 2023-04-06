@@ -1,4 +1,51 @@
+$searchWidth: 30rem
+$searchFontSize: 1.6rem
+$searchHeaderFontSize: 2rem
+
 .team-container
   display: flex
   justify-content: center
   flex-wrap: wrap
+  max-width: 120rem
+  margin: 0 auto
+
+.team-search-container
+  position: fixed
+  top: 11.5rem
+  left: -$searchWidth
+  transition: left 150ms ease-in-out
+  display: flex
+  flex-wrap: nowrap
+  z-index: 10
+  &.opened
+    left: 0
+  .team-search-settings
+    width: 100vw
+    max-width: $searchWidth
+    padding: 0.5rem 1rem
+    background: var(--bg-panel)
+    border-radius: 0 0 1rem 0
+    .search-header
+      height: 4.5rem
+      margin: 0 0 1rem 0
+      p
+        position: relative
+        top: 2rem
+        transform: translate(0, -50%)
+        font-size: $searchHeaderFontSize
+        line-height: 1
+    .team-search-elem
+      display: flex
+      flex-wrap: nowrap
+      p
+        font-size: $searchFontSize
+  .team-search-opener
+    padding: 0.5rem
+    cursor: pointer
+    background: var(--bg-panel)
+    height: 5.5rem
+    border-radius: 0 1rem 1rem 0
+    span
+      color: #fff
+      font-size: 4rem
+      user-select: none

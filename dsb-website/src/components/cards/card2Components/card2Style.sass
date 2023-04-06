@@ -5,6 +5,19 @@ $content-background: rgba(0,0,0,0.4)
 
 $table-row-radius: 1.2rem
 
+.social-link
+  display: block
+  width: 2rem
+  height: 2rem
+  margin: 0 1rem 0 0
+  &.twitch
+    .social
+      padding: 0.1rem 0 0 0
+  .social
+    width: 2rem
+    height: 2rem
+    object-fit: contain
+
 .card2-container
   position: relative
   width: 100%
@@ -53,17 +66,6 @@ $table-row-radius: 1.2rem
         text-shadow: 0.2rem 0.2rem 0.1rem rgb(0 0 0 / 80%)
     .user-socials
       display: flex
-      .social-link
-        display: block
-        width: 2rem
-        height: 2rem
-        margin: 0 1rem 0 0
-        &.twitch
-          .social
-            padding: 0.1rem 0 0 0
-      .social
-        width: 2rem
-        height: 2rem
 
     .content-container
       display: flex
@@ -109,6 +111,37 @@ $table-row-radius: 1.2rem
         text-align: start
         font-size: $stats-font-size
         font-weight: $stats-font-weight
+      .tables-container
+        &.group-division
+          .division-finals-container
+            display: flex
+            flex-wrap: wrap
+            justify-content: center
+            align-items: center
+            .final-matches-container
+              z-index: 2
+              padding: 1rem 1rem
+              .final-matches-header
+                padding: 0 0 0.4rem $table-row-radius
+                //title
+              .finals-match
+                min-width: 18rem
+                padding: 0 0 1rem 0
+                .match-body
+                  display: flex
+                  justify-content: space-between
+                  padding: 0.5rem 1rem
+                  background: $content-background
+                  border-radius: $table-row-radius
+                  .match-teams, .match-score
+
+
+
+          .table-container
+            padding: 2rem 0 0 0
+            .c-header
+              .group-name
+                text-align: center
       .stats-table
         position: relative
         width: 100%

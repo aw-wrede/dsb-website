@@ -3,11 +3,21 @@ $text-color: #ececec
 $line-color: #a8a8a8
 //#777777
 
+$link-color: var(--prime2)
+
 $bg: #2c2c2c
 //#dadada
 $bg-panel: #616161  //#232323
 $panel-color: #f5f5f7
 
+$card1-default-header-font-size: 1.9rem
+$card1-default-header-font-wight: 600
+
+$card1-default-font-size: 1.8rem
+$card1-default-font-weight: 600
+
+$card1-default-a-size: 1.6rem
+$card1-default-a-wight: 600
 
 .card1
   position: relative
@@ -18,9 +28,13 @@ $panel-color: #f5f5f7
   //background: $bg
   box-shadow: 0.1rem 0.1rem 0.5rem 0rem rgba(0, 0, 0, 0.8)
   p
-    //color: var(--color)
+    font-size: $card1-default-font-size
+    font-weight: $card1-default-font-weight
     color: $text-color
-  .card1-link
+  a
+    font-size: $card1-default-a-size
+    font-weight: $card1-default-a-wight
+    color: $link-color
   .card1-user-header
     position: relative
     mask-image: url("/assets/arrow-background.png")
@@ -49,8 +63,8 @@ $panel-color: #f5f5f7
       width: 100%
       padding: 0.3rem 0
       p
-        font-size: 1.9rem
-        font-weight: 600
+        font-size: $card1-default-header-font-size
+        font-weight: $card1-default-header-font-wight
   .card1-places-container
     background: $bg url("/assets/blobs-background.png")
     padding: 5rem 3rem 2rem 3rem
@@ -63,11 +77,32 @@ $panel-color: #f5f5f7
         font-size: 1.2rem
         text-align: center
         color: $text-color
+    //.bracket-notes
+      padding: 1rem 0 1rem 0
+      p
+        font-size: $card1-default-font-size
+        font-weight: $card1-default-font-weight
+    .brackets-links-container
+      p
+        padding: 1rem 0 0.5rem 0
+      .brackets-links
+        a
+          display: block
+          padding: 0.1rem
     .card1-place, .card1-division
       position: relative
       display: flex
       justify-content: space-between
       padding: 1rem 0 1rem 0
+      .social-link
+        position: relative
+        top: 50%
+        transform: translate(0, -50%)
+      .place-container
+        display: flex
+        p
+          text-align: left
+          padding: 0 1rem 0 0
       .place-info
         display: none
         font-style: normal
@@ -89,5 +124,5 @@ $panel-color: #f5f5f7
         &::before
           display: none
       p
-        font-size: 1.8rem
-        font-weight: 600
+        font-size: $card1-default-font-size
+        font-weight: $card1-default-font-weight
