@@ -1,9 +1,10 @@
 import {ArchiveSeason, ArchiveTourney} from "../interfaces/ArchiveData";
 import {YOUTUBE_ICON} from "./DataStaff";
 
+//2020.06.08 - 2020.08.23
 export const DSB_SEASON_1:ArchiveSeason = {
     name: "DSB Season 1",
-    date: "?",
+    date: "08.06.2020 - 23.08.2020",
     image: "/images/InkblotArtAcademy.png",
     divisions: [
         {
@@ -81,6 +82,7 @@ export const DSB_SEASON_1:ArchiveSeason = {
     ]
 }
 
+//2020.09.12
 export const DSB_SPLATFEST_1:ArchiveTourney = {
     name: "DSB Splatfest",
     date: "12.09.2020",
@@ -101,6 +103,7 @@ export const DSB_SPLATFEST_1:ArchiveTourney = {
     ]
 }
 
+//2020.09.26
 export const DSP_1:ArchiveTourney = {
     name: "Deutscher Splatoon Pokal 1",
     date: "26.09.2020",
@@ -140,9 +143,10 @@ export const DSP_1:ArchiveTourney = {
     ]
 }
 
+//2020.10.26 - 2021.01.10
 export const DSB_SEASON_2:ArchiveSeason = {
     name: "DSB Season 2",
-    date: "?",
+    date: "26.10.2020 - 10.01.2021",
     image: "/images/InkblotArtAcademy.png",
     divisions: [
         {
@@ -233,9 +237,10 @@ export const DSB_TURMHORROR_1:ArchiveTourney = {
     ]
 }
 
+// 2021.03.20 - 2021.03.21
 export const DSB_BUNDESLAENDER_BRAWL_1:ArchiveTourney = {
     name: "DSB Bundesländer Brawl",
-    date: "?",
+    date: "20. - 21.03.2021",
     image: "/images/InkblotArtAcademy.png",
     brackets: [
         {
@@ -682,13 +687,7 @@ export const DSB_SEASON_5:ArchiveSeason = {
             url: "https://challonge.com/DSBS5D1",
             show: true,
             showUrl: false,
-            links: [
-                {
-                    name: "",
-                    url: "https://www.youtube.com/playlist?list=PL14mLbOPBoahtJet4n7Vhkvkqu_zNWVC7",
-                    icon: YOUTUBE_ICON
-                }
-            ]
+            links: []
         },
         {
             id: 2,
@@ -757,9 +756,10 @@ export const DSB_SEASON_5:ArchiveSeason = {
     ]
 }
 
+//2022.10.10 - 2022.12.04
 export const DSB_SEASON_6:ArchiveSeason = {
     name: "DSB Season 6",
-    date: "?",
+    date: "10.10. - 04.12.2022",
     image: "/images/InkblotArtAcademy.png",
     divisions: [
         {

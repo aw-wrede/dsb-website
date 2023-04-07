@@ -1,6 +1,6 @@
 import "./card2Style.sass"
 import {Component} from "react";
-import {getRoleNameLocalized, SocialMediaData, StaffMember} from "../../../interfaces/StaffData";
+import {getRoleNameLocalized, getStaffColor, SocialMediaData, StaffMember} from "../../../interfaces/StaffData";
 import {MatchData, TournamentData} from "../../../interfaces/tournament/TournamentData";
 
 const SHOW_SOCIALS_IN_HEADER = false
@@ -262,21 +262,24 @@ function trimTeamname(name:string) {
 export class Card2TeamComponent extends Component<{ staffMember: StaffMember }> {
     render() {
         let {staffMember} = this.props;
+        const color = getStaffColor(staffMember)
         return (
             <div className={`card2-container ${!SHOW_SOCIALS_IN_BOX ? "card2-smaller" : ""}`}>
                 <div className="card2-hook small" style={{
-                    background: `${staffMember.color} repeating-linear-gradient(225deg, rgb(38 38 38 / 0%), rgb(38 38 38 / 0%) 1.5rem, rgb(0 0 0 / 10%) 0px, rgb(0 0 0 / 10%) 3rem)`,
+                    background: `${color} repeating-linear-gradient(225deg, rgb(38 38 38 / 0%), rgb(38 38 38 / 0%) 1.5rem, rgb(0 0 0 / 10%) 0px, rgb(0 0 0 / 10%) 3rem)`,
                     backgroundPosition: `0.25rem 0`
                 }}></div>
                 <div className="card2"
-                     style={{background: `${staffMember.color} repeating-linear-gradient(225deg, rgb(38 38 38 / 0%), rgb(38 38 38 / 0%) 1.5rem, rgb(0 0 0 / 10%) 0px, rgb(0 0 0 / 10%) 3rem)`}}>
+                     style={{background: `${color} repeating-linear-gradient(225deg, rgb(38 38 38 / 0%), rgb(38 38 38 / 0%) 1.5rem, rgb(0 0 0 / 10%) 0px, rgb(0 0 0 / 10%) 3rem)`}}>
                     <Card2Header staffMember={staffMember}/>
                     <div className="content-container">
                         <div className={`content ${staffMember.socialMedias.length > 0 && SHOW_SOCIALS_IN_BOX ? "content-primary" : "content-full"}`}>
                             <p className="content-headline">Tätigkeiten</p>
                             <div className="content-main">
-                                {staffMember.roles.map(role =>
-                                    (<p key={role}>{getRoleNameLocalized(role)}</p>))
+                                {staffMember.roles
+                                    .sort((a, b) => a - b)
+                                    .map(role =>
+                                        (<p key={role}>{getRoleNameLocalized(role)}</p>))
                                 }
                             </div>
                         </div>
