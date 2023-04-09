@@ -40,6 +40,7 @@ export const INSTAGRAM_ICON = "instagram-white.svg"
  *  115 - Shio
  *  116 - SplashX
  *  117 - Squidel
+ *  118 - Browni
  */
 
 
@@ -89,10 +90,10 @@ const staffNixenwolf:StaffMember = generateStaffMember(
     11,
     "Nixenwolf",
     [StaffRole.Streamer, StaffRole.Commentator, StaffRole.Cutter],
-    null,
+    "/images/profileImages/Nixenwolf-300.png",
     null,
     [
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UC5tR220Xgy1tQdMnU4OCyWg"),
+        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/@Nixenwolf"),
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/nixenwolf")
     ]
 )
@@ -113,7 +114,7 @@ const staffVega:StaffMember = generateStaffMember(
     13,
     "Vega",
     [StaffRole.Commentator],
-    null,
+    "/images/profileImages/Vega-300.jpg",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/vega_spl")
@@ -184,10 +185,11 @@ const staffRaphi:StaffMember = generateStaffMember(
     19,
     "Raphi",
     [StaffRole.Commentator],
-    null,
+    "/images/profileImages/Raphi-300.png",
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/RaphiTheDon")
+        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/RaphiTheDon"),
+        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/raphi_spl")
     ]
 )
 
@@ -195,7 +197,7 @@ const staffNolle:StaffMember = generateStaffMember(
     20,
     "Nolle",
     [StaffRole.Commentator],
-    null,
+    "/images/profileImages/Nolle-300.png",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/WPG_Nolle"),
@@ -212,7 +214,8 @@ const staffCyo:StaffMember = generateStaffMember(
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/InklingOnFire"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/inklingonfire")
+        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/inklingonfire"),
+        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UC0HVbY7wsUK9BYahTvWTkGg")
     ]
 )
 
@@ -281,7 +284,9 @@ const staffBarli:StaffMember = generateStaffMember(
     [StaffRole.Commentator],
     null,
     null,
-    []
+    [
+        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Barli_spl")
+    ]
 )
 
 const staffDari:StaffMember = generateStaffMember(
@@ -310,20 +315,25 @@ const staffEnte:StaffMember = generateStaffMember(
 
 const staffFish:StaffMember = generateStaffMember(
     108,
-    "Fish",
+    "Fishシ",
     [StaffRole.Streamer, StaffRole.Commentator],
+    "/images/profileImages/Fish-117.png",
     null,
-    null,
-    []
+    [
+        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/FishoftheGame"),
+        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/fishofthegame")
+    ]
 )
 
 const staffInkception:StaffMember = generateStaffMember(
     109,
     "Inkception",
     [StaffRole.Developer],
+    "/images/profileImages/Inkception-300.png",
     null,
-    null,
-    []
+    [
+        generateSocialMediaData("Twitch", TWITCH_ICON, "https://twitch.tv/inkception1508")
+    ]
 )
 
 const staffJiyu:StaffMember = generateStaffMember(
@@ -350,7 +360,9 @@ const staffNango:StaffMember = generateStaffMember(
     [StaffRole.Commentator],
     null,
     null,
-    []
+    [
+        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/NanGOAT24")
+    ]
 )
 
 const staffNathan:StaffMember = generateStaffMember(
@@ -398,6 +410,18 @@ const staffSquidel:StaffMember = generateStaffMember(
     []
 )
 
+const staffBrowni:StaffMember = generateStaffMember(
+    118,
+    "Browni",
+    [StaffRole.Streamer],
+    "/images/profileImages/Browni-300.jpg",
+    null,
+    [
+        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Brufnie"),
+        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/brufnie")
+    ]
+)
+
 //======================================================================
 
 function generateStaffMember(id:number, name:string, roles:StaffRole[], profileImage:string|null, customColor:string|null, socialMediaData:SocialMediaData[]):StaffMember {
@@ -436,6 +460,7 @@ export const DATA_STAFF = [
 
     staffDari,
 
+    staffBrowni,
     staffFish,
     staffMarjora,
     staffNixenwolf,

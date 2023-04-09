@@ -7,7 +7,7 @@ const COLOR_TO = "#2de0bc"
 const COLOR_COUNCIL = "#4dd16c"
 
 //Developer
-const COLOR_DEVELOPER = "#2424cc"
+const COLOR_DEVELOPER = "#3a69ff"
 
 //Social Media Manager
 const COLOR_SOCIAL_MEDIA_MANAGER = "#b440d8"
@@ -19,7 +19,7 @@ const COLOR_STREAMER = "#e64e14"
 const COLOR_COMMENTATOR = "#d67754"
 
 //Cutter
-const COLOR_CUTTER = "#1587ce"
+const COLOR_CUTTER = "#85cfff"
 
 //Designer
 const COLOR_DESIGNER = "#d08ce2"
