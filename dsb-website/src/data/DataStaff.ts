@@ -2,7 +2,7 @@ import {SocialMediaData, StaffMember, StaffRole} from "../interfaces/StaffData";
 
 export const TWITTER_ICON = "twitter-white.svg"
 export const TWITCH_ICON = "twitch-white.svg"
-export const YOUTUBE_ICON = "youtube-white.png"
+export const YOUTUBE_ICON = "youtube-white.webp"
 export const INSTAGRAM_ICON = "instagram-white.svg"
 
 /**
@@ -50,7 +50,7 @@ const staffGlacey:StaffMember = generateStaffMember(
     0,
     "GlaceyXG",
     [StaffRole.TO, StaffRole.Council, StaffRole.Streamer, StaffRole.Commentator, StaffRole.SocialMediaManager],
-    "/images/profileImages/glaceyxg-512.png",
+    "/images/profileImages/glaceyxg-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/GlaceyXG"),
@@ -63,7 +63,7 @@ const staffNindoTim:StaffMember = generateStaffMember(
     1,
     "NindoTimRS",
     [StaffRole.TO, StaffRole.Council, StaffRole.Streamer, StaffRole.Commentator, StaffRole.Cutter],
-    "/images/profileImages/nindotim-512.png",
+    "/images/profileImages/nindotim-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/TimNindo"),
@@ -76,7 +76,7 @@ const staffAlice:StaffMember = generateStaffMember(
     2,
     "공주 Alice",
     [StaffRole.TO, StaffRole.Council],
-    "/images/profileImages/alice-512.png",
+    "/images/profileImages/alice-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Aloschus")
@@ -90,7 +90,7 @@ const staffNixenwolf:StaffMember = generateStaffMember(
     11,
     "Nixenwolf",
     [StaffRole.Streamer, StaffRole.Commentator, StaffRole.Cutter],
-    "/images/profileImages/Nixenwolf-300.png",
+    "/images/profileImages/Nixenwolf-300.webp",
     null,
     [
         generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/@Nixenwolf"),
@@ -114,7 +114,7 @@ const staffVega:StaffMember = generateStaffMember(
     13,
     "Vega",
     [StaffRole.Commentator],
-    "/images/profileImages/Vega-300.jpg",
+    "/images/profileImages/Vega-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/vega_spl")
@@ -148,7 +148,7 @@ const staffJonRu:StaffMember = generateStaffMember(
     16,
     "JonRu",
     [StaffRole.Commentator],
-    "/images/profileImages/jonru-400.jpg",
+    "/images/profileImages/jonru-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/_JonRu_"),
@@ -173,7 +173,7 @@ const staffMarjora:StaffMember = generateStaffMember(
     18,
     "mαrjσrα",
     [StaffRole.Streamer, StaffRole.Commentator],
-    "/images/profileImages/marjora-385.jpg",
+    "/images/profileImages/marjora-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/marjora0503"),
@@ -185,7 +185,7 @@ const staffRaphi:StaffMember = generateStaffMember(
     19,
     "Raphi",
     [StaffRole.Commentator],
-    "/images/profileImages/Raphi-300.png",
+    "/images/profileImages/Raphi-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/RaphiTheDon"),
@@ -197,7 +197,7 @@ const staffNolle:StaffMember = generateStaffMember(
     20,
     "Nolle",
     [StaffRole.Commentator],
-    "/images/profileImages/Nolle-300.png",
+    "/images/profileImages/Nolle-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/WPG_Nolle"),
@@ -210,7 +210,7 @@ const staffCyo:StaffMember = generateStaffMember(
     101,
     "Cyo",
     [StaffRole.Developer, StaffRole.Streamer, StaffRole.Commentator, StaffRole.Designer],
-    "/images/profileImages/cyo-300.png",
+    "/images/profileImages/cyo-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/InklingOnFire"),
@@ -223,7 +223,7 @@ const staffTsuki:StaffMember = generateStaffMember(
     102,
     "Tsuki つき",
     [StaffRole.Council, StaffRole.Streamer, StaffRole.Commentator, StaffRole.Designer],
-    "/images/profileImages/tsuki-512.png",
+    "/images/profileImages/tsuki-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/spl_tsuki"),
@@ -236,7 +236,7 @@ const staffReh:StaffMember = generateStaffMember(
     103,
     "REH",
     [StaffRole.Council],
-    "/images/profileImages/reh-400.png",
+    "/images/profileImages/reh-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/reh191")
@@ -247,7 +247,7 @@ const staffRedwood:StaffMember = generateStaffMember(
     104,
     "Redwood",
     [StaffRole.Council, StaffRole.Commentator],
-    "/images/profileImages/redwood-345.png",
+    "/images/profileImages/redwood-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Redwood_KL")
@@ -258,7 +258,7 @@ const staffNeira:StaffMember = generateStaffMember(
     105,
     "Neira",
     [StaffRole.Council],
-    "/images/profileImages/neira-512.png",
+    "/images/profileImages/neira-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Neira_LOS")
@@ -271,7 +271,7 @@ const staffVenatus:StaffMember = generateStaffMember(
     100,
     "Venatus",
     [StaffRole.Developer],
-    "/images/profileImages/venatus-512.png",
+    "/images/profileImages/venatus-300.webp",
     null,
     [
         generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/venatus247")
@@ -293,7 +293,7 @@ const staffDari:StaffMember = generateStaffMember(
     21,
     "Dari",
     [StaffRole.SocialMediaManager],
-    "/images/profileImages/dari-400.jpg",
+    "/images/profileImages/dari-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/dari_spl")
@@ -304,7 +304,7 @@ const staffEnte:StaffMember = generateStaffMember(
     107,
     "Ente",
     [StaffRole.Commentator],
-    "/images/profileImages/ente-400.jpg",
+    "/images/profileImages/ente-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/SplatEnte"),
@@ -317,7 +317,7 @@ const staffFish:StaffMember = generateStaffMember(
     108,
     "Fishシ",
     [StaffRole.Streamer, StaffRole.Commentator],
-    "/images/profileImages/Fish-117.png",
+    "/images/profileImages/Fish-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/FishoftheGame"),
@@ -329,7 +329,7 @@ const staffInkception:StaffMember = generateStaffMember(
     109,
     "Inkception",
     [StaffRole.Developer],
-    "/images/profileImages/Inkception-300.png",
+    "/images/profileImages/Inkception-300.webp",
     null,
     [
         generateSocialMediaData("Twitch", TWITCH_ICON, "https://twitch.tv/inkception1508")
@@ -340,7 +340,7 @@ const staffJiyu:StaffMember = generateStaffMember(
     110,
     "Jiyu",
     [StaffRole.Commentator],
-    "/images/profileImages/jiyu-400.jpg",
+    "/images/profileImages/jiyu-300.webp",
     null,
     []
 )
@@ -414,7 +414,7 @@ const staffBrowni:StaffMember = generateStaffMember(
     118,
     "Browni",
     [StaffRole.Streamer],
-    "/images/profileImages/Browni-300.jpg",
+    "/images/profileImages/Browni-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Brufnie"),
