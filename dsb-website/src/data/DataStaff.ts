@@ -2,7 +2,7 @@ import {SocialMediaData, StaffMember, StaffRole} from "../interfaces/StaffData";
 
 export const TWITTER_ICON = "twitter-white.svg"
 export const TWITCH_ICON = "twitch-white.svg"
-export const YOUTUBE_ICON = "youtube-white.webp"
+export const YOUTUBE_ICON = "youtube-white.png"
 export const INSTAGRAM_ICON = "instagram-white.svg"
 
 /**
