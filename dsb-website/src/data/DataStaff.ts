@@ -93,8 +93,8 @@ const staffNixenwolf:StaffMember = generateStaffMember(
     "/images/profileImages/Nixenwolf-300.webp",
     null,
     [
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/@Nixenwolf"),
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/nixenwolf")
+        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/nixenwolf"),
+        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/@Nixenwolf")
     ]
 )
 
@@ -105,8 +105,8 @@ const staffNoobPat:StaffMember = generateStaffMember(
     null,
     null,
     [
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/noob_pat"),
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/noob_pat04")
+        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/noob_pat04"),
+        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/noob_pat")
     ]
 )
 
@@ -128,8 +128,8 @@ const staffMasterRs:StaffMember = generateStaffMember(
     null,
     null,
     [
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/c/MasterRS"),
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/The_MasterRS")
+        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/The_MasterRS"),
+        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/c/MasterRS")
     ]
 )
 
@@ -163,9 +163,9 @@ const staffMidna:StaffMember = generateStaffMember(
     null,
     null,
     [
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://twitch.com/midna_twilight_2004"),
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Midna2501"),
-        generateSocialMediaData("Instagram", INSTAGRAM_ICON, "https://instagram.com/midna_twilight_18")
+        generateSocialMediaData("Instagram", INSTAGRAM_ICON, "https://instagram.com/midna_twilight_18"),
+        generateSocialMediaData("Twitch", TWITCH_ICON, "https://twitch.com/midna_twilight_2004")
     ]
 )
 
