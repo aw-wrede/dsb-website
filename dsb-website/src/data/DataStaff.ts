@@ -378,9 +378,13 @@ const staffRubi:StaffMember = generateStaffMember(
     114,
     "Rubi",
     [StaffRole.Commentator],
+    "/images/profileImages/Rubi-300.webp",
     null,
-    null,
-    []
+    [
+        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/RubiIstKuhl"),
+        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/rubiistkuhl"),
+        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UClHiezWcqOOhXl4SwUBJfkw")
+    ]
 )
 
 const staffShio:StaffMember = generateStaffMember(
