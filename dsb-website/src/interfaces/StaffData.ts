@@ -98,10 +98,15 @@ export function getStaffRoleColor(staffRole:StaffRole):string {
 }
 
 export function getPreferredColor(staffRoles:StaffRole[]):string|null {
+    return getStaffRoleColor(getHighestStaffRole(staffRoles)!)
+}
+
+export function getHighestStaffRole(staffRoles:StaffRole[]):StaffRole|null {
     const length = staffRoles.length
     if(length === 0) {
         return null
     }
+
     let highestRole:StaffRole = staffRoles[0]
 
 
@@ -111,5 +116,5 @@ export function getPreferredColor(staffRoles:StaffRole[]):string|null {
         }
     }
 
-    return getStaffRoleColor(highestRole)
+    return highestRole
 }
