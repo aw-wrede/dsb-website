@@ -1,4 +1,4 @@
-import {SocialMediaData, StaffMember, StaffRole} from "../interfaces/StaffData";
+import {getHighestStaffRole, SocialMediaData, StaffMember, StaffRole} from "../interfaces/StaffData";
 
 export const TWITTER_ICON = "twitter-white.svg"
 export const TWITCH_ICON = "twitch-white.svg"
@@ -41,6 +41,8 @@ export const INSTAGRAM_ICON = "instagram-white.svg"
  *  116 - SplashX
  *  117 - Squidel
  *  118 - Browni
+ *  119 - Trioxit
+ *  120 - Lumin
  */
 
 
@@ -381,19 +383,23 @@ const staffRubi:StaffMember = generateStaffMember(
     "/images/profileImages/Rubi-300.webp",
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/RubiIstKuhl"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/rubiistkuhl"),
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UClHiezWcqOOhXl4SwUBJfkw")
+        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Shio_Osu"),
+        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/shio_toudou"),
+        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UCf09JP9iKIzQd7C59fcTbaA")
     ]
 )
 
 const staffShio:StaffMember = generateStaffMember(
     115,
-    "Shio",
+    "Shio˜",
     [StaffRole.Streamer, StaffRole.Commentator],
     null,
     null,
-    []
+    [
+        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/RubiIstKuhl"),
+        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/rubiistkuhl"),
+        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UClHiezWcqOOhXl4SwUBJfkw")
+    ]
 )
 
 const staffSplashX:StaffMember = generateStaffMember(
@@ -424,6 +430,23 @@ const staffBrowni:StaffMember = generateStaffMember(
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Brufnie"),
         generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/brufnie")
     ]
+)
+
+const staffTrioxit:StaffMember = generateStaffMember(
+    119,
+    "Trioxit",
+    [StaffRole.Commentator],
+    null,
+    null,
+    []
+)
+const staffLumin:StaffMember = generateStaffMember(
+    120,
+    "Lumin",
+    [StaffRole.Commentator],
+    null,
+    null,
+    []
 )
 
 //======================================================================
@@ -476,6 +499,7 @@ export const DATA_STAFF = [
     staffJiyu,
     staffJonRu,
     staffLu,
+    staffLumin,
     staffMasterRs,
     staffMidna,
     staffNango,
@@ -484,9 +508,21 @@ export const DATA_STAFF = [
     staffRaphi,
     staffRubi,
     staffSquidel,
+    staffTrioxit,
     staffVega,
 
     staffNathan,
     staffSplashX
-]
+].sort((a, b) => {
+    const roleA = getHighestStaffRole(a.roles)!
+    const roleB = getHighestStaffRole(b.roles)!
+
+    //first: sort parameter is role
+    if(roleA !== roleB) {
+        return roleA - roleB
+    }
+
+    //sort name alphabetically
+    return a.name.localeCompare(b.name)
+})
 
