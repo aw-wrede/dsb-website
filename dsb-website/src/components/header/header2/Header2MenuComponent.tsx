@@ -1,6 +1,7 @@
 import "./header2MenuStyle.sass"
-import {useEffect, useState} from "react";
-import {SITE_ARCHIVE, SITE_HOME} from "../../../definitions/vars";
+import {Component, useEffect, useState} from "react";
+import {SITE_ARCHIVE_URL, SITE_HOME_URL, SITE_SEASON_URL, SITE_TEAM_URL} from "../../../definitions/vars";
+import {getSiteName} from "../../../functions";
 
 export default function Header2MenuComponent({activeSite}) {
 
@@ -28,13 +29,23 @@ export default function Header2MenuComponent({activeSite}) {
                     <span className="menu-button-icon material-icons">menu</span>
                 </div>
                 <ul className={`menu-list ${opened ? "open" : ""}`}>
-                    <li className={`${activeSite === SITE_HOME ? "current" : ""}`}><a href={SITE_HOME}>Home</a></li>
-                    <li className={`${activeSite === "/team" ? "current" : ""}`}><a href="/team">Team</a></li>
-                    <li className={`${activeSite === "/season" ? "current" : ""}`}><a href="/season">Aktuelle Season</a></li>
-
-                    <li className={`${activeSite === SITE_ARCHIVE ? "current" : ""}`}><a href={SITE_ARCHIVE}>Turnier-Archiv</a></li>
+                    <MenuElement activeSite={activeSite} siteUrl={SITE_HOME_URL} />
+                    <MenuElement activeSite={activeSite} siteUrl={SITE_TEAM_URL} />
+                    <MenuElement activeSite={activeSite} siteUrl={SITE_SEASON_URL} />
+                    <MenuElement activeSite={activeSite} siteUrl={SITE_ARCHIVE_URL} />
                 </ul>
             </div>
         </header>
     )
+}
+
+class MenuElement extends Component<{ activeSite: string, siteUrl: string }> {
+    render() {
+        let {activeSite, siteUrl} = this.props;
+        return (
+            <li className={`${activeSite === siteUrl ? "current" : ""}`}>
+                <a href={siteUrl}>{getSiteName(siteUrl)}</a>
+            </li>
+        )
+    }
 }

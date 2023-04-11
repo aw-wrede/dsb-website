@@ -1,6 +1,7 @@
 import "./footerStyle.sass"
 import {COPYRIGHT} from "../../definitions/constants";
-import {SITE_IMPRINT, SITE_PRIVACY} from "../../definitions/vars";
+import {SITE_IMPRINT_URL, SITE_PRIVACY_URL} from "../../definitions/vars";
+import {getSiteName} from "../../functions";
 
 export default function FooterComponent() {
     return (
@@ -9,8 +10,8 @@ export default function FooterComponent() {
                 <p>{COPYRIGHT()}</p>
             </div>
             <div className="about-container">
-                <a href={SITE_IMPRINT}>Impressum</a>
-                <a href={SITE_PRIVACY}>Datenschutzerklärung</a>
+                <a href={SITE_IMPRINT_URL}>{getSiteName(SITE_IMPRINT_URL)}</a>
+                <a href={SITE_PRIVACY_URL}>{getSiteName(SITE_PRIVACY_URL)}</a>
             </div>
         </footer>
     )

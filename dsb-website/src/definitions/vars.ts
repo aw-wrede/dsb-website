@@ -1,10 +1,11 @@
-export const SITE_HOME = "/"
-export const SITE_TEAM = "/team"
-export const SITE_SEASON = "/season"
-export const SITE_ARCHIVE = "/archiv"
+export const BASE_TITLE = "DSB"
+export const SITE_HOME_URL = "/"
+export const SITE_TEAM_URL = "/team"
+export const SITE_SEASON_URL = "/season"
+export const SITE_ARCHIVE_URL = "/archiv"
 
-export const SITE_IMPRINT = "/about/imprint"
-export const SITE_PRIVACY = "/about/privacy"
+export const SITE_IMPRINT_URL = "/about/imprint"
+export const SITE_PRIVACY_URL = "/about/privacy"
 
 export const IS_A_CURRENT_SEASON = true
 export const CURRENT_SEASON_NAME = "DSB Season 6"
