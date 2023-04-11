@@ -393,7 +393,7 @@ const staffShio:StaffMember = generateStaffMember(
     115,
     "Shio˜",
     [StaffRole.Streamer, StaffRole.Commentator],
-    null,
+    "/images/profileImages/Shio-300.webp",
     null,
     [
         generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/RubiIstKuhl"),

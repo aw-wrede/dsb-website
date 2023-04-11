@@ -65,7 +65,7 @@ export function getAllStaffRoles():StaffRole[] {
     return list
 }
 
-export function getRoleNameLocalized(staffRole:StaffRole, local:Localization = Localization.German) {
+export function getRoleNameLocalized(staffRole:StaffRole, locale:Localization = Localization.German) {
     switch (staffRole) {
         case StaffRole.TO: return "Turnierleitung"
         case StaffRole.Council: return "Council"
