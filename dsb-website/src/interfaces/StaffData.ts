@@ -3,6 +3,9 @@ import {enumKeys} from "../functions";
 //Turnierleiter
 const COLOR_TO = "#2de0bc"
 
+//Aushilfs-Turnierleitung
+const COLOR_ASSIST_TO = "#95e9c1"
+
 //Council
 const COLOR_COUNCIL = "#4dd16c"
 
@@ -47,7 +50,8 @@ export enum Localization {
 
 export enum StaffRole {
     TO = 1,
-    Council = 2,
+    ASSIST_TO = 2,
+    Council = 3,
     Developer = 10,
     SocialMediaManager = 20,
     Streamer = 21,
@@ -68,6 +72,7 @@ export function getAllStaffRoles():StaffRole[] {
 export function getRoleNameLocalized(staffRole:StaffRole, locale:Localization = Localization.German) {
     switch (staffRole) {
         case StaffRole.TO: return "Turnierleitung"
+        case StaffRole.ASSIST_TO: return "Aushilfs-Turnierleitung"
         case StaffRole.Council: return "Council"
         case StaffRole.Developer: return "Developer"
 
@@ -87,6 +92,7 @@ export function getStaffColor(staffMember:StaffMember):string {
 export function getStaffRoleColor(staffRole:StaffRole):string {
     switch (staffRole) {
         case StaffRole.TO: return COLOR_TO
+        case StaffRole.ASSIST_TO: return COLOR_ASSIST_TO
         case StaffRole.Council: return COLOR_COUNCIL
         case StaffRole.Developer: return COLOR_DEVELOPER
         case StaffRole.SocialMediaManager: return COLOR_SOCIAL_MEDIA_MANAGER
