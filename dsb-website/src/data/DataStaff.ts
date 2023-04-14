@@ -10,6 +10,10 @@ export const INSTAGRAM_ICON = "instagram-white.svg"
  *  0 - Glacey
  *  1 - NindoTim
  *  2 - Alice
+ *  3 - Lufti
+ *  4 - Yuki
+ *  5 - Ypsilon
+ *  6 - Cardbrige
  *
  *  11 - Nixenwolf
  *  12 - noob_pat
@@ -77,7 +81,7 @@ const staffNindoTim:StaffMember = generateStaffMember(
 const staffAlice:StaffMember = generateStaffMember(
     2,
     "공주 Alice",
-    [StaffRole.TO, StaffRole.Council],
+    [StaffRole.Council],
     "/images/profileImages/alice-300.webp",
     null,
     [
@@ -85,6 +89,41 @@ const staffAlice:StaffMember = generateStaffMember(
     ]
 )
 
+const staffLufti:StaffMember = generateStaffMember(
+    3,
+    "Lufti",
+    [StaffRole.TO, StaffRole.Council],
+    null,
+    null,
+    []
+)
+
+const staffYuki:StaffMember = generateStaffMember(
+    4,
+    "Yuki",
+    [StaffRole.TO, StaffRole.Council],
+    null,
+    null,
+    []
+)
+
+const staffYpsilon:StaffMember = generateStaffMember(
+    5,
+    "Ypsilon",
+    [StaffRole.ASSIST_TO, StaffRole.Council],
+    null,
+    null,
+    []
+)
+
+const staffCardbrige:StaffMember = generateStaffMember(
+    6,
+    "Cardbrige",
+    [StaffRole.ASSIST_TO, StaffRole.Council, StaffRole.Cutter],
+    null,
+    null,
+    []
+)
 
 
 
@@ -149,7 +188,7 @@ const staffFe4RLess:StaffMember = generateStaffMember(
 const staffJonRu:StaffMember = generateStaffMember(
     16,
     "JonRu",
-    [StaffRole.Commentator],
+    [StaffRole.Streamer, StaffRole.Commentator],
     "/images/profileImages/jonru-300.webp",
     null,
     [
@@ -174,7 +213,7 @@ const staffMidna:StaffMember = generateStaffMember(
 const staffMarjora:StaffMember = generateStaffMember(
     18,
     "mαrjσrα",
-    [StaffRole.Streamer, StaffRole.Commentator],
+    [StaffRole.Streamer, StaffRole.Commentator, StaffRole.Designer],
     "/images/profileImages/marjora-300.webp",
     null,
     [
@@ -475,6 +514,10 @@ export const DATA_STAFF = [
     staffGlacey,
     staffNindoTim,
     staffAlice,
+    staffLufti,
+    staffYuki,
+    staffYpsilon,
+    staffCardbrige,
 
     staffNeira,
     staffRedwood,
