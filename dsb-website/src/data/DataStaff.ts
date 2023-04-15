@@ -4,6 +4,7 @@ export const TWITTER_ICON = "twitter-white.svg"
 export const TWITCH_ICON = "twitch-white.svg"
 export const YOUTUBE_ICON = "youtube-white.png"
 export const INSTAGRAM_ICON = "instagram-white.svg"
+export const TIKTOK_ICON = "tiktok-white.svg"
 
 /**
  * Staff Member Ids:
@@ -120,9 +121,13 @@ const staffCardbrige:StaffMember = generateStaffMember(
     6,
     "Cardbrige",
     [StaffRole.ASSIST_TO, StaffRole.Council, StaffRole.Cutter],
+    "/images/profileImages/Cardbrige-300.webp",
     null,
-    null,
-    []
+    [
+        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/CardbrigeSpl"),
+        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/grillhd505"),
+        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UC4h1-ab8eS2vZZZbk2C5SmQ")
+    ]
 )
 
 
@@ -445,9 +450,13 @@ const staffSplashX:StaffMember = generateStaffMember(
     116,
     "SplashX",
     [StaffRole.Cutter],
+    "/images/profileImages/SplashX-300.webp",
     null,
-    null,
-    []
+    [
+        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/SplashX_yt_"),
+        generateSocialMediaData("Twitch", TIKTOK_ICON, "https://www.tiktok.com/@splashx_yt_"),
+        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/c/SplashX"),
+    ]
 )
 
 const staffSquidel:StaffMember = generateStaffMember(
