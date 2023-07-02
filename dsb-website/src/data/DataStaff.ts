@@ -48,6 +48,9 @@ export const TIKTOK_ICON = "tiktok-white.svg"
  *  118 - Browni
  *  119 - Trioxit
  *  120 - Lumin
+ *  121 - Hannichu
+ *  122 - Daniel
+ *  123 - Pica
  */
 
 
@@ -57,12 +60,12 @@ const staffGlacey:StaffMember = generateStaffMember(
     0,
     "GlaceyXG",
     [StaffRole.TO, StaffRole.Council, StaffRole.Streamer, StaffRole.Commentator, StaffRole.SocialMediaManager],
-    "/images/profileImages/glaceyxg-300.webp",
+    linkProfilePic("glaceyxg-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/GlaceyXG"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/glaceyxg"),
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UCUwoGwSAOVEt-9zArymLXfw")
+        socialTwitter("GlaceyXG"),
+        socialTwitch("glaceyxg"),
+        socialYouTubeChannel("UCUwoGwSAOVEt-9zArymLXfw")
     ]
 )
 
@@ -70,12 +73,12 @@ const staffNindoTim:StaffMember = generateStaffMember(
     1,
     "NindoTimRS",
     [StaffRole.TO, StaffRole.Council, StaffRole.Streamer, StaffRole.Commentator, StaffRole.Cutter],
-    "/images/profileImages/nindotim-300.webp",
+    linkProfilePic("nindotim-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/TimNindo"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/nindotimrs"),
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UCJV6gXYRdryf81ko_ZFJvaQ")
+        socialTwitter("TimNindo"),
+        socialTwitch("nindotimrs"),
+        socialYouTubeChannel("UCJV6gXYRdryf81ko_ZFJvaQ")
     ]
 )
 
@@ -83,10 +86,10 @@ const staffAlice:StaffMember = generateStaffMember(
     2,
     "공주 Alice",
     [StaffRole.Council],
-    "/images/profileImages/alice-300.webp",
+    linkProfilePic("alice-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Aloschus")
+        socialTwitter("Aloschus")
     ]
 )
 
@@ -121,12 +124,12 @@ const staffCardbrige:StaffMember = generateStaffMember(
     6,
     "Cardbrige",
     [StaffRole.ASSIST_TO, StaffRole.Council, StaffRole.Cutter],
-    "/images/profileImages/Cardbrige-300.webp",
+    linkProfilePic("Cardbrige-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/CardbrigeSpl"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/grillhd505"),
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UC4h1-ab8eS2vZZZbk2C5SmQ")
+        socialTwitter("CardbrigeSpl"),
+        socialTwitch("grillhd505"),
+        socialYouTubeChannel("UC4h1-ab8eS2vZZZbk2C5SmQ")
     ]
 )
 
@@ -136,11 +139,11 @@ const staffNixenwolf:StaffMember = generateStaffMember(
     11,
     "Nixenwolf",
     [StaffRole.Streamer, StaffRole.Commentator, StaffRole.Cutter],
-    "/images/profileImages/Nixenwolf-300.webp",
+    linkProfilePic("Nixenwolf-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/nixenwolf"),
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/@Nixenwolf")
+        socialTwitter("Nixenwolf"),
+        socialYouTubeUser("Nixenwolf")
     ]
 )
 
@@ -151,8 +154,8 @@ const staffNoobPat:StaffMember = generateStaffMember(
     null,
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/noob_pat04"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/noob_pat")
+        socialTwitter("noob_pat04"),
+        socialTwitch("noob_pat")
     ]
 )
 
@@ -160,10 +163,10 @@ const staffVega:StaffMember = generateStaffMember(
     13,
     "Vega",
     [StaffRole.Commentator],
-    "/images/profileImages/Vega-300.webp",
+    linkProfilePic("Vega-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/vega_spl")
+        socialTwitter("vega_spl")
     ]
 )
 
@@ -174,8 +177,8 @@ const staffMasterRs:StaffMember = generateStaffMember(
     null,
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/The_MasterRS"),
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/c/MasterRS")
+        socialTwitter("The_MasterRS"),
+        socialYouTubeUser("MasterRS")
     ]
 )
 
@@ -186,7 +189,7 @@ const staffFe4RLess:StaffMember = generateStaffMember(
     null,
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/_JonRu_")
+        socialTwitter("Spl_Fe4RLess")
     ]
 )
 
@@ -194,11 +197,11 @@ const staffJonRu:StaffMember = generateStaffMember(
     16,
     "JonRu",
     [StaffRole.Streamer, StaffRole.Commentator],
-    "/images/profileImages/jonru-300.webp",
+    linkProfilePic("jonru-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/_JonRu_"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/jonru16")
+        socialTwitter("_JonRu_"),
+        socialTwitch("jonru16")
     ]
 )
 
@@ -209,9 +212,9 @@ const staffMidna:StaffMember = generateStaffMember(
     null,
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Midna2501"),
-        generateSocialMediaData("Instagram", INSTAGRAM_ICON, "https://instagram.com/midna_twilight_18"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://twitch.com/midna_twilight_2004")
+        socialTwitter("Midna2501"),
+        socialInstagram("midna_twilight_18"),
+        socialTwitch("midna_twilight_2004")
     ]
 )
 
@@ -219,11 +222,11 @@ const staffMarjora:StaffMember = generateStaffMember(
     18,
     "mαrjσrα",
     [StaffRole.Streamer, StaffRole.Commentator, StaffRole.Designer],
-    "/images/profileImages/marjora-300.webp",
+    linkProfilePic("marjora-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/marjora0503"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://twitch.tv/marjora0503")
+        socialTwitter("marjora0503"),
+        socialTwitch("marjora0503")
     ]
 )
 
@@ -231,11 +234,11 @@ const staffRaphi:StaffMember = generateStaffMember(
     19,
     "Raphi",
     [StaffRole.Commentator],
-    "/images/profileImages/Raphi-300.webp",
+    linkProfilePic("Raphi-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/RaphiTheDon"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/raphi_spl")
+        socialTwitter("BucketRaphi"),
+        socialTwitch("raphi_spl")
     ]
 )
 
@@ -243,12 +246,12 @@ const staffNolle:StaffMember = generateStaffMember(
     20,
     "Nolle",
     [StaffRole.Commentator],
-    "/images/profileImages/Nolle-300.webp",
+    linkProfilePic("Nolle-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/WPG_Nolle"),
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UCAAiapslzH7bMKLhEGyMOvQ"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/nollkokossus")
+        socialTwitter("WPG_Nolle"),
+        socialYouTubeChannel("UCAAiapslzH7bMKLhEGyMOvQ"),
+        socialTwitch("nollkokossus")
     ]
 )
 
@@ -256,12 +259,12 @@ const staffCyo:StaffMember = generateStaffMember(
     101,
     "Cyo",
     [StaffRole.Developer, StaffRole.Streamer, StaffRole.Commentator, StaffRole.Designer],
-    "/images/profileImages/cyo-300.webp",
+    linkProfilePic("cyo-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/InklingOnFire"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/inklingonfire"),
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UC0HVbY7wsUK9BYahTvWTkGg")
+        socialTwitter("InklingOnFire"),
+        socialTwitch("inklingonfire"),
+        socialYouTubeChannel("UC0HVbY7wsUK9BYahTvWTkGg")
     ]
 )
 
@@ -269,12 +272,12 @@ const staffTsuki:StaffMember = generateStaffMember(
     102,
     "Tsuki つき",
     [StaffRole.Council, StaffRole.Streamer, StaffRole.Commentator, StaffRole.Designer],
-    "/images/profileImages/tsuki-300.webp",
+    linkProfilePic("tsuki-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/spl_tsuki"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/tsukiko_cx"),
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UCd2yYwSgPT7DlY4x1I815vw")
+        socialTwitter("spl_tsuki"),
+        socialTwitch("tsukiko_cx"),
+        socialYouTubeChannel("UCd2yYwSgPT7DlY4x1I815vw")
     ]
 )
 
@@ -282,10 +285,10 @@ const staffReh:StaffMember = generateStaffMember(
     103,
     "REH",
     [StaffRole.Council],
-    "/images/profileImages/reh-300.webp",
+    linkProfilePic("reh-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/reh191")
+        socialTwitter("reh191")
     ]
 )
 
@@ -293,10 +296,10 @@ const staffRedwood:StaffMember = generateStaffMember(
     104,
     "Redwood",
     [StaffRole.Council, StaffRole.Commentator],
-    "/images/profileImages/redwood-300.webp",
+    linkProfilePic("redwood-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Redwood_KL")
+        socialTwitter("Redwood_KL")
     ]
 )
 
@@ -304,10 +307,10 @@ const staffNeira:StaffMember = generateStaffMember(
     105,
     "Neira",
     [StaffRole.Council],
-    "/images/profileImages/neira-300.webp",
+    linkProfilePic("neira-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Neira_LOS")
+        socialTwitter("Neira_LOS")
     ]
 )
 
@@ -317,10 +320,10 @@ const staffVenatus:StaffMember = generateStaffMember(
     100,
     "Venatus",
     [StaffRole.Developer],
-    "/images/profileImages/venatus-300.webp",
+    linkProfilePic("venatus-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/venatus247")
+        socialTwitch("venatus247")
     ]
 )
 
@@ -331,7 +334,7 @@ const staffBarli:StaffMember = generateStaffMember(
     null,
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Barli_spl")
+        socialTwitter("Barli_spl")
     ]
 )
 
@@ -339,10 +342,10 @@ const staffDari:StaffMember = generateStaffMember(
     21,
     "Dari",
     [StaffRole.SocialMediaManager],
-    "/images/profileImages/dari-300.webp",
+    linkProfilePic("dari-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/dari_spl")
+        socialTwitter("dari_spl")
     ]
 )
 
@@ -350,12 +353,12 @@ const staffEnte:StaffMember = generateStaffMember(
     107,
     "Ente",
     [StaffRole.Commentator],
-    "/images/profileImages/ente-300.webp",
+    linkProfilePic("ente-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/SplatEnte"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/ente_spl"),
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UCcvmYWCHoLumucc64s_u0IQ")
+        socialTwitter("SplatEnte"),
+        socialTwitch("ente_spl"),
+        socialYouTubeChannel("UCcvmYWCHoLumucc64s_u0IQ")
     ]
 )
 
@@ -363,11 +366,11 @@ const staffFish:StaffMember = generateStaffMember(
     108,
     "Fishシ",
     [StaffRole.Streamer, StaffRole.Commentator],
-    "/images/profileImages/Fish-300.webp",
+    linkProfilePic("Fish-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/FishoftheGame"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/fishofthegame")
+        socialTwitter("FishoftheGame"),
+        socialTwitch("fishofthegame")
     ]
 )
 
@@ -375,10 +378,10 @@ const staffInkception:StaffMember = generateStaffMember(
     109,
     "Inkception",
     [StaffRole.Developer],
-    "/images/profileImages/Inkception-300.webp",
+    linkProfilePic("Inkception-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://twitch.tv/inkception1508")
+        socialTwitch("inkception1508")
     ]
 )
 
@@ -386,7 +389,7 @@ const staffJiyu:StaffMember = generateStaffMember(
     110,
     "Jiyu",
     [StaffRole.Commentator],
-    "/images/profileImages/jiyu-300.webp",
+    linkProfilePic("jiyu-300.webp"),
     null,
     []
 )
@@ -407,7 +410,7 @@ const staffNango:StaffMember = generateStaffMember(
     null,
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/NanGOAT24")
+        socialTwitter("NanGOAT24")
     ]
 )
 
@@ -424,12 +427,12 @@ const staffRubi:StaffMember = generateStaffMember(
     114,
     "Rubi",
     [StaffRole.Commentator],
-    "/images/profileImages/Rubi-300.webp",
+    linkProfilePic("Rubi-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Shio_Osu"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/shio_toudou"),
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UCf09JP9iKIzQd7C59fcTbaA")
+        socialTwitter("Shio_Osu"),
+        socialTwitch("shio_toudou"),
+        socialYouTubeChannel("UCf09JP9iKIzQd7C59fcTbaA")
     ]
 )
 
@@ -437,12 +440,12 @@ const staffShio:StaffMember = generateStaffMember(
     115,
     "Shio˜",
     [StaffRole.Streamer, StaffRole.Commentator],
-    "/images/profileImages/Shio-300.webp",
+    linkProfilePic("Shio-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/RubiIstKuhl"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/rubiistkuhl"),
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/channel/UClHiezWcqOOhXl4SwUBJfkw")
+        socialTwitter("RubiIstKuhl"),
+        socialTwitch("rubiistkuhl"),
+        socialYouTubeChannel("UClHiezWcqOOhXl4SwUBJfkw")
     ]
 )
 
@@ -450,12 +453,12 @@ const staffSplashX:StaffMember = generateStaffMember(
     116,
     "SplashX",
     [StaffRole.Cutter],
-    "/images/profileImages/SplashX-300.webp",
+    linkProfilePic("SplashX-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/SplashX_yt_"),
-        generateSocialMediaData("Twitch", TIKTOK_ICON, "https://www.tiktok.com/@splashx_yt_"),
-        generateSocialMediaData("YouTube", YOUTUBE_ICON, "https://www.youtube.com/c/SplashX"),
+        socialTwitter("SplashX_yt_"),
+        socialTikTok("splashx_yt_"),
+        socialYouTubeUser("SplashX"),
     ]
 )
 
@@ -472,11 +475,11 @@ const staffBrowni:StaffMember = generateStaffMember(
     118,
     "Browni",
     [StaffRole.Streamer],
-    "/images/profileImages/Browni-300.webp",
+    linkProfilePic("Browni-300.webp"),
     null,
     [
-        generateSocialMediaData("Twitter", TWITTER_ICON, "https://twitter.com/Brufnie"),
-        generateSocialMediaData("Twitch", TWITCH_ICON, "https://www.twitch.tv/brufnie")
+        socialTwitter("Brufnie"),
+        socialTwitch("brufnie")
     ]
 )
 
@@ -484,15 +487,47 @@ const staffTrioxit:StaffMember = generateStaffMember(
     119,
     "Trioxit",
     [StaffRole.Commentator],
+    linkProfilePic("trioxit-300.webp"),
     null,
-    null,
-    []
+    [
+        socialTwitter("trioxit")
+    ]
 )
+
 const staffLumin:StaffMember = generateStaffMember(
     120,
     "Lumin",
     [StaffRole.Commentator],
     null,
+    null,
+    []
+)
+
+const staffHannichu:StaffMember = generateStaffMember(
+    121,
+    "Hannichu",
+    [StaffRole.Commentator],
+    linkProfilePic("Hannichu-300.webp"),
+    null,
+    [
+        socialTwitter("DB_Hannichu")
+    ]
+)
+
+const staffDaniel:StaffMember = generateStaffMember(
+    122,
+    "Daniel",
+    [StaffRole.Commentator],
+    null,
+    null,
+    []
+)
+
+const staffPica:StaffMember = generateStaffMember(
+    123,
+    "Pica",
+    [StaffRole.Commentator],
+    linkProfilePic("Pica-300.webp"),
     null,
     []
 )
@@ -518,6 +553,33 @@ function generateSocialMediaData(name:string, icon:string, url:string):SocialMed
     }
 }
 
+function socialTwitter(userId:string):SocialMediaData {
+    return generateSocialMediaData("Twitter", TWITTER_ICON, `https://twitter.com/${userId}`)
+}
+
+function socialTwitch(userId:string) {
+    return generateSocialMediaData("Twitch", TWITCH_ICON, `https://www.twitch.tv/${userId}`)
+}
+
+function socialYouTubeChannel(channelId:string):SocialMediaData {
+    return generateSocialMediaData("YouTube", YOUTUBE_ICON, `https://www.youtube.com/channel/${channelId}`)
+}
+
+function socialYouTubeUser(userId:string):SocialMediaData {
+    return generateSocialMediaData("YouTube", YOUTUBE_ICON, `https://www.youtube.com/@${userId}`)
+}
+
+function socialInstagram(userId:string):SocialMediaData {
+    return generateSocialMediaData("Instagram", INSTAGRAM_ICON, `https://instagram.com/${userId}`)
+}
+
+function socialTikTok(userId:string):SocialMediaData {
+    return generateSocialMediaData("TikTok", TIKTOK_ICON, `https://www.tiktok.com/@${userId}`)
+}
+
+function linkProfilePic(file:string):string {
+    return `/images/profileImages/${file}`
+}
 
 export const DATA_STAFF = [
     staffGlacey,
@@ -562,6 +624,8 @@ export const DATA_STAFF = [
     staffSquidel,
     staffTrioxit,
     staffVega,
+    staffHannichu,
+    staffDaniel,
 
     staffNathan,
     staffSplashX
