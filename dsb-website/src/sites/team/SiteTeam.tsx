@@ -5,6 +5,7 @@ import {DATA_STAFF} from "../../data/DataStaff";
 import React, {useState} from "react";
 import {getAllStaffRoles, getRoleNameLocalized, StaffMember, StaffRole} from "../../interfaces/StaffData";
 import UiCheckbox from "../../components/UiElements/UiCheckbox";
+import FooterComponent from "../../components/footer/FooterComponent";
 
 export default function SiteTeam() {
 
@@ -58,8 +59,8 @@ export default function SiteTeam() {
 
     return (
         <div className={`main-content arrow-background fill-site`}>
-            <div className={`team-search-container ${searchOpened ? "opened" : ""}`}>
-                <div className="team-search-settings">
+            <div className={`elems-search-container ${searchOpened ? "opened" : ""}`}>
+                <div className="elems-search-settings">
                     <div className="search-header">
                         <p>Nach Rolle filtern</p>
                     </div>
@@ -70,15 +71,17 @@ export default function SiteTeam() {
                     </div>
 
                 </div>
-                <div className="team-search-opener" onClick={changeSearchOpenStatus}>
+                <div className="elems-search-opener" onClick={changeSearchOpenStatus}>
                     <span className="material-icons">manage_search</span>
                 </div>
             </div>
+
             <div className="team-container">
                 {visibleStaffMembers.map(staff => (
                     <Card2TeamComponent key={staff.id} staffMember={staff} />
                 ))}
             </div>
+            <FooterComponent />
         </div>
     )
 }

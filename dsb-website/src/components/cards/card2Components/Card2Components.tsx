@@ -1,5 +1,5 @@
 import "./card2Style.sass"
-import {Component} from "react";
+import {Component, useState} from "react";
 import {getRoleNameLocalized, getStaffColor, SocialMediaData, StaffMember} from "../../../interfaces/StaffData";
 import {MatchData, TournamentData} from "../../../interfaces/tournament/TournamentData";
 
@@ -329,12 +329,20 @@ class SocialMediaBox extends Component<{ socialMedias: SocialMediaData[] }> {
 class Card2Header extends Component<{ staffMember: StaffMember }> {
     render() {
         let {staffMember} = this.props;
+
+        //TODO better method (with state or something)
+        const easterEggClickHandler = (event) => {
+            if(event.detail === 2 && staffMember.id === 101) {
+                staffMember.name = "TactiCyo"
+            }
+        }
+
         return (
             <div className="card2-header">
                 <div className="user-info">
                     {staffMember.profileImageUrl != null &&
                         <img className="user-image" src={staffMember.profileImageUrl} alt=""/>}
-                    <p className="user-name">{staffMember.name}</p>
+                    <p className="user-name" onClick={easterEggClickHandler}>{staffMember.name}</p>
                     <SocialMediaInline socialMedias={staffMember.socialMedias}/>
                 </div>
             </div>

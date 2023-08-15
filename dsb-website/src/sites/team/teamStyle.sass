@@ -8,8 +8,9 @@ $searchHeaderFontSize: 2rem
   flex-wrap: wrap
   max-width: 120rem
   margin: 0 auto
+  min-height: calc(100vh - 9.5rem - 7.8rem - 5rem)
 
-.team-search-container
+.elems-search-container
   position: fixed
   top: 11.5rem
   left: -$searchWidth
@@ -19,7 +20,7 @@ $searchHeaderFontSize: 2rem
   z-index: 10
   &.opened
     left: 0
-  .team-search-settings
+  .elems-search-settings
     width: 100vw
     max-width: $searchWidth
     padding: 0.5rem 1rem
@@ -35,12 +36,12 @@ $searchHeaderFontSize: 2rem
         font-size: $searchHeaderFontSize
         line-height: 1
         font-weight: 600
-    .team-search-elem
+    .elems-search-elem
       display: flex
       flex-wrap: nowrap
       p
         font-size: $searchFontSize
-  .team-search-opener
+  .elems-search-opener
     padding: 0.5rem
     cursor: pointer
     background: var(--bg-panel)

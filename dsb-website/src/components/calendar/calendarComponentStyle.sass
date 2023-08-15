@@ -1,0 +1,94 @@
+$calendarColor: #fff
+$calendarColorOtherMonth: #777777
+$calendarFontSize: 2rem
+
+$calendarHeaderCellHeight: 4rem
+$calendarCellHeight: 10rem
+
+$calendarBorderStyle: 0.1rem solid #fff
+
+.calendar-container
+  padding: 2rem
+  .calendar-header
+    display: flex
+    justify-content: space-between
+    flex-wrap: nowrap
+    .header-month
+      p
+        font-size: 2rem
+    .header-switcher
+      span
+        font-size: 3rem
+  .calendar-table
+    width: 100%
+    color: $calendarColor
+    font-size: $calendarFontSize
+    table-layout: fixed
+    tr
+      width: 100%
+    td
+      vertical-align: top
+      &.otherMonth
+        .date-date
+          color: $calendarColorOtherMonth
+      &.today
+        .date-date
+          background: var(--prime2)
+    thead
+      tr
+        th
+          height: $calendarHeaderCellHeight
+    tbody
+      tr
+        td
+          position: relative
+          height: $calendarCellHeight
+    .date-container
+      top: 0
+      left: 0
+      width: 100%
+      //height: calc(100% - 4.5rem)
+      //padding: 1.5rem 0 0 0
+    .date-date-container
+      position: relative
+      width: 100%
+      height: 3rem
+      .date-date
+        position: absolute
+        right: 0
+        top: 0
+        display: block
+        padding: 0.6rem 0.6rem
+        width: 3rem
+        height: 3rem
+        color: $calendarColor
+        border-radius: 10rem
+    .date-entries
+      //border-top: $calendarBorderStyle
+      margin: 1.4rem 0 0 0
+      width: 100%
+      padding:  0 0 0.5rem 0
+      .date-entry
+        min-height: 3rem
+        cursor: pointer
+        margin: 0.5rem 0 0.5rem 0
+        padding:  0.5rem
+        &:last-child
+          margin-bottom: 0
+        &.entry-beginning
+          margin-left: 0.5rem
+          border-radius: 0.5rem 0 0 0.5rem
+        &.entry-ending
+          margin-right: 0.5rem
+          border-radius: 0 0.5rem 0.5rem 0
+        &.entry-beginning.entry-ending
+          border-radius: 0.5rem
+        p
+          &.hide-name
+            //to make height of every element the same
+            opacity: 0
+            color: transparent //one of them as fallback for the other
+
+  .calendar-table, th, td
+    border: $calendarBorderStyle
+    border-collapse: collapse

@@ -8,7 +8,8 @@ export default function SiteHome() {
     return(
         <div className="home">
             <div className="sections">
-                <HomeSliderComponent />
+                <HomeDefaultLandingComponent />
+                {/*<HomeSliderComponent /> */ }
 
                 <section className="section-socials arrow-background">
                     <HomeSocialsComponent />

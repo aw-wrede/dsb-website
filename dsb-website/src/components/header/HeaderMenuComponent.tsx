@@ -1,10 +1,11 @@
 import "./headerMenuStyle.sass"
+import {HEADER_TITLE} from "../../definitions/constants";
 
 export default function HeaderMenuComponent({activeSite}) {
     return (
         <div className="header-menu-container">
             <div className="header-brand">
-                <h1 className="brand-text">Deutsche Splatoon Bundesliga</h1>
+                <h1 className="brand-text">{HEADER_TITLE}</h1>
                 <img className="brand-logo" src="/dsb-logo.jpg" alt=""/>
             </div>
             <div className="header-menu">

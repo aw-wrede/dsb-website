@@ -1,7 +1,7 @@
 import "./footerStyle.sass"
 import {COPYRIGHT} from "../../definitions/constants";
 import {SITE_IMPRINT_URL, SITE_PRIVACY_URL} from "../../definitions/vars";
-import {getSiteName} from "../../functions";
+import {getSiteName} from "../../functions/functions";
 
 export default function FooterComponent() {
     return (

@@ -2,29 +2,30 @@ import HomeDefaultLandingComponent from "./HomeDefaultLandingComponent";
 import {useEffect, useState} from "react";
 import './homeSliderStyle.sass'
 import HomeLanLandingComponent from "./HomeLanLandingComponent";
+import CalendarStandaloneComponent from "../../../components/calendar/CalendarStandaloneComponent";
+import {Localization} from "../../../interfaces/StaffData";
 
 export default function HomeSliderComponent() {
 
-    const timePerPage = 10000;
+    const timePerPage = 10;
 
     const amount = 2
     const [currentElem, setCurrentElem] = useState(0)
-
+    const [timeLeft, setTimeLeft] = useState(timePerPage)
 
     useEffect(() => {
-        let current = currentElem
-        const timer = setInterval(() => {
-            if(current === amount-1) {
-                setCurrentElem(0)
-                current = 0
-            } else {
-                setCurrentElem(current+1)
-                current++
-            }
-        }, timePerPage)
+        if(timeLeft === 0) {
+            changeCurrentElement(currentElem+1 === amount ? 0 : currentElem+1)
+            return
+        }
 
-        return () => clearInterval(timer)
-    }, [])
+        const timerId = setInterval(_ => {
+            setTimeLeft(timeLeft - 1)
+        }, 1000)
+
+        return () => clearInterval(timerId);
+
+    }, [timeLeft])
 
     return (
         <section className="landing-section">
@@ -32,10 +33,10 @@ export default function HomeSliderComponent() {
                 <div className="carousel-content" style={{left: `-${currentElem*100}vw`}}>
 
                     <div className="carousel-elem">
-                        <HomeLanLandingComponent />
-                    </div>
-                    <div className="carousel-elem">
                         <HomeDefaultLandingComponent />
+                    </div>
+                    <div className="carousel-elem home-calendar-carousel">
+                        <CalendarStandaloneComponent locale={Localization.German} />
                     </div>
 
                 </div>
@@ -49,6 +50,7 @@ export default function HomeSliderComponent() {
 
     function changeCurrentElement(newValue) {
         setCurrentElem(newValue)
+        setTimeLeft(timePerPage)
     }
 
     function CarouselIndicator({amount}) {
@@ -60,7 +62,7 @@ export default function HomeSliderComponent() {
         return (
             <div className="carousel-indicator">
                 {array.map((index) => (
-                    <a key={index} className={`in-elem ${currentElem === index ? "active" : ""}`} onClick={() => changeCurrentElement(index)}></a>
+                    <a key={index} className={`in-elem ${currentElem === index ? "active" : ""}`} onClick={() => changeCurrentElement(index)}> </a>
                 ))}
             </div>
         )

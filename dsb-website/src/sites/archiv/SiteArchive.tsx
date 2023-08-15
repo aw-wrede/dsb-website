@@ -5,100 +5,101 @@ import {
 } from "../../components/cards/card1Components/Card1TourneyComponents";
 
 import "./archiveStyle.sass"
-import {ArchiveSeason, ArchiveTourney} from "../../interfaces/ArchiveData";
-import {
-    DSB_BUNDESLAENDER_BRAWL_1, DSB_LEAGUE_RUSH_1, DSB_PRINCESS_TOWER_1,
-    DSB_SEASON_1, DSB_SEASON_2, DSB_SEASON_3,
-    DSB_SEASON_4,
-    DSB_SEASON_5, DSB_SEASON_6, DSB_SPLATFEST_1, DSB_TURMHORROR_1, DSP_1, DSP_2, DSP_3,
-    DSP_4,
-    KING_PROTECTION_1,
-    PAYLOAD_1, STRIKING_TOURNEY_1,
-    STRIKING_TOURNEY_2
-} from "../../data/DataArchive";
+import {DATA_ARCHIVE} from "../../data/DataArchive";
 import FooterComponent from "../../components/footer/FooterComponent";
+import React, {useState} from "react";
+import {
+    ArchiveData,
+    ArchiveSeason,
+    ArchiveTourney,
+    ArchiveType,
+    getAllArchiveTypes, getArchiveTypeNameLocalized
+} from "../../interfaces/ArchiveData";
+import {getAllStaffRoles, getRoleNameLocalized} from "../../interfaces/StaffData";
+import UiCheckbox from "../../components/UiElements/UiCheckbox";
 
 export default function SiteArchive() {
+
+    const [searchTags, setSearchTags]:[ArchiveType[], any] = useState([])
+
+    const [searchOpened, setSearchOpened]:[boolean, any] = useState(false)
+    const [visibleArchiveElems, setVisibleArchiveElems]:[ArchiveData[], any] = useState(DATA_ARCHIVE)
+
+    const changeSearchOpenStatus = () => {
+        setSearchOpened(!searchOpened)
+    }
+
+    const archiveTagCheckboxChange = (value:boolean, name:string) => {
+        name = name.replace("archive-tag-", "")
+        let list:ArchiveType[] = searchTags
+        const groupId:ArchiveType = parseInt(name)
+
+        if(value) {
+            list = searchTags
+            list.push(groupId)
+        } else if(searchTags.includes(groupId)) {
+            list = searchTags.filter(val => val !== groupId)
+        }
+
+        setSearchTags(list)
+        filterArchiveElems(DATA_ARCHIVE, list)
+    }
+
+    function filterArchiveElems(archiveData:ArchiveData[], searchTags:ArchiveType[]) {
+        //show all archive elems if no tag is set
+        if(searchTags.length === 0) {
+            setVisibleArchiveElems(archiveData)
+            return
+        }
+
+        const list:ArchiveData[] = []
+        archiveData.forEach(archiveElem => {
+            for(const tag of searchTags) {
+                if(archiveElem.type !== tag) {
+                    continue
+                }
+
+                list.push(archiveElem)
+                break
+            }
+        })
+
+        setVisibleArchiveElems(list)
+    }
+
 
 
     return (
         <section className="main-content arrow-background fill-site archive-container">
 
-            <div className="card-container">
-                <Card1TourneyBracketsComponent /* 2022.07.09 */ tourney={STRIKING_TOURNEY_2} />
+            <div className={`elems-search-container ${searchOpened ? "opened" : ""}`}>
+                <div className="elems-search-settings">
+                    <div className="search-header">
+                        <p>Nach Turnier filtern</p>
+                    </div>
+                    <div>
+                        {getAllArchiveTypes().map(type => (
+                            <UiCheckbox key={type} name={`archive-tag-${type}`} text={getArchiveTypeNameLocalized(type)} callback={archiveTagCheckboxChange} />
+                        ))}
+                    </div>
+
+                </div>
+                <div className="elems-search-opener" onClick={changeSearchOpenStatus}>
+                    <span className="material-icons">manage_search</span>
+                </div>
             </div>
 
-            <div className="card-container">
-                <Card1DivisionTourneyComponent /* ? */ season={DSB_SEASON_6}/>
-            </div>
 
-            <div className="card-container">
-                <Card1DivisionTourneyComponent /* 2022.05.09 - 2022.07.03 */ season={DSB_SEASON_5}/>
-            </div>
-
-            <div className="card-container">
-                <Card1TourneyBracketsComponent /* 2022.04.30 */ tourney={DSP_4} />
-            </div>
-
-            <div className="card-container">
-                <Card1TourneyBracketsComponent /* 2022.04.09 */ tourney={PAYLOAD_1} />
-            </div>
-
-            <div className="card-container">
-                <Card1TourneyBracketsComponent /* 2022.04.02 */ tourney={KING_PROTECTION_1} />
-            </div>
-
-            <div className="card-container">
-                <Card1DivisionTourneyComponent /* 2021.11.22 - 2022.02.20? */ season={DSB_SEASON_4}/>
-            </div>
-
-            <div className="card-container">
-                <Card1TourneyBracketsComponent /* 2021.11.13 */ tourney={DSP_3} />
-            </div>
-
-            <div className="card-container">
-                <Card1TourneyBracketsComponent /* 2021.10.30 */ tourney={DSB_PRINCESS_TOWER_1} />
-            </div>
-
-            <div className="card-container">
-                <Card1TourneyBracketsComponent /* 2021.10.23 */ tourney={STRIKING_TOURNEY_1} />
-            </div>
-
-            <div className="card-container">
-                <Card1TourneyBracketsComponent /* ? */ tourney={DSB_LEAGUE_RUSH_1} />
-            </div>
-
-            <div className="card-container">
-                <Card1DivisionTourneyComponent /* 2021.04.12 - 2021.06.07 */ season={DSB_SEASON_3}/>
-            </div>
-
-            <div className="card-container">
-                <Card1TourneyBracketsComponent /* 2021.04.04 */ tourney={DSP_2} />
-            </div>
-
-            <div className="card-container">
-                <Card1TourneyBracketsComponent /* ? */ tourney={DSB_BUNDESLAENDER_BRAWL_1} />
-            </div>
-
-            <div className="card-container">
-                <Card1TourneyBracketsComponent /* ? */ tourney={DSB_TURMHORROR_1} />
-            </div>
-
-            <div className="card-container">
-                <Card1DivisionTourneyComponent /* ? */ season={DSB_SEASON_2}/>
-            </div>
-
-            <div className="card-container">
-                <Card1TourneyBracketsComponent /* ? */ tourney={DSP_1} />
-            </div>
-
-            <div className="card-container">
-                <Card1TourneyBracketsComponent /* ? */ tourney={DSB_SPLATFEST_1} />
-            </div>
-
-            <div className="card-container">
-                <Card1DivisionTourneyComponent /* ? */ season={DSB_SEASON_1}/>
-            </div>
+            {visibleArchiveElems.map((data => {
+                if('divisions' in data) {
+                    return <div key={data.name} className="card-container">
+                        <Card1DivisionTourneyComponent season={data as ArchiveSeason}/>
+                    </div>
+                }
+                return <div key={data.name} className="card-container">
+                    <Card1TourneyBracketsComponent key={data.name} tourney={data as ArchiveTourney} />
+                </div>
+            }))}
 
             <FooterComponent />
         </section>

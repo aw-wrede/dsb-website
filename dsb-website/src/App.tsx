@@ -7,12 +7,21 @@ import SiteHome from "./sites/home/SiteHome";
 import "./style/style.sass"
 import SiteArchive from "./sites/archiv/SiteArchive";
 import Header2MenuComponent from "./components/header/header2/Header2MenuComponent";
-import {SITE_ARCHIVE_URL, SITE_HOME_URL, SITE_IMPRINT_URL, SITE_PRIVACY_URL, SITE_SEASON_URL, SITE_TEAM_URL} from "./definitions/vars";
+import {
+    SITE_ARCHIVE_URL,
+    SITE_CALENDAR_URL,
+    SITE_HOME_URL,
+    SITE_IMPRINT_URL,
+    SITE_PRIVACY_URL,
+    SITE_SEASON_URL,
+    SITE_TEAM_URL
+} from "./definitions/vars";
 import SiteTeam from "./sites/team/SiteTeam";
 import SiteSeason from "./sites/season/SiteSeason";
 import SiteImprint from "./sites/about/SiteImprint";
 import SitePrivacy from "./sites/about/SitePrivacy";
-import {getSiteTitle} from "./functions";
+import {getSiteTitle} from "./functions/functions";
+import SiteCalendar from "./sites/calendar/SiteCalendar";
 
 function App() {
 
@@ -38,6 +47,7 @@ function App() {
                 <Route path={SITE_TEAM_URL} element={<SiteTeam />} />
                 <Route path={SITE_SEASON_URL} element={<SiteSeason />} />
                 <Route path={SITE_ARCHIVE_URL} element={<SiteArchive />} />
+                <Route path={SITE_CALENDAR_URL} element={<SiteCalendar />} />
 
                 <Route path={SITE_IMPRINT_URL} element={<SiteImprint />} />
                 <Route path={SITE_PRIVACY_URL} element={<SitePrivacy />} />

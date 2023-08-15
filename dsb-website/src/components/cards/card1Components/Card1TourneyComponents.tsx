@@ -8,8 +8,9 @@ import {
 } from "../../../interfaces/ArchiveData";
 import {SocialMediaData} from "../../../interfaces/StaffData";
 
-const BRACKET_URL_LIST_HEADLINE = "Vollständige Turnierbäume"
-const DIVISION_URL_LIST_HEADLINE = "Weitere Turnierbäume"
+const BRACKET_URL_LIST_HEADLINE:string = "Vollständige Turnierbäume"
+const DIVISION_URL_LIST_HEADLINE:string = "Weitere Turnierbäume"
+const MORE_LINKS_HEADLINE:string = "Weitere Links"
 
 export class Card1DivisionTourneyComponent extends Component<{ season: ArchiveSeason }> {
     render() {
@@ -18,7 +19,7 @@ export class Card1DivisionTourneyComponent extends Component<{ season: ArchiveSe
             <div className="card1">
                 <Card1TourneyHeader image={season.image}/>
                 <Card1TourneyInfo  data={season}/>
-                <Card1DivisionContent divisions={season.divisions}/>
+                <Card1DivisionContent divisions={season.divisions} links={season.links}/>
             </div>
         )
     }
@@ -39,6 +40,7 @@ export class Card1TourneyBracketsComponent extends Component<{ tourney:ArchiveTo
                             <Card1TourneyContentWithBracket key={key++} archiveBracket={bracket} />
                     ))}
                     <LinksComponent headline={BRACKET_URL_LIST_HEADLINE} urlElements={tourney.brackets} defaultName={tourney.name}/>
+                    <LinksComponent headline={MORE_LINKS_HEADLINE} urlElements={tourney.links} defaultName={""} />
                 </div>
             </div>
         )
@@ -58,7 +60,7 @@ class LinksComponent extends Component<{ headline: string, urlElements: Showable
                 <div className="brackets-links">
                     {visibleBrackets
                         .map(elem => (
-                            <a key={elem.id} href={elem.url ?? ""}>{elem.name ?? defaultName}</a>
+                            <a key={elem.id} href={elem.url ?? ""} target="_blank" rel="noreferrer">{elem.name ?? defaultName}</a>
                         ))}
                 </div>
             </div>
@@ -90,7 +92,7 @@ class Card1TourneyContentWithBracket extends Component<{ archiveBracket:ArchiveB
     }
 }
 
-function Card1DivisionContent({divisions}) {
+function Card1DivisionContent({divisions, links}) {
     return (
         <div className="card1-places-container">
             <div>
@@ -112,6 +114,7 @@ function Card1DivisionContent({divisions}) {
                     ))}
             </div>
             <LinksComponent headline={DIVISION_URL_LIST_HEADLINE} urlElements={divisions} defaultName={"Challonge" /* TODO find better name */} />
+            <LinksComponent headline={MORE_LINKS_HEADLINE} urlElements={links} defaultName={""} />
         </div>
     )
 }

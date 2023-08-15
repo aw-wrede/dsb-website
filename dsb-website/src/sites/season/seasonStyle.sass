@@ -26,6 +26,7 @@ $max-width-content: 150rem
       margin: 0
 
   .no-current-season
+    min-height: calc(100vh - 9.5rem - 7.8rem - 10rem)
     margin: 5rem 0 0 0
     h1
       color: $color
@@ -37,6 +38,11 @@ $max-width-content: 150rem
     .season-banner
       img
         border-radius: 0
+
+@media (max-width: 740px)
+  .main-content
+    .no-current-season
+      min-height: calc(100vh - 9.5rem - 7.8rem - 5rem)
 
 @media (max-width: 530px)
   .current-season

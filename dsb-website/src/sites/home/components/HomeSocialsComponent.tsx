@@ -10,7 +10,7 @@ import {
     DISCORD_LOOKING_FOR_CHANNEL_PLAYER,
     DISCORD_LOOKING_FOR_CHANNEL_TEAM,
     DISCORD_NAME,
-    DISCORD_TEAMS_LAST_SEASON
+    TEAMS_LAST_SEASON
 } from "../../../definitions/vars";
 
 export default function HomeSocialsComponent() {
@@ -49,7 +49,7 @@ function DiscordObject({href}) {
                 <img className="discord-server-logo" src="/dsb-logo.jpg" alt=""/>
                 <div className="discord-info-text">
                     <p className="dc-main">{DISCORD_NAME}</p>
-                    <p className="dc-weak">{`${DISCORD_TEAMS_LAST_SEASON} Teams letzte Season`}</p>
+                    <p className="dc-weak">{`${TEAMS_LAST_SEASON} Teams letzte Season`}</p>
                 </div>
             </div>
             <div className="discord-join-button">

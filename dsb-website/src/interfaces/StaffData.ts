@@ -1,4 +1,4 @@
-import {enumKeys} from "../functions";
+import {enumKeys} from "../functions/functions";
 
 //Turnierleiter
 const COLOR_TO = "#2de0bc"
