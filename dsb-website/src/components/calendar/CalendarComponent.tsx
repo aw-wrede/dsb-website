@@ -1,7 +1,6 @@
 import {
     calendarEntryIsBeginning, calendarEntryIsEnding,
     calendarEntryShouldDisplayName,
-    dateIsInRange,
     dateIsInRangeNoTime,
     getCalendarDaysOfMonth, getMonthLocalized,
     getWeekdaysShortLocalized, sameDatesNoTime
@@ -80,6 +79,57 @@ export default function CalendarComponent({calendarData, locale, markToday}) {
                     )))}
                 </tbody>
             </table>
+        </div>
+    )
+}
+
+function getCurrentEvents(calendarData:CalendarData[]) {
+    const date = new Date()
+
+    let currentCalendarData:CalendarData[] = []
+
+    calendarData.forEach((calendar => {
+        let currentEntries:CalendarEntry[] = []
+        calendar.calendarEntries.forEach(entry => {
+            const start = new Date(entry.startTime)
+            const end = new Date(entry.endTime)
+
+            if(dateIsInRangeNoTime(start, end, date))
+                currentEntries.push(entry)
+        })
+
+        if(currentEntries.length === 0) {
+            return
+        }
+
+        currentCalendarData.push({
+            name: calendar.name,
+            uuid: calendar.uuid,
+            colorHex: calendar.colorHex,
+            calendarEntries: currentEntries
+        })
+
+    }))
+
+    return currentCalendarData
+}
+
+export function CalendarListComponent({calendarData, locale, markToday}) {
+    return (
+        <div className="calendar-list-container">
+            <div>
+                <h1>Aktuelle Events</h1>
+                <ul>
+                    {getCurrentEvents(calendarData).map((calendar => (
+                        <div key={calendar.uuid}>
+                            <p>{calendar.name}</p>
+                        </div>
+                    )))}
+                </ul>
+            </div>
+            <div>
+                <h1>Zukünftige Events</h1>
+            </div>
         </div>
     )
 }

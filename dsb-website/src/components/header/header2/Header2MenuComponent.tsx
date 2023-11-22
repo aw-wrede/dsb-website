@@ -1,6 +1,12 @@
 import "./header2MenuStyle.sass"
 import {Component, useEffect, useState} from "react";
-import {SITE_ARCHIVE_URL, SITE_HOME_URL, SITE_SEASON_URL, SITE_TEAM_URL} from "../../../definitions/vars";
+import {
+    SITE_ARCHIVE_URL,
+    SITE_CALENDAR_URL,
+    SITE_HOME_URL,
+    SITE_SEASON_URL,
+    SITE_TEAM_URL
+} from "../../../definitions/vars";
 import {getSiteName} from "../../../functions/functions";
 import {HEADER_TITLE} from "../../../definitions/constants";
 
@@ -33,6 +39,7 @@ export default function Header2MenuComponent({activeSite}) {
                     <MenuElement activeSite={activeSite} siteUrl={SITE_HOME_URL} />
                     <MenuElement activeSite={activeSite} siteUrl={SITE_TEAM_URL} />
                     {/* <MenuElement activeSite={activeSite} siteUrl={SITE_SEASON_URL} /> */}
+                    <MenuElement activeSite={activeSite} siteUrl={SITE_CALENDAR_URL} />
                     <MenuElement activeSite={activeSite} siteUrl={SITE_ARCHIVE_URL} />
                 </ul>
             </div>
