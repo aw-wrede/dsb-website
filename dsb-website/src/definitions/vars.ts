@@ -36,3 +36,6 @@ export const TEAMS_LAST_SEASON:number = 80
 export const PLAYERS_LAST_SEASON:number = 475
 export const DISCORD_LOOKING_FOR_CHANNEL_PLAYER:string = "#looking4player"
 export const DISCORD_LOOKING_FOR_CHANNEL_TEAM:string = "#looking4team"
+
+//Show or hide banner on team site (searching new team members)
+export const SHOW_TEAM_BANNER_WE_HIRE = true

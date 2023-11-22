@@ -1,12 +1,18 @@
 import axios, {CancelToken} from "axios";
 import {TournamentData} from "./interfaces/tournament/TournamentData";
 import CalendarData from "./interfaces/CalendarData";
+import {SunnyTwitchData} from "./interfaces/SunnyTwitchData";
 
 //const API_URL = "https://castingapi.venatus247.de" //PRODUCTION
 const API_URL = "http://localhost:5000" //TESTING
+const SUNNY_API_URL = "https://sunny.eucliwood.eu"
 
 export const axiosInstance = axios.create({
     baseURL: API_URL
+})
+
+export const sunnyAxiosInstance = axios.create({
+    baseURL: SUNNY_API_URL
 })
 
 export const fetchTournamentData = async (uuid:string, cancelToken:CancelToken):Promise<TournamentData|null> => {
@@ -28,6 +34,19 @@ export const fetchCalendarData = async (cancelToken:CancelToken):Promise<Calenda
             return null
 
         const data:CalendarData = result.data
+        return data
+    } catch (e) {}
+
+    return null
+}
+
+export async function fetchTwitchLiveData(cancelToken:CancelToken):Promise<SunnyTwitchData|null> {
+    try {
+        const result = await sunnyAxiosInstance.get("/streaminfo", {cancelToken:cancelToken})
+        if(result.status !== 200)
+            return null
+
+        const data:SunnyTwitchData = result.data
         return data
     } catch (e) {}
 

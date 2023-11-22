@@ -22,6 +22,7 @@ import SiteImprint from "./sites/about/SiteImprint";
 import SitePrivacy from "./sites/about/SitePrivacy";
 import {getSiteTitle} from "./functions/functions";
 import SiteCalendar from "./sites/calendar/SiteCalendar";
+import TwitchBannerComponent from "./components/twitch-banner/TwitchBannerComponent";
 
 function App() {
 
@@ -39,6 +40,8 @@ function App() {
                 <title>{getSiteTitle(path)}</title>
             </Helmet>
         </HelmetProvider>
+
+        <TwitchBannerComponent />
 
         <Header2MenuComponent activeSite={path} />
         <Router>

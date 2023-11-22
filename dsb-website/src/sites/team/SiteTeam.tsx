@@ -6,6 +6,8 @@ import React, {useState} from "react";
 import {getAllStaffRoles, getRoleNameLocalized, StaffMember, StaffRole} from "../../interfaces/StaffData";
 import UiCheckbox from "../../components/UiElements/UiCheckbox";
 import FooterComponent from "../../components/footer/FooterComponent";
+import JoinTeamBannerComponent from "./components/JoinTeamBannerComponent";
+import {SHOW_TEAM_BANNER_WE_HIRE} from "../../definitions/vars";
 
 export default function SiteTeam() {
 
@@ -59,6 +61,12 @@ export default function SiteTeam() {
 
     return (
         <div className={`main-content arrow-background fill-site`}>
+
+
+            {SHOW_TEAM_BANNER_WE_HIRE &&
+                <JoinTeamBannerComponent />}
+
+
             <div className={`elems-search-container ${searchOpened ? "opened" : ""}`}>
                 <div className="elems-search-settings">
                     <div className="search-header">
