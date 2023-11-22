@@ -3,7 +3,7 @@ import {
     INSTAGRAM_LINK,
     TIKTOK_LINK,
     TWITCH_LINK,
-    TWITTER_LINK,
+    X_LINK,
     YOUTUBE_LINK
 } from "../../../definitions/constants";
 import {
@@ -32,7 +32,7 @@ export default function HomeSocialsComponent() {
                 <div className="socials-list">
                     <SocialObject href={TWITCH_LINK} logo={"/logos/twitch-white.svg"} className="twitch"/>
                     <SocialObject href={YOUTUBE_LINK} logo={"/logos/youtube-white.png"} className="youtube"/>
-                    <SocialObject href={TWITTER_LINK} logo={"/logos/twitter-white.svg"} className="twitter"/>
+                    <SocialObject href={X_LINK} logo={"/logos/x-white.svg"} className="x"/>
                     <SocialObject href={INSTAGRAM_LINK} logo={"/logos/instagram-white.svg"} className="instagram"/>
                     <SocialObject href={TIKTOK_LINK} logo={"/logos/tiktok-white.svg"} className="tiktok"/>
                 </div>
@@ -46,7 +46,7 @@ function DiscordObject({href}) {
     return (
         <div className="social-discord-box">
             <div className="discord-server-info">
-                <img className="discord-server-logo" src="/dsb-logo.jpg" alt=""/>
+                <img className="discord-server-logo" src="/images/dsb-logo.webp" alt=""/>
                 <div className="discord-info-text">
                     <p className="dc-main">{DISCORD_NAME}</p>
                     <p className="dc-weak">{`${TEAMS_LAST_SEASON} Teams letzte Season`}</p>

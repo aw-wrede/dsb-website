@@ -447,7 +447,7 @@ export const DSB_LEAGUE_RUSH_1:ArchiveTourney = {
 
 //2021.10.23
 export const STRIKING_TOURNEY_1:ArchiveTourney = {
-    name: "Striking Tourney",
+    name: "Striking Turnier",
     type: ArchiveType.OFF_SEASON,
     date: "23.10.2021",
     image: "/images/dsb_striking_tourney.webp",
@@ -884,7 +884,7 @@ export const DSB_SEASON_6:ArchiveSeason = {
 
 // 2022.07.09
 export const STRIKING_TOURNEY_2:ArchiveTourney = {
-    name: "Striking Tourney 2",
+    name: "Striking Turnier: Special Edition",
     type: ArchiveType.OFF_SEASON,
     date: "09.07.2022",
     image: "/images/dsb_striking_tourney.webp",

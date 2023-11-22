@@ -6,7 +6,7 @@ export default function HeaderMenuComponent({activeSite}) {
         <div className="header-menu-container">
             <div className="header-brand">
                 <h1 className="brand-text">{HEADER_TITLE}</h1>
-                <img className="brand-logo" src="/dsb-logo.jpg" alt=""/>
+                <img className="brand-logo" src="/images/dsb-logo.webp" alt=""/>
             </div>
             <div className="header-menu">
                 <ul className="menu-list">

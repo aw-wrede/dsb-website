@@ -1,5 +1,5 @@
 import {Helmet, HelmetProvider} from "react-helmet-async"
-import {DISCORD_LINK, INSTAGRAM_LINK, TIKTOK_LINK, TWITTER_LINK, YOUTUBE_LINK} from "../../definitions/constants";
+import {DISCORD_LINK, INSTAGRAM_LINK, TIKTOK_LINK, X_LINK, YOUTUBE_LINK} from "../../definitions/constants";
 import './styleAbout.sass'
 import FooterComponent from "../../components/footer/FooterComponent";
 export default function SiteImprint() {
@@ -22,8 +22,8 @@ export default function SiteImprint() {
                     <p>Dieses Impressum gilt auch für unsere Auftritte in den folgenden sozialen Medien:</p>
                     <div>
                         <p>Discord: {DISCORD_LINK}</p>
-                        <p>Twitter: {TWITTER_LINK}</p>
-                        <p>Twitch: {TWITTER_LINK}</p>
+                        <p>X: {X_LINK}</p>
+                        <p>Twitch: {X_LINK}</p>
                         <p>YouTube: {YOUTUBE_LINK}</p>
                         <p>Instagram: {INSTAGRAM_LINK}</p>
                         <p>TikTok: {TIKTOK_LINK}</p>

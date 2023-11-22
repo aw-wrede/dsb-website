@@ -8,7 +8,7 @@ export const COPYRIGHT = ():string => {
 
 export const DISCORD_LINK:string = "https://discord.com/invite/pd46EXE"
 export const YOUTUBE_LINK:string = "https://www.youtube.com/@DeutscheSplatoonBundesliga"
-export const TWITTER_LINK:string = "https://twitter.com/DSplatoonLiga"
+export const X_LINK:string = "https://x.com/DSplatoonLiga"
 export const TWITCH_LINK:string = "https://twitch.tv/deutschesplbundesliga"
 export const INSTAGRAM_LINK:string = "https://www.instagram.com/deutschesplatbundesliga/"
 export const TIKTOK_LINK:string = "https://www.tiktok.com/@deutschesplatbundesliga"
