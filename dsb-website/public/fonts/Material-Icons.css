@@ -4,6 +4,7 @@
   font-style: normal;
   font-weight: 400;
   src: url("/fonts/Material-Icons.woff2") format('woff2');
+  font-display: swap;
 }
 
 .material-icons {

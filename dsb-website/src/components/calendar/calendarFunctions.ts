@@ -1,6 +1,15 @@
 import {Localization} from "../../interfaces/StaffData";
-import {CalendarEntry} from "../../interfaces/CalendarData";
+import CalendarData, {CalendarEntry} from "../../interfaces/CalendarData";
 
+export function dateToString(date:Date, displayYear:boolean = true, local:Localization = Localization.German) {
+    switch (local) {
+        case Localization.German:
+            return `${date.getDate().toString().padStart(2, '0')}.${date.getMonth().toString().padStart(2, '0')}.${displayYear ? date.getFullYear().toString() : ''}`
+        case Localization.English:
+        default:
+            return `${date.getMonth().toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}.${displayYear ? date.getFullYear().toString() : ''}`
+    }
+}
 export function getWeekdaysShortLocalized(locale:Localization) {
     switch (locale) {
         case Localization.German:
@@ -143,4 +152,23 @@ export function calendarEntryIsEnding(entry:CalendarEntry, date:Date) {
 export function calendarEntryShouldDisplayName(calendarTable:Date[][], entry:CalendarEntry, date:Date) {
     if(calendarEntryIsBeginning(entry, date)) return true;
     if(sameDatesNoTime(calendarTable[0][0], date)) return true;
+}
+
+export function dateRangeToString(date1:Date, date2:Date, localization:Localization = Localization.German) {
+    if(sameDatesNoTime(date1, date2)) {
+        return dateToString(date1, true, localization)
+    }
+
+    return `${dateToString(date1, !(date1.getFullYear() === date2.getFullYear()), localization)} - ${dateToString(date2, true, localization)}`
+}
+
+export function mapCalendarsToEntryList(calendar:CalendarData[]) {
+    let list:CalendarEntry[] = []
+    calendar.forEach(c => {
+        c.calendarEntries.forEach(e => {
+            list.push(e)
+        })
+    })
+
+    return list;
 }

@@ -29,7 +29,7 @@ export default function Header2MenuComponent({activeSite}) {
         <header className={`header-container ${scrollPosition > 0 || opened ? "with-bg" : ""}`}>
             <div className="header-brand">
                 <h1 className="brand-text">{HEADER_TITLE}</h1>
-                <img className="brand-logo" src="/images/dsb-logo.webp" alt=""/>
+                <img className="brand-logo" src="/images/dsb-logo-256.webp" alt=""/>
             </div>
             <div className="header-menu">
                 <div className="mobile-menu-button" onClick={() => setOpened(!opened)}>
@@ -39,7 +39,7 @@ export default function Header2MenuComponent({activeSite}) {
                     <MenuElement activeSite={activeSite} siteUrl={SITE_HOME_URL} />
                     <MenuElement activeSite={activeSite} siteUrl={SITE_TEAM_URL} />
                     {/* <MenuElement activeSite={activeSite} siteUrl={SITE_SEASON_URL} /> */}
-                    <MenuElement activeSite={activeSite} siteUrl={SITE_CALENDAR_URL} />
+                    { /*<MenuElement activeSite={activeSite} siteUrl={SITE_CALENDAR_URL} /> */}
                     <MenuElement activeSite={activeSite} siteUrl={SITE_ARCHIVE_URL} />
                 </ul>
             </div>

@@ -36,7 +36,17 @@ export interface StaffMember {
     socialMedias:SocialMediaData[]
 }
 
+export enum SocialMediaType {
+    Unknown = 0,
+    X = 1,
+    Instagram = 2,
+    Twitch = 3,
+    YouTube = 4,
+    TikTok = 5
+}
+
 export interface SocialMediaData {
+    type:SocialMediaType
     name:string
     icon:string
     url:string

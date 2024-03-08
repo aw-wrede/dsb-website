@@ -92,3 +92,31 @@ $calendarBorderStyle: 0.1rem solid #fff
   .calendar-table, th, td
     border: $calendarBorderStyle
     border-collapse: collapse
+
+.calendar-list-container
+  .calendar-list-elem
+    position: relative
+    border-top: 0.1rem solid var(--color)
+    &:before
+      content: ''
+      position: absolute
+      top: 1rem
+      left: 2rem
+      width: 0.2rem
+      height: calc(100% - 1rem)
+      background: $calendarColor
+    &:first-child
+      border-top: none
+    .calendar-entry
+      position: relative
+      margin: 0 0 2rem 0
+      &:before
+        content: ''
+        position: absolute
+        top: 0.4rem
+        left: 2.1rem
+        width: 1rem
+        height: 1rem
+        border-radius: 1rem
+        background: $calendarColor
+        transform: translate(-50%, 0)

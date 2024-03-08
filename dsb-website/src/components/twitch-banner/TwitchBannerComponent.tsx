@@ -1,5 +1,5 @@
 import './twitchBannerStyle.sass'
-import {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {SunnyTwitchData} from "../../interfaces/SunnyTwitchData";
 import axios from "axios";
 import {fetchTwitchLiveData} from "../../AxiosApi";
@@ -7,6 +7,8 @@ import {TWITCH_LINK} from "../../definitions/constants";
 export default function TwitchBannerComponent() {
 
     const [sunnyTwitchInfo, setSunnyTwitchInfo]:[SunnyTwitchData, any] = useState({live: false, title: null, category: null})
+
+    const refreshTimer:React.MutableRefObject<NodeJS.Timer|null> = useRef(null)
 
     useEffect(() => {
         const cancelToken = axios.CancelToken.source()
@@ -18,8 +20,13 @@ export default function TwitchBannerComponent() {
 
         fetchData()
 
+        refreshTimer.current = setInterval(() => {
+            fetchData().then(() => {console.debug("Fetched")})
+        }, 1000*60)
+
         return () => {
             cancelToken.cancel()
+            if(refreshTimer.current != null) clearInterval(refreshTimer.current)
         }
     }, []);
 

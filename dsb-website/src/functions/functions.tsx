@@ -44,7 +44,7 @@ export function getSiteTitle(url:string, locale:Localization = Localization.Germ
                 case SITE_PRIVACY_URL: return `${title}Datenschutz`
 
                 case SITE_HOME_URL:
-                default: return "Deutsche Splatoon Bundesliga"
+                default: return "Deutsche Splat Bundesliga e.V."
             }
     }
 }

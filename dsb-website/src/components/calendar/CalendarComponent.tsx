@@ -1,14 +1,15 @@
 import {
     calendarEntryIsBeginning, calendarEntryIsEnding,
     calendarEntryShouldDisplayName,
-    dateIsInRangeNoTime,
+    dateIsInRangeNoTime, dateRangeToString,
     getCalendarDaysOfMonth, getMonthLocalized,
-    getWeekdaysShortLocalized, sameDatesNoTime
+    getWeekdaysShortLocalized, mapCalendarsToEntryList, sameDatesNoTime
 } from "./calendarFunctions";
 
 import './calendarComponentStyle.sass'
 import {Component, useEffect, useState} from "react";
 import CalendarData, {CalendarEntry} from "../../interfaces/CalendarData";
+import {Localization} from "../../interfaces/StaffData";
 
 export default function CalendarComponent({calendarData, locale, markToday}) {
 
@@ -114,32 +115,135 @@ function getCurrentEvents(calendarData:CalendarData[]) {
     return currentCalendarData
 }
 
-export function CalendarListComponent({calendarData, locale, markToday}) {
-    return (
-        <div className="calendar-list-container">
-            <div>
-                <h1>Aktuelle Events</h1>
-                <ul>
-                    {getCurrentEvents(calendarData).map((calendar => (
-                        <div key={calendar.uuid}>
-                            <p>{calendar.name}</p>
-                        </div>
-                    )))}
-                </ul>
-            </div>
-            <div>
-                <h1>Zukünftige Events</h1>
-            </div>
-        </div>
-    )
+function getFutureEvents(calendarData:CalendarData[]) {
+    const date = new Date()
+
+    let currentCalendarData:CalendarData[] = []
+
+    calendarData.forEach((calendar => {
+        let currentEntries:CalendarEntry[] = []
+        calendar.calendarEntries.forEach(entry => {
+            const start = new Date(entry.startTime)
+            const end = new Date(entry.endTime)
+
+            //entry is in future and not today
+            if(start > date && !sameDatesNoTime(start, date))
+                currentEntries.push(entry)
+        })
+
+        if(currentEntries.length === 0) {
+            return
+        }
+
+        currentCalendarData.push({
+            name: calendar.name,
+            uuid: calendar.uuid,
+            colorHex: calendar.colorHex,
+            calendarEntries: currentEntries
+        })
+
+    }))
+
+    return currentCalendarData
 }
 
-class CalendarDateEntries extends Component<{ calendarTable:Date[][], calendarData: CalendarData[], date: Date }> {
+function getPastEvents(calendarData:CalendarData[]) {
+    const date = new Date()
+
+    let currentCalendarData:CalendarData[] = []
+
+    calendarData.forEach((calendar => {
+        let currentEntries:CalendarEntry[] = []
+        calendar.calendarEntries.forEach(entry => {
+            const start = new Date(entry.startTime)
+            const end = new Date(entry.endTime)
+
+            //entry is in past and not ended today
+            if(end < date && !sameDatesNoTime(end, date))
+                currentEntries.push(entry)
+        })
+
+        if(currentEntries.length === 0) {
+            return
+        }
+
+        currentCalendarData.push({
+            name: calendar.name,
+            uuid: calendar.uuid,
+            colorHex: calendar.colorHex,
+            calendarEntries: currentEntries
+        })
+
+    }))
+
+    return currentCalendarData
+}
+
+export class CalendarListComponent extends Component<{ calendarData: CalendarData[], locale: Localization, markToday: boolean }> {
+    render() {
+        let {calendarData, locale, markToday} = this.props;
+
+        /*
+        calendarData.forEach(calendar => {
+            calendar.calendarEntries.sort((e1, e2) => {
+                const date1 = new Date(e1.startTime)
+                const date2 = new Date(e2.startTime)
+                // @ts-ignore
+                return date2 - date1
+            })
+        })*/
+
+        const displayData = [
+            {
+                title: "Aktuelle Events",
+                content: mapCalendarsToEntryList(getCurrentEvents(calendarData))
+            },
+            {
+                title: "Zukünftige Events",
+                content: mapCalendarsToEntryList(getFutureEvents(calendarData))
+            },
+            {
+                title: "Vergangene Events",
+                content: mapCalendarsToEntryList(getPastEvents(calendarData))
+            }
+        ]
+
+        //sort entries
+        displayData.forEach(d => {
+            d.content.sort((e1, e2) => {
+                const date1 = new Date(e1.startTime)
+                const date2 = new Date(e2.startTime)
+                // @ts-ignore
+                return date2 - date1
+            })
+        })
+
+        return (
+            <div className="calendar-list-container">
+                {displayData.map(data => (
+                    <div key={data.title} className="calendar-list-elem">
+                        <h1>{data.title}</h1>
+                        {data.content.map((entry => (
+                            <div key={entry.name} className="calendar-entry">
+                                <p>{entry.name}</p>
+                                <p>{dateRangeToString(new Date(entry.startTime), new Date(entry.endTime))}</p>
+                            </div>
+                        )))}
+                    </div>
+                ))}
+
+
+            </div>
+        )
+    }
+}
+
+class CalendarDateEntries extends Component<{ calendarTable: Date[][], calendarData: CalendarData[], date: Date }> {
     render() {
         let {calendarTable, calendarData, date} = this.props;
         if (calendarData.length === 0) return (<div></div>)
 
-        let allEvents:CalendarEntry[] = []
+        let allEvents: CalendarEntry[] = []
 
         //go through each calendar and get all events
         calendarData.forEach((calendar) => {
@@ -147,7 +251,7 @@ class CalendarDateEntries extends Component<{ calendarTable:Date[][], calendarDa
                 const start = new Date(elem.startTime)
                 const end = new Date(elem.endTime)
 
-                if(elem.colorHex == null) elem.colorHex = calendar.colorHex
+                if (elem.colorHex == null) elem.colorHex = calendar.colorHex
 
                 return dateIsInRangeNoTime(start, end, date)
             })

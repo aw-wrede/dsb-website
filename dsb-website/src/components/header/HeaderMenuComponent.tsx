@@ -1,7 +1,7 @@
 import "./headerMenuStyle.sass"
 import {HEADER_TITLE} from "../../definitions/constants";
 
-export default function HeaderMenuComponent({activeSite}) {
+function HeaderMenuComponent({activeSite}) {
     return (
         <div className="header-menu-container">
             <div className="header-brand">

@@ -2,7 +2,11 @@ export default function HomeDefaultLandingComponent() {
     return (
         <section className="landing-section">
             <div className="img-container">
-                <img src="/images/main-banner.webp" alt=""/>
+                <picture>
+                    <source media="(min-width: 740px)" srcSet="/images/main-banner.webp"/>
+                    <img src="/images/main-banner-mobile.webp" alt=""/>
+                </picture>
+
             </div>
             {/**
              <div className="landing-content">
