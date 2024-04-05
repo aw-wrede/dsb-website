@@ -207,5 +207,20 @@ public class DsbCalendarController : PublicDataDatabaseController<DsbCalendarCon
             
             return list;
         }
+
+        public List<DsbCalendar> GetAllCleaned()
+        {
+            var now = DateTime.Now;
+            var result = GetAll();
+
+            result.ForEach(calendar =>
+            {
+                calendar.Entries = calendar.Entries
+                    .FindAll(e => !e.Hidden)
+                    .FindAll(e => !(e.HideAfterEvent && e.EndTime < now));
+            });
+
+            return result;
+        }
         
     }

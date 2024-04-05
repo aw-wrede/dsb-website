@@ -12,7 +12,7 @@ public class ApiCalendarController : ControllerBase
     [Route("getall")]
     public ActionResult<List<DsbCalendar>> GetAll()
     {
-        var calendars = DsbCalendarController.Instance.GetAll();
+        var calendars = DsbCalendarController.Instance.GetAllCleaned();
         return Ok(calendars);
     }
 }
