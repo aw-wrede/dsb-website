@@ -14,5 +14,5 @@ public class DsbCalendar : IPublicIdentified
     public string Name { get; set; }
     public string ColorHex { get; set; }
     [JsonPropertyName("calendarEntries")]
-    public List<DsbCalendarEntry> Entries { get; set; } = new List<DsbCalendarEntry>();
+    public List<DsbCalendarEntry> Entries { get; set; } = [];
 }

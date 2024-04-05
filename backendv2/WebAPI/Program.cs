@@ -1,9 +1,10 @@
 using Core;
-using Core.Data.Calendar;
 
 const string corsAllowDevLocalhost = "DevLocalhostOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 {
@@ -31,13 +32,15 @@ if (app.Environment.IsDevelopment())
 BackendServer.Instance.OnStartup();
 
 //app.UseHttpsRedirection();
-
+/*
 app.MapGet("/api/calendar/getall", () =>
 {
     var calendars = DsbCalendarController.Instance.GetAll();
     return calendars;
 })
 .WithName("GetAllCalendars")
-.WithOpenApi();
+.WithOpenApi();*/
+
+app.MapControllers();
 
 app.Run();

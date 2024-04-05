@@ -3,6 +3,8 @@ using Commons.Configuration;
 using Core.Configuration;
 using Core.Controller;
 using Core.Data.Calendar;
+using Core.Data.UploadedFile;
+using Core.Data.User;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
@@ -14,6 +16,8 @@ public class BackendServer : Singleton<BackendServer>
 
     public ConfigLoader ConfigLoader { get; private set; }
     public IMongoDatabase Database { get; private set; }
+    
+    public FileUploadConfiguration FileUploadConfiguration { get; private set; }
     
     protected BackendServer()
     {
@@ -27,6 +31,8 @@ public class BackendServer : Singleton<BackendServer>
             .ForEach(t => BsonClassMap.LookupClassMap(t));
         
         OpenDatabase();
+
+        FileUploadConfiguration = ConfigLoader.GetConfiguration<FileUploadConfiguration>();
         
         RegisterSerializer();
         RegisterController();
@@ -52,5 +58,7 @@ public class BackendServer : Singleton<BackendServer>
     private void RegisterController()
     {
         DsbCalendarController.Instance.OnStartup();
+        AppUserController.Instance.OnStartup();
+        UploadedFileController.Instance.OnStartup();
     }
 }

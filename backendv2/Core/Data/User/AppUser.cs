@@ -1,0 +1,52 @@
+﻿using Core.Controller;
+using Core.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
+
+namespace Core.Data.User;
+
+public class AppUser : IPublicIdentified
+{
+    [Newtonsoft.Json.JsonIgnore]
+    [BsonId(IdGenerator = typeof(BsonIncrementGenerator<AppUser>))]
+    public long Id { get; set; }
+    public string Uuid { get; set; }
+    public string Name { get; set; }
+    public string DisplayName { get; set; }
+    public AppUserGroup UserGroup { get; set; }
+    public AppUserCredentials? Credentials { get; set; }
+    public List<AppUserSessionData> SessionData { get; set; } = [];
+    
+    public bool VerifyLoginAttempt(string password)
+    {
+        return Credentials != null && Credentials.Verify(password);
+    }
+
+    public bool VerifySessionToken(string token)
+    {
+        return SessionData.Any(sessionData => sessionData.Verify(token));
+    }
+
+    public AppUserSessionData CreateNewSessionData()
+    {
+        // Remove invalid session data to free space (validity is checked independently from this)
+        SessionData = SessionData.Where(s => !s.IsExpired()).ToList();
+        
+        var session = AppUserSessionData.Create();
+        SessionData.Add(session);
+        
+        return session;
+    }
+
+    public void SetCredentials(string password)
+    {
+        Credentials = AppUserCredentials.Create(password, true);
+    }
+    
+    public AppUserReference CreateReference()
+    {
+        return new AppUserReference()
+        {
+            ReferenceId = Id
+        };
+    }
+}
