@@ -8,9 +8,9 @@ export const SITE_CALENDAR_URL:string = "/calendar"
 export const SITE_IMPRINT_URL:string = "/about/imprint"
 export const SITE_PRIVACY_URL:string = "/about/privacy"
 
-export const IS_A_CURRENT_SEASON:boolean = false
-export const CURRENT_SEASON_NAME:string = "DSB Season 7"
-export const CURRENT_SEASON_DATE:string = "24.04. - 18.06.2023"
+export const IS_A_CURRENT_SEASON:boolean = true
+export const CURRENT_SEASON_NAME:string = "DSB Season 8"
+export const CURRENT_SEASON_DATE:string = "08.04. - 02.06.2024"
 export const CURRENT_SEASON_TOURNAMENTS = [
     /*"0321f453-0221-4e64-932d-ac8aeb186a52",     //DSB-S6-D1
     "90052067-c7ac-4c10-83e6-c399677697df",     //DSB-S6-D2

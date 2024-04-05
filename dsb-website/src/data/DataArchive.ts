@@ -3,10 +3,11 @@ import {ArchiveSeason, ArchiveTourney, ArchiveType} from "../interfaces/ArchiveD
 const YT_RECORDED_VIDEOS_TITLE = "Videoaufnahmen zum Turnier"
 
 //2020.06.08 - 2020.08.23
-export const DSB_SEASON_1:ArchiveSeason = {
+const DSB_SEASON_1:ArchiveSeason = {
     name: "DSB Season 1",
     type: ArchiveType.DSB_SEASON,
-    date: "08.06.2020 - 23.08.2020",
+    start: new Date("2020-06-08"),
+    end: new Date("2020-08-23"),
     image: "/images/dsb_season_1_banner.webp",
     divisions: [
         {
@@ -86,10 +87,11 @@ export const DSB_SEASON_1:ArchiveSeason = {
 }
 
 //2020.09.12
-export const DSB_SPLATFEST_1:ArchiveTourney = {
+const DSB_SPLATFEST_1:ArchiveTourney = {
     name: "DSB Splatfest",
     type: ArchiveType.OFF_SEASON,
-    date: "12.09.2020",
+    start: new Date("2020-09-12"),
+    end: new Date("2020-09-12"),
     image: "/images/dsb_splatfest.webp",
     brackets: [
         {
@@ -117,10 +119,11 @@ export const DSB_SPLATFEST_1:ArchiveTourney = {
 }
 
 //2020.09.26
-export const DSP_1:ArchiveTourney = {
+const DSP_1:ArchiveTourney = {
     name: "Deutscher Splatoon Pokal 1",
     type: ArchiveType.DSP,
-    date: "26.09.2020",
+    start: new Date("2020-09-26"),
+    end: new Date("2020-09-26"),
     image: "/images/dsb_dsp_1.webp",
     brackets: [
         {
@@ -159,10 +162,11 @@ export const DSP_1:ArchiveTourney = {
 }
 
 //2020.10.26 - 2021.01.10
-export const DSB_SEASON_2:ArchiveSeason = {
+const DSB_SEASON_2:ArchiveSeason = {
     name: "DSB Season 2",
     type: ArchiveType.DSB_SEASON,
-    date: "26.10.2020 - 10.01.2021",
+    start: new Date("2020-10-26"),
+    end: new Date("2021-01-10"),
     image: "/images/dsb_season_2_banner.webp",
     divisions: [
         {
@@ -234,10 +238,11 @@ export const DSB_SEASON_2:ArchiveSeason = {
 }
 
 // 2021.03.06
-export const DSB_TURMHORROR_1:ArchiveTourney = {
+const DSB_TURMHORROR_1:ArchiveTourney = {
     name: "DSB Turmhorror",
     type: ArchiveType.OFF_SEASON,
-    date: "06.03.2021",
+    start: new Date("2021-03-06"),
+    end: new Date("2021-03-06"),
     image: "/images/dsb_turmhorror.webp",
     brackets: [
         {
@@ -257,10 +262,11 @@ export const DSB_TURMHORROR_1:ArchiveTourney = {
 }
 
 // 2021.03.20 - 2021.03.21
-export const DSB_BUNDESLAENDER_BRAWL_1:ArchiveTourney = {
+const DSB_BUNDESLAENDER_BRAWL_1:ArchiveTourney = {
     name: "DSB Bundesländer Brawl",
     type: ArchiveType.OFF_SEASON,
-    date: "20. - 21.03.2021",
+    start: new Date("2021-03-20"),
+    end: new Date("2021-03-21"),
     image: "/images/dsb_bundeslaender_brawl.webp",
     brackets: [
         {
@@ -290,10 +296,11 @@ export const DSB_BUNDESLAENDER_BRAWL_1:ArchiveTourney = {
 }
 
 // 2021.04.04
-export const DSP_2:ArchiveTourney = {
+const DSP_2:ArchiveTourney = {
     name: "Deutscher Splatoon Pokal 2",
     type: ArchiveType.DSP,
-    date: "04.04.2021",
+    start: new Date("2021-04-04"),
+    end: new Date("2021-04-04"),
     image: "/images/dsb_dsp_2.webp",
     brackets: [
         {
@@ -313,10 +320,11 @@ export const DSP_2:ArchiveTourney = {
 }
 
 //2021.04.12 - 2021.06.07
-export const DSB_SEASON_3:ArchiveSeason = {
+const DSB_SEASON_3:ArchiveSeason = {
     name: "DSB Season 3",
     type: ArchiveType.DSB_SEASON,
-    date: "12.04. - 07.06.2021",
+    start: new Date("2021-04-12"),
+    end: new Date("2021-06-07"),
     image: "/images/dsb_season_3_banner.webp",
     divisions: [
         {
@@ -404,10 +412,11 @@ export const DSB_SEASON_3:ArchiveSeason = {
 }
 
 // 2021.10.09
-export const DSB_LEAGUE_RUSH_1:ArchiveTourney = {
+const DSB_LEAGUE_RUSH_1:ArchiveTourney = {
     name: "DSB League Rush",
     type: ArchiveType.OFF_SEASON,
-    date: "09.10.2021",
+    start: new Date("2021-10-09"),
+    end: new Date("2021-10-09"),
     image: "/images/dsb_league_rush.webp",
     brackets: [
         {
@@ -446,10 +455,11 @@ export const DSB_LEAGUE_RUSH_1:ArchiveTourney = {
 }
 
 //2021.10.23
-export const STRIKING_TOURNEY_1:ArchiveTourney = {
+const STRIKING_TOURNEY_1:ArchiveTourney = {
     name: "Striking Turnier",
     type: ArchiveType.OFF_SEASON,
-    date: "23.10.2021",
+    start: new Date("2021-10-23"),
+    end: new Date("2021-10-23"),
     image: "/images/dsb_striking_tourney.webp",
     brackets: [
         {
@@ -469,10 +479,11 @@ export const STRIKING_TOURNEY_1:ArchiveTourney = {
 }
 
 // 2021.10.30
-export const DSB_PRINCESS_TOWER_1:ArchiveTourney = {
+const DSB_PRINCESS_TOWER_1:ArchiveTourney = {
     name: "DSB Princess Tower",
     type: ArchiveType.OFF_SEASON,
-    date: "30.10.2021",
+    start: new Date("2021-10-30"),
+    end: new Date("2021-10-30"),
     image: "/images/dsb_princess_tower.webp",
     brackets: [
         {
@@ -502,10 +513,11 @@ export const DSB_PRINCESS_TOWER_1:ArchiveTourney = {
 }
 
 // 2021.11.13
-export const DSP_3:ArchiveTourney = {
+const DSP_3:ArchiveTourney = {
     name: "Deutscher Splatoon Pokal 3",
     type: ArchiveType.DSP,
-    date: "13.11.2021",
+    start: new Date("2021-11-13"),
+    end: new Date("2021-11-13"),
     image: "/images/dsb_dsp_3.webp",
     brackets: [
         {
@@ -535,10 +547,11 @@ export const DSP_3:ArchiveTourney = {
 }
 
 // 2021.11.22 - 2022.02.20
-export const DSB_SEASON_4:ArchiveSeason = {
+const DSB_SEASON_4:ArchiveSeason = {
     name: "DSB Season 4",
     type: ArchiveType.DSB_SEASON,
-    date: "22.11.2021 - 20.02.2022",
+    start: new Date("2021-11-22"),
+    end: new Date("2022-02-20"),
     image: "/images/dsb_season_4_banner.webp",
     divisions: [
         {
@@ -618,10 +631,11 @@ export const DSB_SEASON_4:ArchiveSeason = {
 }
 
 //2022.04.02
-export const KING_PROTECTION_1:ArchiveTourney = {
+const KING_PROTECTION_1:ArchiveTourney = {
     name: "King Protection",
     type: ArchiveType.OFF_SEASON,
-    date: "02.04.2022",
+    start: new Date("2022-04-02"),
+    end: new Date("2022-04-02"),
     image: "/images/dsb_king_protection.webp",
     brackets: [
         {
@@ -651,10 +665,11 @@ export const KING_PROTECTION_1:ArchiveTourney = {
 }
 
 // 2022.04.09
-export const PAYLOAD_1:ArchiveTourney = {
+const PAYLOAD_1:ArchiveTourney = {
     name: "DSB Payload",
     type: ArchiveType.OFF_SEASON,
-    date: "09.04.2022",
+    start: new Date("2022-04-09"),
+    end: new Date("2022-04-09"),
     image: "/images/dsb_payload.webp",
     brackets: [
         {
@@ -684,10 +699,11 @@ export const PAYLOAD_1:ArchiveTourney = {
 }
 
 // 2022.04.30
-export const DSP_4:ArchiveTourney = {
+const DSP_4:ArchiveTourney = {
     name: "Deutscher Splatoon Pokal 4",
     type: ArchiveType.DSP,
-    date: "30.04.2022",
+    start: new Date("2022-04-30"),
+    end: new Date("2022-04-30"),
     image: "/images/dsb_dsp_4.webp",
     brackets: [
         {
@@ -717,10 +733,11 @@ export const DSP_4:ArchiveTourney = {
 }
 
 // 2022.05.09 - 2022.07.03
-export const DSB_SEASON_5:ArchiveSeason = {
+const DSB_SEASON_5:ArchiveSeason = {
     name: "DSB Season 5",
     type: ArchiveType.DSB_SEASON,
-    date: "09.05. - 03.07.2022",
+    start: new Date("2022-05-09"),
+    end: new Date("2022-07-03"),
     image: "/images/dsb_season_5_banner.webp",
     divisions: [
         {
@@ -800,10 +817,11 @@ export const DSB_SEASON_5:ArchiveSeason = {
 }
 
 //2022.10.10 - 2022.12.04
-export const DSB_SEASON_6:ArchiveSeason = {
+const DSB_SEASON_6:ArchiveSeason = {
     name: "DSB Season 6",
     type: ArchiveType.DSB_SEASON,
-    date: "10.10. - 04.12.2022",
+    start: new Date("2022-10-10"),
+    end: new Date("2022-12-04"),
     image: "/images/dsb_season_6_banner.webp",
     divisions: [
         {
@@ -883,10 +901,11 @@ export const DSB_SEASON_6:ArchiveSeason = {
 }
 
 // 2022.07.09
-export const STRIKING_TOURNEY_2:ArchiveTourney = {
+const STRIKING_TOURNEY_2:ArchiveTourney = {
     name: "Striking Turnier: Special Edition",
     type: ArchiveType.OFF_SEASON,
-    date: "09.07.2022",
+    start: new Date("2022-07-09"),
+    end: new Date("2022-07-09"),
     image: "/images/dsb_striking_tourney.webp",
     brackets: [
         {
@@ -906,10 +925,11 @@ export const STRIKING_TOURNEY_2:ArchiveTourney = {
 }
 
 //2023.04.24 - 2023.06.18
-export const DSB_SEASON_7:ArchiveSeason = {
+const DSB_SEASON_7:ArchiveSeason = {
     name: "DSB Season 7",
     type: ArchiveType.DSB_SEASON,
-    date: "24.04. - 18.06.2023",
+    start: new Date("2023-04-24"),
+    end: new Date("2023-06-18"),
     image: "/images/dsb_season_7_banner.webp",
     divisions: [
         {
@@ -979,7 +999,7 @@ export const DSB_SEASON_7:ArchiveSeason = {
         {
             id: 9,
             name: "Seeding Turnier",
-            url: "https://challonge.com/de/DSBS6Seeding",
+            url: "https://challonge.com/de/DSBS7Seeding",
             show: false,
             showUrl: true,
             links: []
@@ -1020,7 +1040,89 @@ export const DSB_SEASON_7:ArchiveSeason = {
     links: []
 }
 
+const SHOPPING_SPREE_1:ArchiveTourney = {
+    name: "Shopping Spree",
+    type: ArchiveType.OFF_SEASON,
+    start: new Date("2023-09-02"),
+    end: new Date("2023-09-02"),
+    image: "/images/dsb_placeholder.webp", //TODO
+    brackets: [
+        {
+            id: 1,
+            name: null,
+            url: "https://challonge.com/de/DSBShoppingspree",
+            winners: [
+                "Star Mangos",
+                "ROARRR",
+                "Utopia"
+            ],
+            show: true,
+            showUrl: true
+        }
+    ],
+    links: []
+}
+
+const DSP_5:ArchiveTourney = {
+    name: "Deutscher Splatoon Pokal 5",
+    type: ArchiveType.DSP,
+    start: new Date("2023-09-30"),
+    end: new Date("2023-09-30"),
+    image: "/images/dsb_dsp_5.webp",
+    brackets: [
+        {
+            id: 1,
+            name: null,
+            url: "https://challonge.com/de/DeutscherSplatoonPokal5",
+            winners: [
+                "eeveelution",
+                "Tango Mango Rambo",
+                "We lack Splashdown"
+            ],
+            show: true,
+            showUrl: true
+        }
+    ],
+    links: []
+}
+
+const DSB_BUNDESLAENDER_BRAWL_2:ArchiveTourney = {
+    name: "DSB Bundesländer Brawl 2",
+    type: ArchiveType.OFF_SEASON,
+    start: new Date("2023-10-14"),
+    end: new Date("2023-10-15"),
+    image: "/images/dsb_bundeslaender_brawl_2.webp",
+    brackets: [
+        {
+            id: 1,
+            name: "Alpha Bracket",
+            url: "https://challonge.com/de/BundeslaenderBrawl2",
+            winners: [
+                "Bayern 5",
+                "Sachsen",
+                "Hessen & NRW"
+            ],
+            show: true,
+            showUrl: true
+        },
+        {
+            id: 2,
+            name: "Beta Bracket",
+            url: "https://challonge.com/de/Bundesl%C3%A4nderBrawl2Beta", //TODO
+            winners: [
+                "Baden-Württemberg 2",
+            ],
+            show: true,
+            showUrl: true
+        }
+    ],
+    links: []
+}
+
 export const DATA_ARCHIVE = [
+    DSB_BUNDESLAENDER_BRAWL_2,
+    DSP_5,
+    SHOPPING_SPREE_1,
     DSB_SEASON_7,
     DSB_SEASON_6,
     STRIKING_TOURNEY_2,
@@ -1041,4 +1143,7 @@ export const DATA_ARCHIVE = [
     DSP_1,
     DSB_SPLATFEST_1,
     DSB_SEASON_1
-]
+].sort((a1, a2) => {
+    // @ts-ignore
+    return a2.start - a1.start
+})

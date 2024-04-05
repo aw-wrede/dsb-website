@@ -1,16 +1,18 @@
 import {Localization} from "../../interfaces/StaffData";
 import CalendarData, {CalendarEntry} from "../../interfaces/CalendarData";
 
-export function dateToString(date:Date, displayYear:boolean = true, local:Localization = Localization.German) {
+export function dateToString(date:Date, displayYear:boolean = true, local:Localization = Localization.German):string {
+    const month = date.getMonth() + 1
+
     switch (local) {
         case Localization.German:
-            return `${date.getDate().toString().padStart(2, '0')}.${date.getMonth().toString().padStart(2, '0')}.${displayYear ? date.getFullYear().toString() : ''}`
+            return `${date.getDate().toString().padStart(2, '0')}.${month.toString().padStart(2, '0')}.${displayYear ? date.getFullYear().toString() : ''}`
         case Localization.English:
         default:
-            return `${date.getMonth().toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}.${displayYear ? date.getFullYear().toString() : ''}`
+            return `${month.toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}.${displayYear ? date.getFullYear().toString() : ''}`
     }
 }
-export function getWeekdaysShortLocalized(locale:Localization) {
+export function getWeekdaysShortLocalized(locale:Localization):string[] {
     switch (locale) {
         case Localization.German:
             return ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
@@ -21,7 +23,7 @@ export function getWeekdaysShortLocalized(locale:Localization) {
     }
 }
 
-export function getMonthLocalized(date:Date, locale:Localization) {
+export function getMonthLocalized(date:Date, locale:Localization):string {
     switch (locale) {
         case Localization.German:
             switch (date.getMonth()) {
@@ -67,7 +69,7 @@ export function getDayOfWeekConverted(date:Date):number {
     }
 }
 
-export function getDaysInMonth (month, year) {
+export function getDaysInMonth (month:number, year:number):number {
     return new Date(year, month+1, 0).getDate();
 }
 
@@ -166,6 +168,8 @@ export function mapCalendarsToEntryList(calendar:CalendarData[]) {
     let list:CalendarEntry[] = []
     calendar.forEach(c => {
         c.calendarEntries.forEach(e => {
+            if(e.colorHex == null)
+                e.colorHex = c.colorHex
             list.push(e)
         })
     })

@@ -22,7 +22,7 @@ export default function HomeSocialsComponent() {
                     <p>Tritt jetzt unserem Discord-Server bei, um keine Events mehr zu verpassen und an Turnieren teilzunehmen.</p>
                     <p>Falls du noch kein Team hast oder Spieler für deines benötigst, kannst du einfach unter <i>{DISCORD_LOOKING_FOR_CHANNEL_TEAM}</i> ein Team bzw. unter <i>{DISCORD_LOOKING_FOR_CHANNEL_PLAYER}</i> Spieler finden.</p>
                 </div>
-                <DiscordObject href={DISCORD_LINK} />
+                <DiscordObject href={DISCORD_LINK} additionalInfo={`${TEAMS_LAST_SEASON} Teams letzte Season`} />
             </div>
             <div>
                 <div className="info-text">
@@ -42,14 +42,14 @@ export default function HomeSocialsComponent() {
     )
 }
 
-function DiscordObject({href}) {
+export function DiscordObject({href, additionalInfo}) {
     return (
         <div className="social-discord-box">
             <div className="discord-server-info">
                 <img className="discord-server-logo" src="/images/dsb-logo-256.webp" alt=""/>
                 <div className="discord-info-text">
                     <p className="dc-main">{DISCORD_NAME}</p>
-                    <p className="dc-weak">{`${TEAMS_LAST_SEASON} Teams letzte Season`}</p>
+                    <p className="dc-weak">{additionalInfo}</p>
                 </div>
             </div>
             <div className="discord-join-button">

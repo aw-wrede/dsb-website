@@ -7,7 +7,7 @@ import {
 } from "./calendarFunctions";
 
 import './calendarComponentStyle.sass'
-import {Component, useEffect, useState} from "react";
+import React, {Component, useEffect, useState} from "react";
 import CalendarData, {CalendarEntry} from "../../interfaces/CalendarData";
 import {Localization} from "../../interfaces/StaffData";
 
@@ -15,6 +15,11 @@ export default function CalendarComponent({calendarData, locale, markToday}) {
 
     const [calendarScopeDate, setCalendarScopeDate]:[Date, any] = useState(new Date())
     const [calendarTable, setCalendarTable]:[Date[][], any] = useState([])
+
+    // if calendar data not yet loaded, it is null
+    if(calendarData == null) {
+        calendarData = []
+    }
 
     useEffect(() => {
         setCalendarTable(getCalendarDaysOfMonth(calendarScopeDate))
@@ -179,31 +184,34 @@ function getPastEvents(calendarData:CalendarData[]) {
     return currentCalendarData
 }
 
-export class CalendarListComponent extends Component<{ calendarData: CalendarData[], locale: Localization, markToday: boolean }> {
+export class CalendarListComponent extends Component<{ calendarData: CalendarData[]|null, locale: Localization, markToday: boolean }> {
+
     render() {
         let {calendarData, locale, markToday} = this.props;
 
-        /*
-        calendarData.forEach(calendar => {
-            calendar.calendarEntries.sort((e1, e2) => {
-                const date1 = new Date(e1.startTime)
-                const date2 = new Date(e2.startTime)
-                // @ts-ignore
-                return date2 - date1
-            })
-        })*/
+        const calendarLoaded = calendarData != null
+        if(calendarData == null) {
+            calendarData = []
+        }
+
+        function cssEntryStyle(entry:CalendarEntry):React.CSSProperties {
+            return {"--entry-color": entry.colorHex} as React.CSSProperties
+        }
 
         const displayData = [
             {
                 title: "Aktuelle Events",
+                placeholder: "Aktuell finden keine Events statt.",
                 content: mapCalendarsToEntryList(getCurrentEvents(calendarData))
             },
             {
                 title: "Zukünftige Events",
+                placeholder: "Aktuell sind keine Events geplant.",
                 content: mapCalendarsToEntryList(getFutureEvents(calendarData))
             },
             {
                 title: "Vergangene Events",
+                placeholder: "",
                 content: mapCalendarsToEntryList(getPastEvents(calendarData))
             }
         ]
@@ -218,17 +226,28 @@ export class CalendarListComponent extends Component<{ calendarData: CalendarDat
             })
         })
 
+        function CalendarListEntry(entry:CalendarEntry) {
+            const content = (
+                <><p>{entry.name}</p><p>{dateRangeToString(new Date(entry.startTime), new Date(entry.endTime))}</p></>
+            )
+
+            return (
+                <div key={entry.name} className="calendar-entry" style={cssEntryStyle(entry)}>
+                    {entry.locationUrl != null ? (<a href={entry.locationUrl} target="_blank" rel="noreferrer">{content}</a>) : content}
+                </div>
+            )
+        }
+
         return (
             <div className="calendar-list-container">
                 {displayData.map(data => (
                     <div key={data.title} className="calendar-list-elem">
                         <h1>{data.title}</h1>
-                        {data.content.map((entry => (
-                            <div key={entry.name} className="calendar-entry">
-                                <p>{entry.name}</p>
-                                <p>{dateRangeToString(new Date(entry.startTime), new Date(entry.endTime))}</p>
-                            </div>
-                        )))}
+                        {!calendarLoaded ? (<p className="calendar-list-placeholder">Wird geladen...</p>) : null}
+                        {calendarLoaded && data.content.length === 0 ? (<p className="calendar-list-placeholder">{data.placeholder}</p>) : null}
+                        {data.content.map((entry => 
+                            CalendarListEntry(entry)))
+                        }
                     </div>
                 ))}
 
@@ -260,17 +279,22 @@ class CalendarDateEntries extends Component<{ calendarTable: Date[][], calendarD
         })
 
         if(allEvents.length === 0) return (<div></div>)
+        
+        function Entry(event:CalendarEntry, index:number) {
+            const content = (
+                <div key={index} className={
+                    `date-entry ${calendarEntryIsBeginning(event, date) ? "entry-beginning" : ""} ${calendarEntryIsEnding(event, date) ? "entry-ending" : ""}`
+                } style={{background: event.colorHex ?? "none"}}
+                >
+                    <p className={!calendarEntryShouldDisplayName(calendarTable, event, date) ? "hide-name" : ""}>{event.name}</p>
+                </div>
+            )
+            return event.locationUrl != null ? (<a key={index} href={event.locationUrl} target="_blank" rel="noreferrer">{content}</a>) : content
+        }
 
         return (
             <div className="date-entries">
-                {allEvents.map((event, index) => (
-                    <div key={index} className={
-                        `date-entry ${calendarEntryIsBeginning(event, date) ? "entry-beginning" : ""} ${calendarEntryIsEnding(event, date) ? "entry-ending" : ""}`
-                        } style={{background: event.colorHex?? "none"}}
-                    >
-                        <p className={!calendarEntryShouldDisplayName(calendarTable, event, date) ? "hide-name" : ""}>{event.name}</p>
-                    </div>
-                ))}
+                {allEvents.map((event, index) => Entry(event, index))}
             </div>
         )
     }

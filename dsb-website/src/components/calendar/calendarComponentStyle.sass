@@ -97,20 +97,12 @@ $calendarBorderStyle: 0.1rem solid #fff
   .calendar-list-elem
     position: relative
     border-top: 0.1rem solid var(--color)
-    &:before
-      content: ''
-      position: absolute
-      top: 1rem
-      left: 2rem
-      width: 0.2rem
-      height: calc(100% - 1rem)
-      background: $calendarColor
     &:first-child
       border-top: none
     .calendar-entry
       position: relative
-      margin: 0 0 2rem 0
-      &:before
+      padding: 0 0 2rem 0
+      &:after
         content: ''
         position: absolute
         top: 0.4rem
@@ -118,5 +110,18 @@ $calendarBorderStyle: 0.1rem solid #fff
         width: 1rem
         height: 1rem
         border-radius: 1rem
-        background: $calendarColor
+        background: $calendarColor //var(--entry-color)
         transform: translate(-50%, 0)
+  .calendar-list-elem:before, .calendar-list-elem .calendar-entry:before
+    content: ''
+    position: absolute
+    top: 0.4rem
+    left: 2rem
+    width: 0.2rem
+    height: 100%
+    background: var(--entry-color)
+  .calendar-list-placeholder
+    margin: 0 0 1.2rem 0
+  .calendar-list-elem  .calendar-entry:last-child:before
+    height: calc(100% - 1.5rem)
+

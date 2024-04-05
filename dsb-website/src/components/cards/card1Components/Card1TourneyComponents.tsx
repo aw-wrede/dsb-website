@@ -7,6 +7,7 @@ import {
     ShowableUrlElement
 } from "../../../interfaces/ArchiveData";
 import {SocialMediaData} from "../../../interfaces/StaffData";
+import {dateRangeToString} from "../../calendar/calendarFunctions";
 
 const BRACKET_URL_LIST_HEADLINE:string = "Vollständige Turnierbäume"
 const DIVISION_URL_LIST_HEADLINE:string = "Weitere Turnierbäume"
@@ -137,7 +138,7 @@ class Card1TourneyInfo extends Component<{ data:ArchiveData }> {
             <div className="card1-tourney-info-container">
                 <div className="card1-info">
                     <p className="t-name">{data.name}</p>
-                    <p className="t-date">{data.date}</p>
+                    <p className="t-date">{dateRangeToString(data.start, data.end)}</p>
                 </div>
             </div>
         )

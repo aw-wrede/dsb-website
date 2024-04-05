@@ -3,7 +3,8 @@ import {SocialMediaData} from "./StaffData";
 export interface ArchiveData {
     name:string
     type:ArchiveType
-    date:string
+    start:Date
+    end:Date
     image:string
     links:ShowableUrlElement[]
 }

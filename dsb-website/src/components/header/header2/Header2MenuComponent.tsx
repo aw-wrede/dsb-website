@@ -1,6 +1,7 @@
 import "./header2MenuStyle.sass"
 import {Component, useEffect, useState} from "react";
 import {
+    IS_A_CURRENT_SEASON,
     SITE_ARCHIVE_URL,
     SITE_CALENDAR_URL,
     SITE_HOME_URL,
@@ -27,10 +28,10 @@ export default function Header2MenuComponent({activeSite}) {
 
     return (
         <header className={`header-container ${scrollPosition > 0 || opened ? "with-bg" : ""}`}>
-            <div className="header-brand">
+            <a href="/" className="header-brand">
                 <h1 className="brand-text">{HEADER_TITLE}</h1>
                 <img className="brand-logo" src="/images/dsb-logo-256.webp" alt=""/>
-            </div>
+            </a>
             <div className="header-menu">
                 <div className="mobile-menu-button" onClick={() => setOpened(!opened)}>
                     <span className="menu-button-icon material-icons">menu</span>
@@ -38,7 +39,7 @@ export default function Header2MenuComponent({activeSite}) {
                 <ul className={`menu-list ${opened ? "open" : ""}`}>
                     <MenuElement activeSite={activeSite} siteUrl={SITE_HOME_URL} />
                     <MenuElement activeSite={activeSite} siteUrl={SITE_TEAM_URL} />
-                    {/* <MenuElement activeSite={activeSite} siteUrl={SITE_SEASON_URL} /> */}
+                    {IS_A_CURRENT_SEASON ? <MenuElement activeSite={activeSite} siteUrl={SITE_SEASON_URL} /> : null}
                     { /*<MenuElement activeSite={activeSite} siteUrl={SITE_CALENDAR_URL} /> */}
                     <MenuElement activeSite={activeSite} siteUrl={SITE_ARCHIVE_URL} />
                 </ul>

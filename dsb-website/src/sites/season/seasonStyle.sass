@@ -1,12 +1,16 @@
 $color: #fff
-$header-font-size: 2rem
+$header-font-size: 4rem
+$header-font-size_mobile: 2rem
 
 $small-font-size: 1.0rem
 
 $max-width-banner: 100rem
 $max-width-content: 150rem
 
+
 .main-content
+  .container
+    min-height: 79vh
   .season-banner
     width: 100%
     max-width: $max-width-banner
@@ -15,9 +19,16 @@ $max-width-content: 150rem
     img
       border-radius: 2rem
       width: 100%
+  .current-season-header
+    margin: 4rem 0 0 0
   .current-season
     max-width: $max-width-content
     margin: 0 auto
+    p
+      font-size: 1.6rem
+    .social-discord-box
+      width: 90%
+      margin: 2rem auto 0 auto
   .current-season-header
     padding: 0 0 2rem 0
     h1
@@ -43,8 +54,11 @@ $max-width-content: 150rem
   .main-content
     .no-current-season
       min-height: calc(100vh - 9.5rem - 7.8rem - 5rem)
+    .current-season-header
+      h1
+        font-size: $header-font-size_mobile
 
-@media (max-width: 530px)
+//@media (max-width: 530px)
   .current-season
     .card2-container
       .card2
