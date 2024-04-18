@@ -21,11 +21,11 @@ public class DsbCalendarController : PublicDataDatabaseController<DsbCalendarCon
             foreach (var calendar in calendars.Where(cal => !Instance.Collection.FindSync(new MongoDB.Driver.ExpressionFilterDefinition<DsbCalendar>(collectionCal => collectionCal.Name == cal.Name)).Any()))
             {
                 Logger.Info($"Adding calendar '{calendar.Name}' to database");
-                Instance.InsertOne(calendar);
+                InsertOne(calendar);
             }
         }
 
-        private static IEnumerable<DsbCalendar> GetDefaultCalendars()
+        private static List<DsbCalendar> GetDefaultCalendars()
         {
             var list = new List<DsbCalendar>();
 

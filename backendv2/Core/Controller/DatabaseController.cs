@@ -33,7 +33,12 @@ public abstract class DatabaseController<TController, T> : IdentifiedController<
             return false;
         }
     }
-        
+
+    public bool DeleteOne(long id)
+    {
+        return Collection.DeleteOne(t => t.Id == id).DeletedCount == 1;
+    }
+    
     public bool UpdateOneComplete(T t)
     {
         return Collection.ReplaceOne(x => x.Id.Equals(t.Id), t).ModifiedCount > 0;

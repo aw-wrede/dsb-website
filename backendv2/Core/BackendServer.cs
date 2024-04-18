@@ -1,11 +1,15 @@
 ﻿using Commons;
 using Commons.Configuration;
+using Commons.Localization;
 using Core.Configuration;
 using Core.Controller;
 using Core.Data.Calendar;
+using Core.Data.Casting.TourneyMap;
 using Core.Data.UploadedFile;
 using Core.Data.User;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
 namespace Core;
@@ -50,15 +54,16 @@ public class BackendServer : Singleton<BackendServer>
         Logger.Info($"Database: Using Database '{config.Database}'");
     }
     
-    private void RegisterSerializer()
+    private static void RegisterSerializer()
     {
-        //BsonSerializer.RegisterSerializer(new EnumSerializer<Localization>(BsonType.String));
+        BsonSerializer.RegisterSerializer(new EnumSerializer<Localization>(BsonType.String));
     }
     
-    private void RegisterController()
+    private static void RegisterController()
     {
         DsbCalendarController.Instance.OnStartup();
         AppUserController.Instance.OnStartup();
         UploadedFileController.Instance.OnStartup();
+        TourneyMapController.Instance.OnStartup();
     }
 }

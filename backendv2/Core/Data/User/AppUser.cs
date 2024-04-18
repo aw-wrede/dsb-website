@@ -1,4 +1,6 @@
-﻿using Core.Controller;
+﻿using System.Text.Json.Serialization;
+using Commons.Utils;
+using Core.Controller;
 using Core.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -13,8 +15,20 @@ public class AppUser : IPublicIdentified
     public string Name { get; set; }
     public string DisplayName { get; set; }
     public AppUserGroup UserGroup { get; set; }
+    [JsonIgnore]
     public AppUserCredentials? Credentials { get; set; }
+    [JsonIgnore]
     public List<AppUserSessionData> SessionData { get; set; } = [];
+    
+    public AppUser() {}
+
+    public AppUser(string name, string displayName, string password)
+    {
+        Uuid = UuidGenerator.GenerateUuid();
+        Name = name;
+        DisplayName = displayName;
+        Credentials = AppUserCredentials.Create(password, true);
+    }
     
     public bool VerifyLoginAttempt(string password)
     {

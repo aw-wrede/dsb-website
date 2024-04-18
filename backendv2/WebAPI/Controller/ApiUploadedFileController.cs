@@ -4,6 +4,7 @@ using Core.Data.Casting.TourneyTeam;
 using Core.Data.UploadedFile;
 using Core.Data.User;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Models;
 using WebAPI.Utils;
 
 namespace WebAPI.Controller;
@@ -14,14 +15,14 @@ public class ApiUploadedFileController : ControllerBase
 {
     [HttpGet]
     [Route("{fileName}")]
-    public ActionResult Get([FromRoute] string fileName, [FromHeader] string apiToken)
+    public ActionResult Get([FromRoute] string fileName, string apiToken)
     {
         if (string.IsNullOrEmpty(fileName) || string.IsNullOrEmpty(apiToken))
         {
             return BadRequest();
         }
 
-        if (!ApiAuthUtils.IsAuth(apiToken, out var user))
+        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Default, out var user))
         {
             return Unauthorized();
         }
@@ -43,19 +44,14 @@ public class ApiUploadedFileController : ControllerBase
 
     [HttpPost]
     [Route("uploadTeamLogo")]
-    public async Task<ActionResult> Upload(IFormFile formFile, [FromForm] string teamUuid, [FromHeader] string apiToken)
+    public async Task<ActionResult> Upload(IFormFile formFile, [FromForm] string teamUuid, [FromHeader] ApiSessionData sessionData)
     {
-        if (string.IsNullOrEmpty(apiToken) || formFile.Length == 0 ||string.IsNullOrEmpty(teamUuid))
+        if (formFile.Length == 0 ||string.IsNullOrEmpty(teamUuid))
         {
             return BadRequest();
         }
 
-        if (!ApiAuthUtils.IsAuth(apiToken, out var user))
-        {
-            return Unauthorized();
-        }
-
-        if (user.UserGroup < AppUserGroup.Privileged)
+        if (!ApiAuthUtils.IsAuth(sessionData, accessLevel: AppUserGroup.Privileged, out var user))
         {
             return Unauthorized();
         }

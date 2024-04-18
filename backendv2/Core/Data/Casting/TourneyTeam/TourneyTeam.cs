@@ -20,4 +20,12 @@ public class TourneyTeam : IPublicIdentified
     public UploadedFileReference? TeamLogo { get; set; }
     [BsonIgnore]
     public string TeamLogoUrl => TeamLogo?.Reference?.CreateUrl() ?? string.Empty;
+
+    public bool TryUpdate(string name, List<string> members)
+    {
+        Name = name;
+        Members = members;
+
+        return TourneyTeamController.Instance.UpdateOneComplete(this);
+    }
 }
