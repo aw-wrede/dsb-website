@@ -12,6 +12,20 @@ namespace WebAPI.Controller;
 [Route("api/team")]
 public class ApiTourneyTeamController : ControllerBase
 {
+
+    [HttpGet]
+    [Route("getall")]
+    public ActionResult GetAll(string apiToken)
+    {
+        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Default, out var user))
+        {
+            return Unauthorized();
+        }
+
+        var teams = TourneyTeamController.Instance.GetAll();
+        return Ok(teams);
+    }
+    
     [HttpPost]
     [Route("update")]
     public ActionResult Update(string uuid, string name, string members, [FromHeader] ApiSessionData sessionData)
