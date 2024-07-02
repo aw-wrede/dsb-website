@@ -31,7 +31,7 @@ public class ApiAuthUtils : ControllerBase
 
     public static bool IsAuth(ApiSessionData sessionData, AppUserGroup accessLevel, out AppUser? user)
     {
-        if (AppUserController.Instance.CheckSessionToken(sessionData.uuid, sessionData.SessionToken, out user))
+        if (AppUserController.Instance.CheckSessionToken(sessionData.Uuid, sessionData.SessionToken, out user))
         {
             if (user?.UserGroup >= accessLevel)
             {

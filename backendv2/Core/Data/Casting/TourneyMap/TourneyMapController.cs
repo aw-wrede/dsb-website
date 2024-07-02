@@ -1045,10 +1045,10 @@ public class TourneyMapController : DatabaseController<TourneyMapController, Tou
                 { Localization.English, "Marlin Airport"},
                 { Localization.Japanese, "カジキ空港" },
                 { Localization.Dutch, "Trekvis Airport" },
-                { Localization.French, " \tTerminal Rorqual" },
+                { Localization.French, " Terminal Rorqual" },
                 { Localization.German, "La Ola Airport" },
                 { Localization.Italian, "Aeroporto Ondabianca" },
-                { Localization.Russian, " \tАэропорт Пенково" },
+                { Localization.Russian, " Аэропорт Пенково" },
                 { Localization.Spanish, "Aeropuerto Marlín" },
                 { Localization.Chinese , "旗魚機場"},
                 {Localization.Korean, "청새치 공항"}
@@ -1057,6 +1057,28 @@ public class TourneyMapController : DatabaseController<TourneyMapController, Tou
         });
         #endregion
         
+        #region Lemuria Hub
+        list.Add(new TourneyMap()
+        {
+            MapIdentifier = TourneyMapType.LemuriaHub,
+            GameVersion = TourneyGameVersion.Splatoon3,
+            Name = "Lemuria Hub",
+            LocalizedNames = new Dictionary<Localization, string>
+            {
+                { Localization.English, "Lemuria Hub"},
+                { Localization.Japanese, "リュウグウターミナル" },
+                { Localization.Dutch, "Lemurië Centraal" },
+                { Localization.French, "Gare Aiguillat" },
+                { Localization.German, "Bahnhof Lemuria" },
+                { Localization.Italian, "Stazione Lemuria" },
+                { Localization.Russian, "Вокзал Лемурия" },
+                { Localization.Spanish, "Terminal Dragón" },
+                { Localization.Chinese , "龙宫转运站"},
+                {Localization.Korean, "용궁 터미널"}
+            },
+            ThumbnailImageLink = $"{mapWebDirectory}{TourneyGameVersion.Splatoon3}/{TourneyMapType.LemuriaHub.ToString()}.webp"
+        });
+        #endregion
         #endregion
         
         return list;

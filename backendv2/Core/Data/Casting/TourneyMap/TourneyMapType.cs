@@ -51,5 +51,6 @@ public enum TourneyMapType
     ShipshapeCargoCo = 43,
     RoboRom = 44,
     BluefinDepotSpl3 = 45,
-    MarlinAirport = 46
+    MarlinAirport = 46,
+    LemuriaHub = 47
 }

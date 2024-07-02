@@ -1,7 +1,11 @@
-﻿namespace WebAPI.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace WebAPI.Models;
 
 public class ApiSessionData
 {
-    public string uuid { get; set; }
+    [FromHeader]
+    public string Uuid { get; set; }
+    [FromHeader]
     public string SessionToken { get; set; }
 }

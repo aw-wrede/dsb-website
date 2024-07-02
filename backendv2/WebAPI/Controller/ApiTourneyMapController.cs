@@ -13,7 +13,7 @@ public class ApiTourneyMapController : ControllerBase
     [Route("getall")]
     public ActionResult GetAll(string apiToken)
     {
-        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Default, out var user))
+        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Default, out _))
         {
             return Unauthorized();
         }

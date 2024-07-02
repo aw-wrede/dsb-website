@@ -40,6 +40,18 @@ public class AppUser : IPublicIdentified
         return SessionData.Any(sessionData => sessionData.Verify(token));
     }
 
+    public bool RemoveSessionToken(string token)
+    {
+        var session = SessionData.FirstOrDefault(s => s?.SessionToken == token, null);
+        if (session == null)
+        {
+            return false;
+        }
+
+        SessionData.Remove(session);
+        return true;
+    }
+    
     public AppUserSessionData CreateNewSessionData()
     {
         // Remove invalid session data to free space (validity is checked independently from this)

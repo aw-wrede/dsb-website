@@ -38,6 +38,28 @@ public class ApiAppUserController : ControllerBase
     }
 
     [HttpPost]
+    [Route("logout")]
+    public ActionResult Logout([FromHeader] ApiSessionData sessionData)
+    {
+        if (!ApiAuthUtils.IsAuth(sessionData, accessLevel: AppUserGroup.Privileged, out var user))
+        {
+            return Unauthorized();
+        }
+
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+        
+        if (!user.RemoveSessionToken(sessionData.SessionToken)) 
+            return StatusCode(500);
+        
+        AppUserController.Instance.UpdateOneComplete(user);
+        return Ok();
+
+    }
+    
+    [HttpPost]
     [Route("create")]
     public ActionResult Create([FromBody] UserCreateRequest req, [FromHeader] ApiSessionData sessionData)
     {

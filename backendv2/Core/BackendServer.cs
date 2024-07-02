@@ -4,6 +4,7 @@ using Commons.Localization;
 using Core.Configuration;
 using Core.Controller;
 using Core.Data.Calendar;
+using Core.Data.Casting.OverlayTemplate;
 using Core.Data.Casting.TourneyMap;
 using Core.Data.UploadedFile;
 using Core.Data.User;
@@ -65,5 +66,6 @@ public class BackendServer : Singleton<BackendServer>
         AppUserController.Instance.OnStartup();
         UploadedFileController.Instance.OnStartup();
         TourneyMapController.Instance.OnStartup();
+        OverlayTemplateController.Instance.OnStartup();
     }
 }
