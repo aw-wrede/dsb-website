@@ -1,10 +1,22 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using CryptSharp;
+using CryptSharp.Utility;
 
 namespace Commons.Utils;
 
 public static class HashingUtils
 {
+    public static string HashPassword(string password)
+    {
+        return Crypter.Blowfish.Crypt(password);
+    }
+
+    public static bool CheckPassword(string password, string hash)
+    {
+        return Crypter.CheckPassword(password, hash);
+    }
+    
     public static string Hash(string input)
     {
         var bytes = SHA512.HashData(Encoding.UTF8.GetBytes(input));
