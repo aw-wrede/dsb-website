@@ -10,4 +10,18 @@ public class TourneyTeamController : PublicDataDatabaseController<TourneyTeamCon
     {
         base.OnStartup();
     }
+
+    public TourneyTeamReference GetReference(TourneyTeam team)
+    {
+        return new TourneyTeamReference()
+        {
+            ReferenceId = team.Id
+        };
+    }
+
+    public TourneyTeamReference? GetReference(string uuid)
+    {
+        return TryGetByUuid(uuid, out var team) ? GetReference(team) : null;
+    }
+    
 }

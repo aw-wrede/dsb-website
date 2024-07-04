@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using Core.Controller;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Core.Data.Casting.TourneyTeam;
 
@@ -8,6 +9,7 @@ public class TourneyTeamReference : IMapped
     [JsonIgnore]
     public long ReferenceId { get; set; }
     
+    [BsonIgnore]
     public TourneyTeam? Reference
     {
         get
@@ -20,7 +22,7 @@ public class TourneyTeamReference : IMapped
         }
     }
     
-    
+    [BsonIgnore]
     private TourneyTeam? _reference;
     
     private TourneyTeam? GetReference()

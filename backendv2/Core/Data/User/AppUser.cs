@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Commons.Utils;
 using Core.Controller;
+using Core.Data.Casting.Overlay;
 using Core.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -19,6 +20,9 @@ public class AppUser : IPublicIdentified
     public AppUserCredentials? Credentials { get; set; }
     [JsonIgnore]
     public List<AppUserSessionData> SessionData { get; set; } = [];
+    
+    [JsonIgnore]
+    public OverlayReference? SelectedOverlay { get; set; }
     
     public AppUser() {}
 

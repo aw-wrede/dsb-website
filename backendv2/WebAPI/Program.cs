@@ -29,17 +29,10 @@ if (app.Environment.IsDevelopment())
     app.UseCors(corsAllowDevLocalhost);
 }
 
+app.UseWebSockets();
+
 BackendServer.Instance.OnStartup();
 
-//app.UseHttpsRedirection();
-/*
-app.MapGet("/api/calendar/getall", () =>
-{
-    var calendars = DsbCalendarController.Instance.GetAll();
-    return calendars;
-})
-.WithName("GetAllCalendars")
-.WithOpenApi();*/
 
 app.MapControllers();
 

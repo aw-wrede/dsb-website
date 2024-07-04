@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using Core.Controller;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Core.Data.User;
 
@@ -8,6 +9,7 @@ public class AppUserReference : IMapped
     [JsonIgnore]
     public long ReferenceId { get; set; }
 
+    [BsonIgnore]
     public AppUser? Reference
     {
         get
@@ -25,7 +27,7 @@ public class AppUserReference : IMapped
         return Reference?.UserGroup;
     }
     
-    
+    [BsonIgnore]
     private AppUser? _reference;
     
     private AppUser? GetReference()

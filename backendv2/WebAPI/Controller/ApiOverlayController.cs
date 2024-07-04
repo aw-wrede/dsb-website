@@ -1,0 +1,153 @@
+﻿using System.Text.Json.Serialization;
+using Commons;
+using Commons.Localization;
+using Commons.Utils;
+using Core.Data.Casting.Overlay;
+using Core.Data.Casting.TourneyMatch;
+using Core.Data.Casting.TourneyTeam;
+using Core.Data.User;
+using Microsoft.AspNetCore.Mvc;
+using WebAPI.Utils;
+using WebAPI.WebSockets;
+
+namespace WebAPI.Controller;
+
+[Route("api/overlay")]
+public class ApiOverlayController : ControllerBase
+{
+    [HttpGet]
+    [Route("{uuid}")]
+    public ActionResult Get(string apiToken, [FromRoute] string uuid)
+    {
+        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Normal, out _))
+        {
+            return Unauthorized();
+        }
+
+        if (!OverlayController.Instance.TryGetByUuid(uuid, out var overlay))
+        {
+            return NotFound();
+        }
+
+        return Ok(overlay);
+    }
+
+    [HttpGet]
+    [Route("select")]
+    public ActionResult Select(string apiToken, string uuid)
+    {
+        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Normal, out var user))
+        {
+            return Unauthorized();
+        }
+        
+        if (!OverlayController.Instance.TryGetByUuid(uuid, out var overlay))
+        {
+            return NotFound();
+        }
+
+        user!.SelectedOverlay = OverlayController.Instance.GetReference(overlay);
+        AppUserController.Instance.UpdateOneComplete(user);
+        ApiOverlayWebSocketController.Instance.UpdateAppUser(user);
+        return Ok(uuid);
+    }
+    
+    [HttpPut]
+    [Route("add")]
+    public ActionResult Add(string apiToken, [FromBody] OverlayRequest request)
+    {
+        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Normal, out var user))
+        {
+            return Unauthorized();
+        }
+        
+        var overlay = request.ToOverlay();
+        if (overlay == null)
+        {
+            return BadRequest();
+        }
+
+        overlay.Uuid = UuidGenerator.GenerateUuid();
+
+        if (!OverlayController.Instance.InsertOne(overlay))
+        {
+            return StatusCode(500);
+        }
+
+        return Ok(overlay);
+    }
+    
+    [HttpPost]
+    [Route("update")]
+    public ActionResult Update(string apiToken, string uuid, [FromBody] OverlayRequest request)
+    {
+        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Normal, out _))
+        {
+            return Unauthorized();
+        }
+
+        if (!OverlayController.Instance.TryGetByUuid(uuid, out var overlay))
+        {
+            return NotFound();
+        }
+
+        var newOverlay = request.ToOverlay();
+        if (newOverlay == null)
+        {
+            return BadRequest();
+        }
+
+        newOverlay.Id = overlay.Id;
+        newOverlay.Uuid = overlay.Uuid;
+
+        if (!OverlayController.Instance.UpdateOneComplete(newOverlay))
+        {
+            return StatusCode(500);
+        }
+        
+        Logger.Debug("Sending overlay update to controller");
+        ApiOverlayWebSocketController.Instance.Update(newOverlay);
+        return Ok();
+    }
+
+    public class OverlayRequest
+    {
+        public string Title { get; set; }
+        public OverlayType Type { get; set; }
+        public int MaxMatches { get; set; }
+        public TourneyMatch[] Matches { get; set; } = [];
+        public string TeamAlpha { get; set; }
+        public string TeamBeta { get; set; }
+
+        public Localization Localization { get; set; }
+        public string[] Commentators { get; set; } = [];
+        
+        public Overlay? ToOverlay()
+        {
+            var teamAlphaReference = TourneyTeamController.Instance.GetReference(TeamAlpha);
+            var teamBetaReference = TourneyTeamController.Instance.GetReference(TeamBeta);
+
+            var commentatorReferences = AppUserController.Instance.GetReferences(Commentators);
+            
+            if (teamAlphaReference == null || teamBetaReference == null || commentatorReferences == null)
+            {
+                return null;
+            }
+
+            return new Overlay()
+            {
+                Title = Title,
+                Type = Type,
+                MaxMatches = MaxMatches,
+                Matches = new LinkedList<TourneyMatch>(Matches),
+                TeamAlphaReference = teamAlphaReference,
+                TeamBetaReference = teamBetaReference,
+                Localization = Localization,
+                Commentators = commentatorReferences
+            };
+        }
+    }
+
+    
+    
+}

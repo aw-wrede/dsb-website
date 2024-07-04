@@ -91,4 +91,33 @@ public class AppUserController : PublicDataDatabaseController<AppUserController,
         return true;
     }
     
+    public AppUserReference GetReference(AppUser user)
+    {
+        return new AppUserReference()
+        {
+            ReferenceId = user.Id
+        };
+    }
+
+    public AppUserReference? GetReference(string uuid)
+    {
+        return TryGetByUuid(uuid, out var user) ? GetReference(user) : null;
+    }
+
+    public List<AppUserReference>? GetReferences(string[] uuids)
+    {
+        var list = new List<AppUserReference>();
+        foreach (var uuid in uuids)
+        {
+            var reference = GetReference(uuid);
+            if (reference == null)
+            {
+                return null;
+            }
+            list.Add(reference);
+        }
+
+        return list;
+    }
+    
 }
