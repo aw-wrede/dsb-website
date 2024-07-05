@@ -1,10 +1,10 @@
-﻿using Commons.Utils;
+﻿using Commons;
+using Commons.Utils;
 using Core;
 using Core.Data.Casting.TourneyTeam;
 using Core.Data.UploadedFile;
 using Core.Data.User;
 using Microsoft.AspNetCore.Mvc;
-using WebAPI.Models;
 using WebAPI.Utils;
 
 namespace WebAPI.Controller;
@@ -15,43 +15,39 @@ public class ApiUploadedFileController : ControllerBase
 {
     [HttpGet]
     [Route("{fileName}")]
-    public ActionResult Get([FromRoute] string fileName, string apiToken)
+    public ActionResult Get([FromRoute] string fileName, string? apiToken)
     {
-        if (string.IsNullOrEmpty(fileName) || string.IsNullOrEmpty(apiToken))
+        if (string.IsNullOrEmpty(fileName))
         {
             return BadRequest();
         }
-
-        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Default, out var user))
-        {
-            return Unauthorized();
-        }
         
         var fileUuid = Path.GetFileNameWithoutExtension(fileName);
-
         if (!UploadedFileController.Instance.TryGetByUuid(fileUuid, out var file))
         {
             return NotFound();
         }
 
-        if (file.AccessLevel > user!.UserGroup)
+        if (file.AccessLevel <= AppUserGroup.Default)
         {
-            return Forbid();
+            Logger.Debug($"{Request.HttpContext.Connection.RemoteIpAddress} file access {file.Id} ({file.Uuid})");
+            return new FileStreamResult(file.GetFileStream(), file.ContentType);
         }
 
+        if (!ApiAuthUtils.TryAuth(Request, apiToken, file.AccessLevel, out var user))
+        {
+            return Unauthorized();
+        }
+        
+        Logger.Debug($"{user!.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) file access {file.Id} ({file.Uuid})");
         return new FileStreamResult(file.GetFileStream(), file.ContentType);
     }
 
     [HttpPost]
     [Route("uploadTeamLogo")]
-    public async Task<ActionResult> Upload(IFormFile formFile, [FromForm] string teamUuid, [FromHeader] ApiSessionData sessionData)
+    public async Task<ActionResult> Upload(IFormFile formFile, [FromForm] string teamUuid, string? apiToken)
     {
-        if (formFile.Length == 0 ||string.IsNullOrEmpty(teamUuid))
-        {
-            return BadRequest();
-        }
-
-        if (!ApiAuthUtils.IsAuth(sessionData, accessLevel: AppUserGroup.Privileged, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, apiToken, AppUserGroup.Normal, out var user))
         {
             return Unauthorized();
         }
@@ -71,6 +67,7 @@ public class ApiUploadedFileController : ControllerBase
         }
         catch (Exception e)
         {
+            Logger.Exception(e);
             return StatusCode(500);
         }
 
@@ -94,6 +91,8 @@ public class ApiUploadedFileController : ControllerBase
             return StatusCode(500);
         }
 
+        Logger.Debug($"{user!.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) uploaded file {uploadedFile.Id} ({uploadedFile.Uuid})");
+        
         return Ok(uploadedFile);
     }
     

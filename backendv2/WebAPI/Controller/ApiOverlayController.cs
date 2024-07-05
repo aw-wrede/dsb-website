@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using Commons;
-using Commons.Localization;
+﻿using Commons.Localization;
 using Commons.Utils;
 using Core.Data.Casting.Overlay;
 using Core.Data.Casting.TourneyMatch;
@@ -102,10 +100,10 @@ public class ApiOverlayController : ControllerBase
 
         if (!OverlayController.Instance.UpdateOneComplete(newOverlay))
         {
+            //TODO no changes also result in throwing error
             return StatusCode(500);
         }
         
-        Logger.Debug("Sending overlay update to controller");
         ApiOverlayWebSocketController.Instance.Update(newOverlay);
         return Ok();
     }

@@ -1,12 +1,43 @@
-﻿using Core.Data.AccessToken;
+﻿using Commons;
+using Core.Data.AccessToken;
 using Core.Data.User;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
+using Newtonsoft.Json;
 using WebAPI.Models;
+using JsonConverter = System.Text.Json.Serialization.JsonConverter;
 
 namespace WebAPI.Utils;
 
 public class ApiAuthUtils : ControllerBase
 {
+    public static bool SetSessionCookie(HttpResponse response, ApiSessionData sessionData)
+    {
+        var options = new CookieOptions()
+        {
+            Expires = DateTimeOffset.Now.AddYears(1),
+            HttpOnly = true,
+        };
+        
+        response.Cookies.Append("session", JsonConvert.SerializeObject(sessionData), options);
+        return true;
+    }
+    
+    public static bool TryGetSessionCookie(HttpRequest request, out ApiSessionData? sessionData)
+    {
+        sessionData = null;
+        
+        var sessionCookie = request.Cookies["session"];
+
+        if (string.IsNullOrEmpty(sessionCookie))
+        {
+            return false;
+        }
+
+        sessionData = JsonConvert.DeserializeObject<ApiSessionData>(sessionCookie);
+        return sessionData != null;
+    }
+    
     public static bool IsAuth(string apiToken, AppUserGroup accessLevel, out AppUser? user)
     {
         if (!AppAccessTokenController.Instance.TryGetByAccessToken(apiToken, out var accessToken))
@@ -42,37 +73,32 @@ public class ApiAuthUtils : ControllerBase
         user = null;
         return false;
     }
-    
-    public bool TryAuth(string apiToken, AppUserGroup accessLevel, out ActionResult? error, out AppUser? user)
+
+    public static bool TryAuth(HttpRequest request, string? apiToken, AppUserGroup accessLevel, out AppUser? user)
     {
         user = null;
         
+        // try auth with session cookie
+        if (TryGetSessionCookie(request, out var sessionData))
+        {
+            if (IsAuth(sessionData!, accessLevel, out user))
+            {
+                return user != null;
+            }
+        }
+
+        // try auth with api token
         if (string.IsNullOrEmpty(apiToken))
         {
-            error = BadRequest();
-            return false;
-        }
-        
-        if (!IsAuth(apiToken, accessLevel, out user))
-        {
-            error = Unauthorized();
             return false;
         }
 
-        if (user == null)
+        if (IsAuth(apiToken, accessLevel, out user))
         {
-            error = StatusCode(500);
-            return false;
+            return user != null;
         }
         
-        if (user.UserGroup < accessLevel)
-        {
-            error = Unauthorized();
-            return false;
-        }
-
-        error = null;
-        
-        return true;
+        return false;
     }
+    
 }

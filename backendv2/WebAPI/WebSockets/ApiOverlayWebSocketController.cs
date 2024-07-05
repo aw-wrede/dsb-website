@@ -23,17 +23,11 @@ public class ApiOverlayWebSocketController : ApiWebSocketController<ApiOverlayWe
     
     public override void Update(Overlay t)
     {
-        Logger.Debug("WebSocket Controller received overlay update");
         _handlers.ForEach(handler =>
         {
             if (handler.User.SelectedOverlay?.ReferenceId == t.Id)
             {
-                Logger.Debug($"Sending update to {handler.User.Name}");
                 handler.Send(JsonSerializer.Serialize(t));
-            }
-            else
-            {
-                Logger.Debug($"Ids don't match: {handler.User.SelectedOverlay?.ReferenceId} != {t.Id}");
             }
             
         });

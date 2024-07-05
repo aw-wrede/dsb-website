@@ -1,4 +1,5 @@
-﻿using Commons.Utils;
+﻿using Commons;
+using Commons.Utils;
 using Core.Data.User;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models;
@@ -30,40 +31,57 @@ public class ApiAppUserController : ControllerBase
             return StatusCode(500);
         }
 
+        ApiAuthUtils.SetSessionCookie(Response, new ApiSessionData()
+        {
+            Uuid = user.Uuid,
+            SessionToken = session.SessionToken
+        });
+        
+        Logger.Debug($"{user.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) logged in ({session.SessionToken[..8]}...)");
+        
         return Ok(new LoginResult()
         {
             Code = 200,
+            Uuid = user.Uuid,
             SessionToken = session.SessionToken
         });
     }
 
     [HttpPost]
     [Route("logout")]
-    public ActionResult Logout([FromHeader] ApiSessionData sessionData)
+    public ActionResult Logout()
     {
-        if (!ApiAuthUtils.IsAuth(sessionData, accessLevel: AppUserGroup.Privileged, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, null, AppUserGroup.Default, out var user))
         {
             return Unauthorized();
         }
 
+        if (!ApiAuthUtils.TryGetSessionCookie(Request, out var sessionData))
+        {
+            return BadRequest();
+        }
+        
         if (user == null)
         {
             return StatusCode(500);
         }
         
-        if (!user.RemoveSessionToken(sessionData.SessionToken)) 
+        if (!user.RemoveSessionToken(sessionData!.SessionToken)) 
             return StatusCode(500);
         
         AppUserController.Instance.UpdateOneComplete(user);
+        
+        Logger.Debug($"{user.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) logged out ({sessionData.SessionToken[..8]}...)");
+        
         return Ok();
 
     }
     
-    [HttpPost]
+    [HttpPut]
     [Route("create")]
-    public ActionResult Create([FromBody] UserCreateRequest req, [FromHeader] ApiSessionData sessionData)
+    public ActionResult Create([FromBody] UserCreateRequest req)
     {
-        if (!ApiAuthUtils.IsAuth(sessionData, accessLevel: AppUserGroup.Privileged, out _))
+        if (!ApiAuthUtils.TryAuth(Request, null, AppUserGroup.Privileged, out var user))
         {
             return Unauthorized();
         }
@@ -73,6 +91,9 @@ public class ApiAppUserController : ControllerBase
         if (!AppUserController.Instance.InsertOne(newUser)) return StatusCode(500);
         
         newUser = AppUserController.Instance.GetByUuid(newUser.Uuid);
+        
+        Logger.Debug($"{user.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) created new user {newUser.Name} ({newUser.Id})");
+        
         return Ok(newUser);
     }
 
@@ -80,7 +101,7 @@ public class ApiAppUserController : ControllerBase
     [Route("delete")]
     public ActionResult Delete(string uuid, [FromHeader] ApiSessionData sessionData)
     {
-        if (!ApiAuthUtils.IsAuth(sessionData, accessLevel: AppUserGroup.Privileged, out var user) || user == null)
+        if (!ApiAuthUtils.TryAuth(Request, null, AppUserGroup.Privileged, out var user))
         {
             return Unauthorized();
         }
@@ -90,12 +111,20 @@ public class ApiAppUserController : ControllerBase
             return NotFound();
         }
         
-        if (userToDelete.UserGroup >= user.UserGroup)
+        if (userToDelete.UserGroup >= user!.UserGroup)
         {
             return Forbid();
         }
         
+        Logger.Debug($"{user.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) deleted user {userToDelete.Name} ({userToDelete.Id})");
         return AppUserController.Instance.DeleteOne(uuid) ? Ok() : StatusCode(500);
+    }
+
+    [HttpPost]
+    [Route("update")]
+    public ActionResult Update(string uuid, [FromHeader] ApiSessionData sessionData)
+    {
+        return Ok();
     }
     
     public class LoginRequest
@@ -114,6 +143,7 @@ public class ApiAppUserController : ControllerBase
     public class LoginResult
     {
         public int Code { get; set; }
+        public string Uuid { get; set; }
         public string SessionToken { get; set; }
     }
     
