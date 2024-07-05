@@ -1,5 +1,4 @@
 ﻿using Commons;
-using Commons.Utils;
 using Core.Data.User;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models;
@@ -79,9 +78,9 @@ public class ApiAppUserController : ControllerBase
     
     [HttpPut]
     [Route("create")]
-    public ActionResult Create([FromBody] UserCreateRequest req)
+    public ActionResult Create(string? apiToken, [FromBody] UserCreateRequest req)
     {
-        if (!ApiAuthUtils.TryAuth(Request, null, AppUserGroup.Privileged, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, apiToken, AppUserGroup.Privileged, out var user))
         {
             return Unauthorized();
         }
@@ -92,20 +91,20 @@ public class ApiAppUserController : ControllerBase
         
         newUser = AppUserController.Instance.GetByUuid(newUser.Uuid);
         
-        Logger.Debug($"{user.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) created new user {newUser.Name} ({newUser.Id})");
+        Logger.Debug($"{user!.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) created new user {newUser.Name} ({newUser.Id})");
         
         return Ok(newUser);
     }
 
     [HttpDelete]
     [Route("delete")]
-    public ActionResult Delete(string uuid, [FromHeader] ApiSessionData sessionData)
+    public ActionResult Delete(string uuid, string? apiToken)
     {
-        if (!ApiAuthUtils.TryAuth(Request, null, AppUserGroup.Privileged, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, apiToken, AppUserGroup.Privileged, out var user))
         {
             return Unauthorized();
         }
-
+        
         if (!AppUserController.Instance.TryGetByUuid(uuid, out var userToDelete))
         {
             return NotFound();
@@ -122,15 +121,61 @@ public class ApiAppUserController : ControllerBase
 
     [HttpPost]
     [Route("update")]
-    public ActionResult Update(string uuid, [FromHeader] ApiSessionData sessionData)
+    public ActionResult Update(string? apiToken, [FromBody] UserUpdateRequest updateRequest)
     {
-        return Ok();
+        if (!ApiAuthUtils.TryAuth(Request, apiToken, AppUserGroup.Normal, out var user))
+        {
+            return Unauthorized();
+        }
+
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+        
+        if (user.Uuid == updateRequest.Uuid)
+        {
+            updateRequest.ApplyUpdate(user);
+            AppUserController.Instance.UpdateOneComplete(user);
+            Logger.Debug($"{user.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) updated own user data");
+            return Ok(user);
+        }
+        
+        if (!AppUserController.Instance.TryGetByUuid(updateRequest.Uuid, out var userToUpdate))
+        {
+            return NotFound();
+        }
+
+        if (userToUpdate.UserGroup >= user.UserGroup)
+        {
+            return Forbid();
+        }
+        
+        updateRequest.ApplyUpdate(userToUpdate);
+        AppUserController.Instance.UpdateOneComplete(userToUpdate);
+        
+        Logger.Debug($"{user.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) updated user data of {userToUpdate.Name} ({userToUpdate.Id})");
+        
+        return Ok(userToUpdate);
     }
     
     public class LoginRequest
     {
         public string Name { get; set; }
         public string Password { get; set; }
+    }
+    
+    public class UserUpdateRequest
+    {
+        public string Uuid { get; set; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        
+        public void ApplyUpdate(AppUser user)
+        {
+            user.Name = Name;
+            user.DisplayName = DisplayName;
+        }
     }
     
     public class UserCreateRequest
