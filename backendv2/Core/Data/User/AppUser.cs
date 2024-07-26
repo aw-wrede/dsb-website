@@ -9,10 +9,10 @@ namespace Core.Data.User;
 
 public class AppUser : IPublicIdentified
 {
-    [Newtonsoft.Json.JsonIgnore]
+    [JsonIgnore]
     [BsonId(IdGenerator = typeof(BsonIncrementGenerator<AppUser>))]
     public long Id { get; set; }
-    public string Uuid { get; set; }
+    public string Uuid { get; set; } = UuidGenerator.GenerateUuid();
     public string Name { get; set; }
     public string DisplayName { get; set; }
     public AppUserGroup UserGroup { get; set; }
@@ -24,6 +24,10 @@ public class AppUser : IPublicIdentified
     [JsonIgnore]
     public OverlayReference? SelectedOverlay { get; set; }
     
+    [BsonIgnore]
+    [JsonPropertyName("selectedOverlay")]
+    public string? SelectedOverlayUuid => SelectedOverlay?.Reference?.Uuid;
+
     public AppUser() {}
 
     public AppUser(string name, string displayName, string password)

@@ -34,7 +34,7 @@ public class ApiUploadedFileController : ControllerBase
             return new FileStreamResult(file.GetFileStream(), file.ContentType);
         }
 
-        if (!ApiAuthUtils.TryAuth(Request, apiToken, file.AccessLevel, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, file.AccessLevel, out var user))
         {
             return Unauthorized();
         }
@@ -47,7 +47,7 @@ public class ApiUploadedFileController : ControllerBase
     [Route("uploadTeamLogo")]
     public async Task<ActionResult> Upload(IFormFile formFile, [FromForm] string teamUuid, string? apiToken)
     {
-        if (!ApiAuthUtils.TryAuth(Request, apiToken, AppUserGroup.Normal, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
         {
             return Unauthorized();
         }

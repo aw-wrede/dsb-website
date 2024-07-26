@@ -1,5 +1,6 @@
 ﻿using Commons.Localization;
 using Commons.Utils;
+using Core.Data.Casting;
 using Core.Data.Casting.Overlay;
 using Core.Data.Casting.OverlayTemplate;
 using Core.Data.Casting.TourneyMatch;
@@ -14,10 +15,10 @@ namespace WebAPI.Controller;
 public class ApiOverlayTemplateController : ControllerBase
 {
     [HttpGet]
-    [Route("get/{uuid}")]
-    public ActionResult<OverlayTemplate?> Get(string apiToken, [FromRoute] string uuid)
+    [Route("{uuid}")]
+    public ActionResult<OverlayTemplate?> Get(string? apiToken, [FromRoute] string uuid)
     {
-        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Normal, out _))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
         {
             return Unauthorized();
         }
@@ -30,11 +31,24 @@ public class ApiOverlayTemplateController : ControllerBase
         return Ok(template);
     }
 
+    [HttpGet]
+    [Route("getall")]
+    public ActionResult<OverlayTemplate[]> GetAll(string? apiToken)
+    {
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
+        {
+            return Unauthorized();
+        }
+
+        var templates = OverlayTemplateController.Instance.GetAll();
+        return Ok(templates);
+    }
+    
     [HttpDelete]
     [Route("delete")]
-    public ActionResult Delete(string apiToken, [FromBody] string uuid)
+    public ActionResult Delete(string? apiToken, [FromBody] string uuid)
     {
-        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Privileged, out _))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Privileged, out var user))
         {
             return Unauthorized();
         }
@@ -49,9 +63,9 @@ public class ApiOverlayTemplateController : ControllerBase
 
     [HttpPut]
     [Route("add")]
-    public ActionResult Add(string apiToken, [FromBody] OverlayTemplateAddRequest request)
+    public ActionResult Add(string? apiToken, [FromBody] OverlayTemplateAddRequest request)
     {
-        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Privileged, out _))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Privileged, out var user))
         {
             return Unauthorized();
         }
@@ -67,7 +81,8 @@ public class ApiOverlayTemplateController : ControllerBase
     public class OverlayTemplateAddRequest
     {
         public string Title { get; set; }
-        public OverlayType OverlayType { get; set; }
+        public OverlayType Type { get; set; }
+        public TourneyGameVersion GameVersion { get; set; }
         public int MaxMatches { get; set; }
         public TourneyMatch[] Matches { get; set; }
         public Localization Localization { get; set; }
@@ -78,7 +93,8 @@ public class ApiOverlayTemplateController : ControllerBase
             {
                 Uuid = UuidGenerator.GenerateUuid(),
                 Title = Title,
-                Type = OverlayType,
+                Type = Type,
+                GameVersion = GameVersion,
                 MaxMatches = MaxMatches,
                 Matches = new LinkedList<TourneyMatch>(Matches),
                 Localization = Localization

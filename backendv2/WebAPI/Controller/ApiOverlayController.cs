@@ -1,5 +1,7 @@
-﻿using Commons.Localization;
+﻿using Commons;
+using Commons.Localization;
 using Commons.Utils;
+using Core.Data.Casting;
 using Core.Data.Casting.Overlay;
 using Core.Data.Casting.TourneyMatch;
 using Core.Data.Casting.TourneyTeam;
@@ -15,9 +17,9 @@ public class ApiOverlayController : ControllerBase
 {
     [HttpGet]
     [Route("{uuid}")]
-    public ActionResult Get(string apiToken, [FromRoute] string uuid)
+    public ActionResult<Overlay[]> Get(string? apiToken, [FromRoute] string uuid)
     {
-        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Normal, out _))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
         {
             return Unauthorized();
         }
@@ -31,10 +33,23 @@ public class ApiOverlayController : ControllerBase
     }
 
     [HttpGet]
-    [Route("select")]
-    public ActionResult Select(string apiToken, string uuid)
+    [Route("getall")]
+    public ActionResult GetAll(string? apiToken)
     {
-        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Normal, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
+        {
+            return Unauthorized();
+        }
+
+        var overlays = OverlayController.Instance.GetAll();
+        return Ok(overlays);
+    }
+    
+    [HttpGet]
+    [Route("select/{uuid}")]
+    public ActionResult Select(string? apiToken, [FromRoute] string uuid)
+    {
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
         {
             return Unauthorized();
         }
@@ -46,15 +61,16 @@ public class ApiOverlayController : ControllerBase
 
         user!.SelectedOverlay = OverlayController.Instance.GetReference(overlay);
         AppUserController.Instance.UpdateOneComplete(user);
+        
         ApiOverlayWebSocketController.Instance.UpdateAppUser(user);
         return Ok(uuid);
     }
     
     [HttpPut]
     [Route("add")]
-    public ActionResult Add(string apiToken, [FromBody] OverlayRequest request)
+    public ActionResult Add(string? apiToken, [FromBody] OverlayRequest request)
     {
-        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Normal, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
         {
             return Unauthorized();
         }
@@ -77,14 +93,19 @@ public class ApiOverlayController : ControllerBase
     
     [HttpPost]
     [Route("update")]
-    public ActionResult Update(string apiToken, string uuid, [FromBody] OverlayRequest request)
+    public ActionResult Update(string? apiToken, [FromBody] OverlayRequest request)
     {
-        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Normal, out _))
+        if (string.IsNullOrEmpty(request.Uuid))
+        {
+            return BadRequest();
+        }
+        
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
         {
             return Unauthorized();
         }
 
-        if (!OverlayController.Instance.TryGetByUuid(uuid, out var overlay))
+        if (!OverlayController.Instance.TryGetByUuid(request.Uuid, out var overlay))
         {
             return NotFound();
         }
@@ -98,11 +119,7 @@ public class ApiOverlayController : ControllerBase
         newOverlay.Id = overlay.Id;
         newOverlay.Uuid = overlay.Uuid;
 
-        if (!OverlayController.Instance.UpdateOneComplete(newOverlay))
-        {
-            //TODO no changes also result in throwing error
-            return StatusCode(500);
-        }
+        OverlayController.Instance.UpdateOneComplete(newOverlay);
         
         ApiOverlayWebSocketController.Instance.Update(newOverlay);
         return Ok();
@@ -110,13 +127,14 @@ public class ApiOverlayController : ControllerBase
 
     public class OverlayRequest
     {
+        public string? Uuid { get; set; }
         public string Title { get; set; }
         public OverlayType Type { get; set; }
         public int MaxMatches { get; set; }
         public TourneyMatch[] Matches { get; set; } = [];
         public string TeamAlpha { get; set; }
         public string TeamBeta { get; set; }
-
+        public TourneyGameVersion GameVersion { get; set; }
         public Localization Localization { get; set; }
         public string[] Commentators { get; set; } = [];
         
@@ -134,6 +152,7 @@ public class ApiOverlayController : ControllerBase
 
             return new Overlay()
             {
+                Uuid = Uuid ?? "",
                 Title = Title,
                 Type = Type,
                 MaxMatches = MaxMatches,

@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Commons.Utils;
 using Core.Controller;
 using Core.Data.UploadedFile;
 using Core.Serialization;
@@ -8,10 +9,10 @@ namespace Core.Data.Casting.TourneyTeam;
 
 public class TourneyTeam : IPublicIdentified
 {
-    [Newtonsoft.Json.JsonIgnore]
+    [JsonIgnore]
     [BsonId(IdGenerator = typeof(BsonIncrementGenerator<TourneyTeam>))]
     public long Id { get; set; }
-    public string Uuid { get; set; }
+    public string Uuid { get; set; } = UuidGenerator.GenerateUuid();
     
     public string Name { get; set; }
     public List<string> Members { get; set; } = [];

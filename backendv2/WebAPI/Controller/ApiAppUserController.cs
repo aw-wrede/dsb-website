@@ -7,9 +7,56 @@ using WebAPI.Utils;
 namespace WebAPI.Controller;
 
 [ApiController]
-[Route("user")]
+[Route("api/user")]
 public class ApiAppUserController : ControllerBase
 {
+    
+    [HttpGet]
+    [Route("get")]
+    public ActionResult<AppUser> Get(string? uuid, string? apiToken)
+    {
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Guest, out var user))
+        {
+            return Unauthorized();
+        }
+        
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+        
+        Logger.Debug($"{user!.Name} fetches user data");
+        
+        if (string.IsNullOrEmpty(uuid) || uuid == user.Uuid)
+        {
+            return Ok(user);
+        }
+
+        if (AppUserController.Instance.TryGetByUuid(uuid, out var reqUser))
+        {
+            return Ok(reqUser);
+        }
+
+        return NotFound();
+    }
+    
+    [HttpGet]
+    [Route("getall")]
+    public ActionResult<AppUser[]> GetAll(string? apiToken)
+    {
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
+        {
+            return Unauthorized();
+        }
+        
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+
+        var users = AppUserController.Instance.GetAll();
+        return Ok(users);
+    }
     
     [HttpPost]
     [Route("login")]
@@ -50,7 +97,7 @@ public class ApiAppUserController : ControllerBase
     [Route("logout")]
     public ActionResult Logout()
     {
-        if (!ApiAuthUtils.TryAuth(Request, null, AppUserGroup.Default, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, Response, null, AppUserGroup.Default, out var user))
         {
             return Unauthorized();
         }
@@ -69,6 +116,7 @@ public class ApiAppUserController : ControllerBase
             return StatusCode(500);
         
         AppUserController.Instance.UpdateOneComplete(user);
+        ApiAuthUtils.DeleteSessionCookie(Response);
         
         Logger.Debug($"{user.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) logged out ({sessionData.SessionToken[..8]}...)");
         
@@ -80,12 +128,12 @@ public class ApiAppUserController : ControllerBase
     [Route("create")]
     public ActionResult Create(string? apiToken, [FromBody] UserCreateRequest req)
     {
-        if (!ApiAuthUtils.TryAuth(Request, apiToken, AppUserGroup.Privileged, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Privileged, out var user))
         {
             return Unauthorized();
         }
 
-        var newUser = new AppUser(req.Name, req.DisplayName, req.Password);
+        var newUser = req.ToAppUser();
         
         if (!AppUserController.Instance.InsertOne(newUser)) return StatusCode(500);
         
@@ -100,7 +148,7 @@ public class ApiAppUserController : ControllerBase
     [Route("delete")]
     public ActionResult Delete(string uuid, string? apiToken)
     {
-        if (!ApiAuthUtils.TryAuth(Request, apiToken, AppUserGroup.Privileged, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Privileged, out var user))
         {
             return Unauthorized();
         }
@@ -123,7 +171,7 @@ public class ApiAppUserController : ControllerBase
     [Route("update")]
     public ActionResult Update(string? apiToken, [FromBody] UserUpdateRequest updateRequest)
     {
-        if (!ApiAuthUtils.TryAuth(Request, apiToken, AppUserGroup.Normal, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
         {
             return Unauthorized();
         }
@@ -183,6 +231,11 @@ public class ApiAppUserController : ControllerBase
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public string Password { get; set; }
+
+        public AppUser ToAppUser()
+        {
+            return new AppUser(Name, DisplayName, Password);
+        }
     }
     
     public class LoginResult

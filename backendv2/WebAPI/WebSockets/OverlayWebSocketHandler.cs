@@ -1,4 +1,5 @@
 ﻿using System.Net.WebSockets;
+using System.Text.Json;
 using Commons;
 using Core.Data.User;
 
@@ -8,15 +9,12 @@ public class OverlayWebSocketHandler : WebSocketsHandler
 {
     public OverlayWebSocketHandler(WebSocket webSocket, AppUser user) : base(webSocket, user)
     {
-        
-    }
-
-    public async void Send(string message)
-    {
-        var bytes = System.Text.Encoding.UTF8.GetBytes(message);
-        await _webSocket.SendAsync(
-            new ArraySegment<byte>(bytes), WebSocketMessageType.Text, WebSocketMessageFlags.EndOfMessage,
-            CancellationToken.None);
+        // send initial overlay data
+        var overlay = user.SelectedOverlay?.Reference;
+        if (overlay != null)
+        {
+            Send(JsonSerializer.Serialize(overlay));
+        }
     }
     
     public async Task Receive()

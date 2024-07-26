@@ -1,4 +1,5 @@
-﻿using Core.Controller;
+﻿using Commons.Utils;
+using Core.Controller;
 using Core.Data.User;
 using Core.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
@@ -10,14 +11,14 @@ public class UploadedFile : IPublicIdentified
     [Newtonsoft.Json.JsonIgnore]
     [BsonId(IdGenerator = typeof(BsonIncrementGenerator<UploadedFile>))]
     public long Id { get; set; }
-    public string Uuid { get; set; }
+    public string Uuid { get; set; } = UuidGenerator.GenerateUuid();
     public string ContentType { get; set; }
     public DateTime TimeCreated { get; set; }
     public AppUserGroup AccessLevel { get; set; }
     
     public string CreateUrl()
     {
-        return $"{BackendServer.Instance.FileUploadConfiguration.BaseUrl}file/{Uuid}.{ContentType}";
+        return $"{BackendServer.Instance.FileUploadConfiguration.BaseUrl}file/{Uuid}";
     }
 
     public UploadedFileReference CreateReference()

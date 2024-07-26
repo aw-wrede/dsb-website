@@ -1,8 +1,6 @@
 ﻿using System.Text.Json;
-using Commons;
 using Core.Data.Casting.Overlay;
 using Core.Data.User;
-using MongoDB.Bson;
 
 namespace WebAPI.WebSockets;
 
@@ -14,9 +12,12 @@ public class ApiOverlayWebSocketController : ApiWebSocketController<ApiOverlayWe
     {
         _handlers.ForEach(handler =>
         {
-            if (handler.User.Id == user.Id)
+            if (handler.User.Id != user.Id) return;
+            
+            handler.User = user;
+            if (user.SelectedOverlay?.Reference != null)
             {
-                handler.User = user;
+                SendOverlay(handler, user.SelectedOverlay.Reference);
             }
         });
     }
@@ -31,5 +32,10 @@ public class ApiOverlayWebSocketController : ApiWebSocketController<ApiOverlayWe
             }
             
         });
+    }
+
+    private void SendOverlay(WebSocketsHandler handler, Overlay overlay)
+    {
+        handler.Send(JsonSerializer.Serialize(overlay));
     }
 }

@@ -4,13 +4,19 @@ const string corsAllowDevLocalhost = "DevLocalhostOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
+//TODO change JsonIgnore to Newtonsoft to use
+// builder.Services.AddControllers().AddNewtonsoftJson();
+
 builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: corsAllowDevLocalhost, policyBuilder =>
     {
-        policyBuilder.WithOrigins("http://localhost:3000");
+        policyBuilder.WithOrigins("http://localhost:5173");
+        policyBuilder.AllowAnyHeader();
+        policyBuilder.AllowAnyMethod();
+        policyBuilder.AllowCredentials();
     });
 });
 

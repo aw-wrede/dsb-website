@@ -1,4 +1,5 @@
-﻿using Core.Data.Casting.TourneyMap;
+﻿using Commons;
+using Core.Data.Casting.TourneyMap;
 using Core.Data.User;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Utils;
@@ -11,9 +12,9 @@ public class ApiTourneyMapController : ControllerBase
 {
     [HttpGet]
     [Route("getall")]
-    public ActionResult GetAll(string apiToken)
+    public ActionResult GetAll(string? apiToken)
     {
-        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Default, out _))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
         {
             return Unauthorized();
         }

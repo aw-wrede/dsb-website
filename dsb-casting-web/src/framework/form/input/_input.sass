@@ -1,0 +1,73 @@
+.ui-input
+  width: 100%
+  margin: 0 0 3rem 0
+  padding: 0.5rem
+  border-bottom: 0.2rem solid rgba(0, 0, 0, 0.0)
+  transition: all 150ms linear
+  @extend .round-edge
+  @extend .box-shadow-in
+  &.valid
+    border-bottom: 0.2rem solid var(--primary-green)
+  &.invalid
+    border-bottom: 0.2rem solid var(--primary-red)
+  input, textarea
+    display: block
+    width: 100%
+    padding: 1rem 1.5rem
+    background: none
+    font-size: $default-font-size
+    font-weight: 400
+    color: var(--color)
+    font-family: $font-stack
+    border: none
+    outline: none
+
+    &[type="password"]
+      letter-spacing: 0.3rem
+      &::placeholder
+        letter-spacing: normal
+
+    &:focus
+      outline: none
+    &::placeholder
+      color: var(--weak-color)
+
+  &.ui-input-pre-icon
+    display: flex
+    flex-direction: row
+    flex-wrap: nowrap
+    input, textarea
+      padding: 1rem 1.5rem 1rem 0
+    .ui-input-label
+      display: flex
+      align-items: center
+      flex-wrap: nowrap
+      padding: 0 1rem 0 1rem
+      .ui-input-icon
+        display: block
+        position: relative
+        font-size: 2rem
+        //color: var(--weak-color) //default
+        color: var(--color)
+
+  select
+    display: block
+    width: 100%
+    background: transparent
+    height: 4rem
+    background: none
+    font-size: $default-font-size
+    font-weight: 400
+    padding: 0 1rem
+    border-radius: 0.2rem
+    outline: none
+    border: none
+    option
+      background: var(--bg) !important
+      font-size: $default-font-size
+      font-weight: 400
+      border: none
+
+.ui-input-button-wrapper
+  .ui-input
+    margin: 1rem 0 3rem 0

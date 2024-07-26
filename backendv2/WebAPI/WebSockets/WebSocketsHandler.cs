@@ -14,6 +14,14 @@ public class WebSocketsHandler
         User = user;
     }
     
+    public async void Send(string message)
+    {
+        var bytes = System.Text.Encoding.UTF8.GetBytes(message);
+        await _webSocket.SendAsync(
+            new ArraySegment<byte>(bytes), WebSocketMessageType.Text, WebSocketMessageFlags.EndOfMessage,
+            CancellationToken.None);
+    }
+    
     private void HandleMessage(string message) {}
     
 }

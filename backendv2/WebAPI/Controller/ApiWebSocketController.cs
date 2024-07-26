@@ -12,7 +12,7 @@ public class ApiWebSocketController : ControllerBase
     [Route("api/overlay/ws")]
     public async Task Open(string apiToken)
     {
-        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Normal, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
         {
             HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
             return;
@@ -26,12 +26,16 @@ public class ApiWebSocketController : ControllerBase
 
         try
         {
+            Logger.Debug($"{user?.Name} ({Request.HttpContext.Connection.RemoteIpAddress}:{Request.HttpContext.Connection.RemotePort}) opened web socket for overlay data.");
+            
             using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
             var handler = new OverlayWebSocketHandler(webSocket, user!);
             ApiOverlayWebSocketController.Instance.Register(handler);
-            handler.Send("Test");
+            
             await handler.Receive();
             ApiOverlayWebSocketController.Instance.Unregister(handler);
+            
+            Logger.Debug($"{user?.Name} ({Request.HttpContext.Connection.RemoteIpAddress}:{Request.HttpContext.Connection.RemotePort}) closed web socket for overlay data.");
         }
         catch (Exception e)
         {

@@ -13,5 +13,6 @@ public class TourneyMap : Localized, IIdentified
     public long Id { get; set; }
     public TourneyMapType MapIdentifier { get; set; }
     public TourneyGameVersion GameVersion { get; set; }
+    [JsonPropertyName("image")]
     public string ThumbnailImageLink { get; set; }
 }

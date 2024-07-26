@@ -2,8 +2,7 @@
 using Core.Data.Casting.TourneyTeam;
 using Core.Data.User;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using WebAPI.Models;
+using MongoDB.Driver;
 using WebAPI.Utils;
 
 namespace WebAPI.Controller;
@@ -12,12 +11,28 @@ namespace WebAPI.Controller;
 [Route("api/team")]
 public class ApiTourneyTeamController : ControllerBase
 {
+    [HttpGet]
+    [Route("{uuid}")]
+    public ActionResult<TourneyTeam> Get(string? apiToken, [FromRoute] string uuid)
+    {
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Default, out var user))
+        {
+            return Unauthorized();
+        }
 
+        if (!TourneyTeamController.Instance.TryGetByUuid(uuid, out var team))
+        {
+            return NotFound();
+        }
+
+        return Ok(team);
+    }
+    
     [HttpGet]
     [Route("getall")]
-    public ActionResult GetAll(string apiToken)
+    public ActionResult GetAll(string? apiToken)
     {
-        if (!ApiAuthUtils.IsAuth(apiToken, accessLevel: AppUserGroup.Default, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Default, out var user))
         {
             return Unauthorized();
         }
@@ -28,30 +43,24 @@ public class ApiTourneyTeamController : ControllerBase
     
     [HttpPost]
     [Route("update")]
-    public ActionResult Update(string uuid, string name, string members, [FromHeader] ApiSessionData sessionData)
+    public ActionResult Update(string? apiToken, [FromBody] TeamRequest request)
     {
-        if (string.IsNullOrEmpty(uuid) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(members))
+        if (string.IsNullOrEmpty(request.Uuid))
         {
             return BadRequest();
         }
         
-        if (!ApiAuthUtils.IsAuth(sessionData, accessLevel: AppUserGroup.Privileged, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Privileged, out var user))
         {
             return Unauthorized();
         }
 
-        var memberList = ParseMemberList(members);
-        if (memberList == null)
-        {
-            return BadRequest("Could not parse members");
-        }
-
-        if (!TourneyTeamController.Instance.TryGetByUuid(uuid, out var team))
+        if (!TourneyTeamController.Instance.TryGetByUuid(request.Uuid, out var team))
         {
             return NotFound();
         }
 
-        if (!team.TryUpdate(name, memberList))
+        if (!team.TryUpdate(request.Name, new List<string>(request.Members)))
         {
             return StatusCode(500);
         }
@@ -61,30 +70,20 @@ public class ApiTourneyTeamController : ControllerBase
     
     [HttpPut]
     [Route("create")]
-    public ActionResult Create(string name, string members, [FromHeader] ApiSessionData sessionData)
+    public ActionResult Create(string?  apiToken, [FromBody] TeamRequest request)
     {
-        if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(members))
-        {
-            return BadRequest();
-        }
         
-        if (!ApiAuthUtils.IsAuth(sessionData, accessLevel: AppUserGroup.Privileged, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Privileged, out var user))
         {
             return Unauthorized();
         }
 
-        var memberList = ParseMemberList(members);
-        if (memberList == null)
+        if (TourneyTeamController.Instance.Collection.FindSync(t => t.Name == request.Name).FirstOrDefault() != null)
         {
-            return BadRequest("Could not parse members");
+            return Conflict("team with same name already exists.");
         }
         
-        var team = new TourneyTeam()
-        {
-            Name = name,
-            Uuid = UuidGenerator.GenerateUuid(),
-            Members = memberList.ToList()
-        };
+        var team = request.ToTourneyTeam();
 
         if (!TourneyTeamController.Instance.InsertOne(team))
         {
@@ -101,14 +100,14 @@ public class ApiTourneyTeamController : ControllerBase
 
     [HttpDelete]
     [Route("delete")]
-    public ActionResult Delete(string uuid, [FromHeader] ApiSessionData sessionData)
+    public ActionResult Delete(string uuid, string? apiToken)
     {
         if (string.IsNullOrEmpty(uuid))
         {
             return BadRequest();
         }
 
-        if (!ApiAuthUtils.IsAuth(sessionData, AppUserGroup.Privileged, out var user))
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Privileged, out var user))
         {
             return Unauthorized();
         }
@@ -121,9 +120,19 @@ public class ApiTourneyTeamController : ControllerBase
         return NotFound();
     }
     
-    private static List<string>? ParseMemberList(string input)
+    public class TeamRequest
     {
-        var memberList = JsonConvert.DeserializeObject<string[]>(input);
-        return memberList?.ToList();
+        public string? Uuid { get; set; }
+        public string Name { get; set; }
+        public string[] Members { get; set; }
+
+        public TourneyTeam ToTourneyTeam()
+        {
+            return new TourneyTeam()
+            {
+                Name = Name,
+                Members = new List<string>(Members),
+            };
+        }
     }
 }

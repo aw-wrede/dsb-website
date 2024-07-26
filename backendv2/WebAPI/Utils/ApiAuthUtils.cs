@@ -1,11 +1,8 @@
-﻿using Commons;
-using Core.Data.AccessToken;
+﻿using Core.Data.AccessToken;
 using Core.Data.User;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using Newtonsoft.Json;
 using WebAPI.Models;
-using JsonConverter = System.Text.Json.Serialization.JsonConverter;
 
 namespace WebAPI.Utils;
 
@@ -20,6 +17,12 @@ public class ApiAuthUtils : ControllerBase
         };
         
         response.Cookies.Append("session", JsonConvert.SerializeObject(sessionData), options);
+        return true;
+    }
+
+    public static bool DeleteSessionCookie(HttpResponse response)
+    {
+        response.Cookies.Delete("session");
         return true;
     }
     
@@ -37,9 +40,40 @@ public class ApiAuthUtils : ControllerBase
         sessionData = JsonConvert.DeserializeObject<ApiSessionData>(sessionCookie);
         return sessionData != null;
     }
-    
-    public static bool IsAuth(string apiToken, AppUserGroup accessLevel, out AppUser? user)
+
+    public static bool SetApiTokenCookie(HttpResponse response, string token)
     {
+        var options = new CookieOptions()
+        {
+            Expires = DateTimeOffset.Now.AddDays(7),
+            HttpOnly = true,
+        };
+        
+        response.Cookies.Append("apiToken", token, options);
+        return true;
+    }
+
+    private static bool TryGetApiTokenCookie(HttpRequest request, out string token)
+    {
+        token = request.Cookies["apiToken"] ?? "";
+        return !string.IsNullOrEmpty(token);
+    }
+    
+    private static bool IsAuth(HttpRequest request, HttpResponse response, string? apiToken, AppUserGroup accessLevel, out AppUser? user)
+    {
+        if (string.IsNullOrEmpty(apiToken))
+        {
+            if (!TryGetApiTokenCookie(request, out apiToken))
+            {
+                user = null;
+                return false;
+            }
+        }
+        else
+        {
+            SetApiTokenCookie(response, apiToken);
+        }
+        
         if (!AppAccessTokenController.Instance.TryGetByAccessToken(apiToken, out var accessToken))
         {
             user = null;
@@ -60,7 +94,7 @@ public class ApiAuthUtils : ControllerBase
 
     }
 
-    public static bool IsAuth(ApiSessionData sessionData, AppUserGroup accessLevel, out AppUser? user)
+    private static bool IsAuth(ApiSessionData sessionData, AppUserGroup accessLevel, out AppUser? user)
     {
         if (AppUserController.Instance.CheckSessionToken(sessionData.Uuid, sessionData.SessionToken, out user))
         {
@@ -74,7 +108,7 @@ public class ApiAuthUtils : ControllerBase
         return false;
     }
 
-    public static bool TryAuth(HttpRequest request, string? apiToken, AppUserGroup accessLevel, out AppUser? user)
+    public static bool TryAuth(HttpRequest request, HttpResponse response, string? apiToken, AppUserGroup accessLevel, out AppUser? user)
     {
         user = null;
         
@@ -87,13 +121,8 @@ public class ApiAuthUtils : ControllerBase
             }
         }
 
-        // try auth with api token
-        if (string.IsNullOrEmpty(apiToken))
-        {
-            return false;
-        }
-
-        if (IsAuth(apiToken, accessLevel, out user))
+        // try auth with token
+        if (IsAuth(request, response, apiToken, accessLevel, out user))
         {
             return user != null;
         }

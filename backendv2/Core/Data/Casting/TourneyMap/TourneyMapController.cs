@@ -38,7 +38,7 @@ public class TourneyMapController : DatabaseController<TourneyMapController, Tou
     
     private static List<TourneyMap> GetAllMaps()
     {
-        const string mapWebDirectory = "/maps";
+        const string mapWebDirectory = "/maps/";
         var list = new List<TourneyMap>();
 
         #region Splatoon 2
