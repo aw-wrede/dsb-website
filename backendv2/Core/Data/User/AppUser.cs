@@ -62,7 +62,7 @@ public class AppUser : IPublicIdentified
     
     public AppUserSessionData CreateNewSessionData()
     {
-        // Remove invalid session data to free space (validity is checked independently from this)
+        // Remove invalid session data to free space (validity is checked independently of this)
         SessionData = SessionData.Where(s => !s.IsExpired()).ToList();
         
         var session = AppUserSessionData.Create();

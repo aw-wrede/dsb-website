@@ -25,7 +25,7 @@ public class AppUserSessionData
 
     public bool IsExpired()
     {
-        return ExpiryDate > DateTime.Now;
+        return ExpiryDate < DateTime.Now;
     }
     public bool Verify(string input)
     {
