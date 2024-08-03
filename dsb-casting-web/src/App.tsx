@@ -22,6 +22,7 @@ import SiteTeamList from "./sites/team/SiteTeamList.tsx";
 
 import "./style/style.sass"
 import SiteTeamEdit from "./sites/team/SiteTeamEdit.tsx";
+import SiteEditOverlayTemplate from "./sites/overlay/template/SiteEditOverlayTemplate.tsx";
 
 export const UserContext = createContext<UserInfo>(null)
 
@@ -38,6 +39,7 @@ function AuthedRoutes({user, setUser}:{user:UserInfo, setUser: (user:UserInfo) =
         <Route path={"/overlay/edit/:uuid"} element={<SiteEditOverlay />} />
         <Route path={"/overlay/create"} element={<SiteCreateOverlay />} />
         <Route path={"/overlay/list"} element={<SiteOverlayList user={user} setUser={setUser} />} />
+        <Route path={"/overlay/template/edit/:uuid"} element={<SiteEditOverlayTemplate />} />
         <Route path={"/overlay/template/create"} element={<SiteCreateOverlayTemplate />} />
         <Route path={"/overlay/template/list"} element={<SiteTemplateList />} />
     </Routes>
@@ -85,7 +87,7 @@ function App() {
 
                     {/* ====== NO AUTHENTICATION ======== */}
                     <Route path={"/login"} element={user.loginStatus === LoginStatus.Authorized ?
-                        <Navigate to={"/dadada"} replace/> :
+                        <Navigate to={"/"} replace/> :
                         <SiteLogin user={user} setUser={setUser}/>}
                     />
                 </Routes>

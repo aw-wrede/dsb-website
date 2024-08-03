@@ -6,7 +6,7 @@ import TourneyTeam from "../../interfaces/tourney/team/TourneyTeam.ts";
 import axios from "axios";
 import {getTeam, updateTeam} from "../../axios/AxiosApi.ts";
 import TeamEditForm from "../../components/forms/team/TeamEditForm.tsx";
-import TeamFormType from "../../components/forms/team/TeamFormType.ts";
+import BasicFormType from "../../components/forms/BasicFormType.ts";
 import TeamCreateResult from "../../axios/results/TeamCreateResult.ts";
 
 export default function SiteTeamEdit() {
@@ -43,7 +43,7 @@ export default function SiteTeamEdit() {
 
     return <div className={"content"}>
         {team == null ? null :
-            <TeamEditForm user={user} team={team} setTeam={setTeam} onSubmit={onSubmit} submitResult={submitResult} type={TeamFormType.Edit} />
+            <TeamEditForm user={user} team={team} setTeam={setTeam} onSubmit={onSubmit} submitResult={submitResult} type={BasicFormType.Edit} />
         }
     </div>
 }

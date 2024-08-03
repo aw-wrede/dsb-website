@@ -6,7 +6,7 @@ import TeamCreateResult from "../../axios/results/TeamCreateResult.ts";
 import UserInfo from "../../interfaces/user/UserInfo.ts";
 import {UserContext} from "../../App.tsx";
 import TeamEditForm from "../../components/forms/team/TeamEditForm.tsx";
-import TeamFormType from "../../components/forms/team/TeamFormType.ts";
+import BasicFormType from "../../components/forms/BasicFormType.ts";
 
 export default function SiteCreateTeam() {
     const user = useContext<UserInfo>(UserContext)
@@ -35,6 +35,6 @@ export default function SiteCreateTeam() {
     }
 
     return <div className={"content"}>
-        <TeamEditForm user={user} team={team} setTeam={setTeam} onSubmit={onSubmit} submitResult={submitResult} type={TeamFormType.Create} />
+        <TeamEditForm user={user} team={team} setTeam={setTeam} onSubmit={onSubmit} submitResult={submitResult} type={BasicFormType.Create} />
     </div>
 }

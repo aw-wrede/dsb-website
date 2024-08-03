@@ -42,6 +42,9 @@ import ButtonActionStatus from "../../framework/form/button/ButtonActionStatus.t
 import {UserContext} from "../../App.tsx";
 
 import "./createOverlay.sass"
+import StyledInputWithButton from "../../framework/form/input/StyledInputWithButton.tsx";
+import StyledDateInput from "../../framework/form/input/date/StyledDateInput.tsx";
+import StyledTimeInput from "../../framework/form/input/date/StyledTimeInput.tsx";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:CreateOverlayRequest}) {
@@ -61,8 +64,11 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
     const [templates, setTemplates] = useState<OverlayTemplate[]>([]);
     const [templatesSearchElems, setTemplatesSearchElems] = useState<SearchElement[]>([]);
 
+    const [date, setDate] = useState<Date>(new Date());
+
     const [overlay, setOverlay] = useState<CreateOverlayRequest>(overlayToUpdate ?? {
         title: "",
+        scheduledTime: new Date().toString(),
         type: OverlayType.Static,
         gameVersion: TourneyGameVersion.Splatoon3,
         maxMatches:0,
@@ -70,7 +76,8 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
         teamAlpha:"",
         teamBeta:"",
         localization:Localization.German,
-        commentators:[]
+        commentators:[],
+        successorOverlays: []
     });
     const [type, setType] = useState<OverlayType>(OverlayType.Static);
 
@@ -82,6 +89,8 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
     const [currentMatchIndex, setCurrentMatchIndex] = useState<number|null>(null)
 
     const [submitSuccess, setSubmitSuccess] = useState<ButtonActionStatus>(ButtonActionStatus.Nothing);
+
+    const [successorInput, setSuccessorInput] = useState<string>("")
 
     useEffect(() => {
         const cancelToken = axios.CancelToken.source()
@@ -135,6 +144,12 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
 
         setTeamsIntoInputFields()
     }, [teams]);
+
+    useEffect(() => {
+        const newOverlay = Object.assign({}, overlay)
+        newOverlay.scheduledTime = date.toISOString()
+        setOverlay(newOverlay)
+    }, [date])
 
     function setTeamsIntoInputFields() {
         if(overlayToUpdate != null) {
@@ -241,6 +256,19 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
         setOverlay(newOverlay)
     }
 
+    function addSuccessor(uuid:string) {
+        const newOverlay = Object.assign({}, overlay)
+        newOverlay.successorOverlays.push(uuid)
+        setOverlay(newOverlay)
+        setSuccessorInput("")
+    }
+
+    function removeSuccessor(uuid:string) {
+        const newOverlay = Object.assign({}, overlay)
+        newOverlay.successorOverlays = newOverlay.successorOverlays.filter(s => s !== uuid)
+        setOverlay(newOverlay)
+    }
+
     function onAddMatchClicked() {
         setCurrentMatchIndex(null)
         setCurrentMatch({
@@ -291,44 +319,90 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
 
     return <div className={"content create-overlay"}>
         <StyledForm onSubmit={onSubmit}>
-            <StyledFormHeader headline={overlayToUpdate == null ? "Overlay erstellen" : "Overlay aktualisieren"} />
+            <StyledFormHeader headline={overlayToUpdate == null ? "Overlay erstellen" : "Overlay aktualisieren"}/>
 
-            <StyledFormHeader headline={"Aus Vorlage laden"} />
-            <SearchDropdown setVal={selectOverlayTemplate} attributes={{id: "select-overlay-template", name: "select-overlay-template", placeholder: "Vorlage wählen", autoComplete: "off"}} filter={filterTemplates} />
+            <StyledFormHeader headline={"Aus Vorlage laden"}/>
+            <SearchDropdown setVal={selectOverlayTemplate} attributes={{
+                id: "select-overlay-template",
+                name: "select-overlay-template",
+                placeholder: "Vorlage wählen",
+                autoComplete: "off"
+            }} filter={filterTemplates}/>
 
-            <StyledFormHeader headline={"Titel anpassen"} />
-            <StyledInput name={"title"} type={"text"} value={overlay.title} onChange={onChange} placeholder={"Titel"} autoComplete={"off"} required={true} />
+            <StyledFormHeader headline={"Titel anpassen"}/>
+            <StyledInput name={"title"} type={"text"} value={overlay.title} onChange={onChange} placeholder={"Titel"}
+                         autoComplete={"off"} required={true}/>
 
-            <StyledFormHeader headline={"Mapliste bearbeiten"} />
-            <StyledInput name={"max-matches"} type={"number"} value={overlay.maxMatches} onChange={onChange} placeholder={"Maximale Anzahl Runden"} required={true} autoComplete={"off"} />
-            <MatchList matches={overlay.matches} mapData={mapData} localization={user.localization}  setModalVisible={setModalVisible} allowAdd={true} onAdd={onAddMatchClicked} allowEdit={true} onEdit={onEditMatchClicked} />
+            <StyledFormHeader headline={"Mapliste bearbeiten"}/>
+            <StyledInput name={"max-matches"} type={"number"} value={overlay.maxMatches} onChange={onChange}
+                         placeholder={"Maximale Anzahl Runden"} required={true} autoComplete={"off"}/>
+            <MatchList matches={overlay.matches} mapData={mapData} localization={user.localization}
+                       setModalVisible={setModalVisible} allowAdd={true} onAdd={onAddMatchClicked} allowEdit={true}
+                       onEdit={onEditMatchClicked}/>
 
-            <StyledFormHeader headline={"Teams festlegen"} />
-            <SearchDropdown input={teamAlphaInput} setInput={setTeamAlphaInput} setVal={(team) => setTeam(team, TourneyTeamType.Alpha)} attributes={{id: "overlay-select-team-alpha", name: "overlay-select-team-alpha", placeholder: "Team Alpha", autoComplete: "off"}} filter={filterTeams} />
-            <SearchDropdown input={teamBetaInput} setInput={setTeamBetaInput} setVal={(team) => setTeam(team, TourneyTeamType.Beta)} attributes={{id: "overlay-select-team-beta", name: "overlay-select-team-beta", placeholder: "Team Beta", autoComplete: "off"}} filter={filterTeams} />
+            <StyledFormHeader headline={"Teams festlegen"}/>
+            <SearchDropdown input={teamAlphaInput} setInput={setTeamAlphaInput}
+                            setVal={(team) => setTeam(team, TourneyTeamType.Alpha)} attributes={{
+                id: "overlay-select-team-alpha",
+                name: "overlay-select-team-alpha",
+                placeholder: "Team Alpha",
+                autoComplete: "off"
+            }} filter={filterTeams}/>
+            <SearchDropdown input={teamBetaInput} setInput={setTeamBetaInput}
+                            setVal={(team) => setTeam(team, TourneyTeamType.Beta)} attributes={{
+                id: "overlay-select-team-beta",
+                name: "overlay-select-team-beta",
+                placeholder: "Team Beta",
+                autoComplete: "off"
+            }} filter={filterTeams}/>
 
-            <StyledFormHeader headline={"Typ festlegen"} />
+            <StyledFormHeader headline={"Typ festlegen"}/>
 
-            <StyledInputRadio name={"type"} elements={overlayTypesToSelectElements(overlay.type)} selected={type} setSelected={setType}/>
+            <StyledInputRadio name={"type"} elements={overlayTypesToSelectElements(overlay.type)} selected={type}
+                              setSelected={setType}/>
 
-            <StyledFormHeader headline={"Kommentatoren hinzufügen"} />
+            <StyledFormHeader headline={"Kommentatoren hinzufügen"}/>
 
-            <UserSearchList placeholder={"Kommentator suchen"} id={"commentator-search"} users={usersData} selectUser={selectCommentator} />
-
+            <UserSearchList placeholder={"Kommentator suchen"} id={"commentator-search"} users={usersData}
+                            selectUser={selectCommentator}/>
             <div className={"chips-list"}>
                 {overlay.commentators.map((commentator) => (
                     <div key={commentator} className={"chip"}>
                         <p>{getUserFromList(commentator, usersData)?.displayName}</p>
-                        <StyledIcon icon={FrameworkIcon.Close} onClick={() => removeCommentator(commentator)} />
+                        <StyledIcon icon={FrameworkIcon.Close} onClick={() => removeCommentator(commentator)}/>
                     </div>
                 ))}
             </div>
 
-            <StyledFormHeader headline={"Sprache auswählen"} />
-            <StyledInputRadio name={"template-localization"} elements={localizationsToSelectElements(overlay.localization, getMeaningfulLocalizations())} selected={overlay.localization} setSelected={setOverlayLocalization} />
+            <StyledFormHeader headline={"Nachfolgende Matches (Overlays)"}/>
+            <StyledInputWithButton name={"overlay-add-successor"} type={"text"} value={successorInput}
+                                   buttonChildren={<StyledIcon icon={FrameworkIcon.Add}/>}
+                                   onChange={e => setSuccessorInput(e.target.value)}
+                                   onClick={() => addSuccessor(successorInput)}
+                                   placeholder={"UUID des Overlays"} required={false} autoComplete={"off"}/>
+            <div className={"chips-list"}>
+                {overlay.successorOverlays.map((successor) => (
+                    <div key={successor} className={"chip"}>
+                        <p>{successor}</p>
+                        <StyledIcon icon={FrameworkIcon.Close} onClick={() => removeSuccessor(successor)}/>
+                    </div>
+                ))}
+            </div>
 
-            <StyledButton type={"submit"} success={submitSuccess}>{overlayToUpdate == null ? "Overlay erstellen" : "Overlay aktualisieren"}</StyledButton>
+            <StyledFormHeader headline={"Zeit festlegen"}/>
+            <StyledDateInput date={date} setDate={setDate} />
+            <StyledTimeInput name={"overlay-scheduled-time"} date={date} setDate={setDate} placeholder={"Uhrzeit"} required={false} icon={FrameworkIcon.Schedule} />
+
+            <StyledFormHeader headline={"Sprache auswählen"}/>
+            <StyledInputRadio name={"template-localization"}
+                              elements={localizationsToSelectElements(overlay.localization, getMeaningfulLocalizations())}
+                              selected={overlay.localization} setSelected={setOverlayLocalization}/>
+
+            <StyledButton type={"submit"}
+                          success={submitSuccess}>{overlayToUpdate == null ? "Overlay erstellen" : "Overlay aktualisieren"}</StyledButton>
         </StyledForm>
-        <MatchCreateModal visible={modalVisible} setVisible={setModalVisible} gameVersion={overlay.gameVersion} match={currentMatch} setMatch={onSetMatch} index={currentMatchIndex} mapData={mapData} localization={user.localization} />
+        <MatchCreateModal visible={modalVisible} setVisible={setModalVisible} gameVersion={overlay.gameVersion}
+                          match={currentMatch} setMatch={onSetMatch} index={currentMatchIndex} mapData={mapData}
+                          localization={user.localization}/>
     </div>
 }

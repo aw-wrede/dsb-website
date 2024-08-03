@@ -11,6 +11,8 @@ import StyledFormHeader from "../../framework/form/header/StyledFormHeader.tsx";
 import "./login.sass"
 import UserInfo from "../../interfaces/user/UserInfo.ts";
 import {useNavigate} from "react-router-dom";
+import LoginStatus from "../../interfaces/LoginStatus.ts";
+import {getBrowserLocalization} from "../../functions/localizationFunctions.ts";
 
 export default function LoginComponent({setUser}: {setUser: (user:UserInfo) => void}) {
 
@@ -21,10 +23,11 @@ export default function LoginComponent({setUser}: {setUser: (user:UserInfo) => v
 
     async function onLogin(e):Promise<boolean> {
         e.preventDefault()
+
         const cancelToken = axios.CancelToken.source()
         const user:AppUser|null = await performLogin(loginData, cancelToken.token)
 
-        setUser({user:user, loggedIn: user != null})
+        setUser({user:user, loginStatus: user != null ? LoginStatus.Authorized : LoginStatus.Unauthorized, localization: getBrowserLocalization()})
 
         console.log(user)
 

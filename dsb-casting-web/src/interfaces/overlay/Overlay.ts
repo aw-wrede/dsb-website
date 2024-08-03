@@ -8,6 +8,7 @@ import AppUserRef from "../user/AppUserRef.ts";
 export default interface Overlay {
     uuid:string
     title:string
+    scheduledTime:string
     type:OverlayType
     gameVersion:TourneyGameVersion
     maxMatches:number
@@ -16,4 +17,5 @@ export default interface Overlay {
     teamBeta:TourneyTeamRef
     localization:Localization
     commentators:AppUserRef[]
+    successorOverlays:string[]
 }

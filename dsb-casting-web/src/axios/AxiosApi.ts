@@ -14,6 +14,7 @@ import CreateOverlayRequest from "./requests/CreateOverlayRequest.ts";
 import TeamCreateResult from "./results/TeamCreateResult.ts";
 import Overlay from "../interfaces/overlay/Overlay.ts";
 import {getBrowserLocalization} from "../functions/localizationFunctions.ts";
+import FileUploadResult from "./results/FileUploadResult.ts";
 
 const API_URL:string = "http://localhost:5000/api"
 
@@ -189,6 +190,27 @@ export async function getMapData(cancelToken:CancelToken):Promise<Record<number,
     }
 }
 
+export async function getOverlayTemplate(cancelToken:CancelToken, uuid:string):Promise<OverlayTemplate> {
+    let result: AxiosResponse<OverlayTemplate, any>
+
+    try {
+        result = await axiosInstance.get(`/overlay/template/${uuid}`, {
+            cancelToken: cancelToken
+        })
+
+        if(result.status === 200) {
+            return result.data as OverlayTemplate
+        }
+
+        console.error(`Could not get overlay templates.`)
+    } catch (e) {
+        if(!axios.isCancel(e)) {
+            console.error(`Could not get overlay template. Error ${e.name}: ${e.message}`)
+        }
+    }
+    return null
+}
+
 export async function getAllOverlayTemplates(cancelToken:CancelToken):Promise<OverlayTemplate[]> {
     let result: AxiosResponse<OverlayTemplate[], any>
 
@@ -219,6 +241,20 @@ export async function saveNewOverlayTemplate(cancelToken:CancelToken, template:O
     } catch (e) {
         if(!axios.isCancel(e)) {
             console.error(`Could not save overlay template. Error ${e.name}: ${e.message}`)
+        }
+    }
+    return false
+}
+
+export async function updateOverlayTemplate(cancelToken:CancelToken, template:OverlayTemplate):Promise<boolean> {
+    let result: AxiosResponse<any, any>
+
+    try {
+        result = await axiosInstance.post("/overlay/template/update", template, {cancelToken:cancelToken})
+        return result.status === 200
+    } catch (e) {
+        if(!axios.isCancel(e)) {
+            console.error(`Could not update overlay template. Error ${e.name}: ${e.message}`)
         }
     }
     return false
@@ -282,7 +318,7 @@ export async function updateOverlay(cancelToken:CancelToken, overlay:CreateOverl
         return result.status === 200
     } catch (e) {
         if(!axios.isCancel(e)) {
-            console.error(`Could not update overlay template. Error ${e.name}: ${e.message}`)
+            console.error(`Could not update overlay. Error ${e.name}: ${e.message}`)
         }
     }
     return false
@@ -384,4 +420,30 @@ export async function updateTeam(cancelToken:CancelToken, team:TourneyTeam):Prom
         }
     }
     return TeamCreateResult.InternalError
+}
+
+export async function updateTeamLogo(cancelToken:CancelToken, uuid:string, file:File):Promise<FileUploadResult> {
+    let result: AxiosResponse<any, any>
+
+    try {
+        const formData = new FormData()
+        formData.append("teamUuid", uuid)
+        formData.append("formFile", file)
+
+        result = await axiosInstance.post("/file/uploadTeamLogo", formData, {
+            cancelToken: cancelToken,
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        })
+
+        return result.status === 200 ? FileUploadResult.Success : FileUploadResult.Failure
+
+    } catch (e) {
+        if(!axios.isCancel(e)) {
+            console.error(`Could not save team logo. Error ${e.name}: ${e.message}`)
+        }
+    }
+
+    return FileUploadResult.Failure
 }

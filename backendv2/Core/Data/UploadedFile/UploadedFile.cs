@@ -1,4 +1,5 @@
-﻿using Commons.Utils;
+﻿using Commons;
+using Commons.Utils;
 using Core.Controller;
 using Core.Data.User;
 using Core.Serialization;
@@ -31,7 +32,31 @@ public class UploadedFile : IPublicIdentified
 
     public Stream GetFileStream()
     {
-        var path = Path.Combine(BackendServer.Instance.FileUploadConfiguration.Path, Uuid);
-        return File.OpenRead(path);
+        return File.OpenRead(getFilePath());
+    }
+
+    public string getFilePath()
+    {
+        return Path.Combine(BackendServer.Instance.FileUploadConfiguration.Path, Uuid);
+    }
+
+    public bool DeleteFile()
+    {
+        try
+        {
+            if (!UploadedFileController.Instance.DeleteOne(Id))
+            {
+                return false;
+            }
+            
+            File.Delete(getFilePath());
+            return true;
+        }
+        catch (Exception e)
+        {
+            Logger.Exception(e);
+            return false;
+        }
+        
     }
 }

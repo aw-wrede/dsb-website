@@ -8,6 +8,7 @@ import AppUserRef from "../../interfaces/user/AppUserRef.ts";
 export default interface CreateOverlayRequest {
     uuid?:string
     title:string
+    scheduledTime:string
     type:OverlayType
     gameVersion:TourneyGameVersion
     maxMatches:number
@@ -16,6 +17,7 @@ export default interface CreateOverlayRequest {
     teamBeta:string
     localization:Localization
     commentators:string[]
+    successorOverlays:string[]
 }
 
 function commentatorsToUuidList(list:AppUserRef[]):Array<string> {
@@ -31,6 +33,7 @@ export function createOverlayRequestFromOverlay(overlay:Overlay):CreateOverlayRe
     return {
         uuid: overlay.uuid,
         title: overlay.title,
+        scheduledTime: overlay.scheduledTime,
         type: overlay.type,
         gameVersion: overlay.gameVersion,
         maxMatches: overlay.maxMatches,
@@ -38,6 +41,7 @@ export function createOverlayRequestFromOverlay(overlay:Overlay):CreateOverlayRe
         teamAlpha: overlay.teamAlpha.reference.uuid,
         teamBeta: overlay.teamBeta.reference.uuid,
         localization: overlay.localization,
-        commentators: commentatorsToUuidList(overlay.commentators)
+        commentators: commentatorsToUuidList(overlay.commentators),
+        successorOverlays: overlay.successorOverlays
     }
 }

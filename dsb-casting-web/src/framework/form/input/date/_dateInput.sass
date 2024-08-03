@@ -1,0 +1,97 @@
+.ui-date-picker
+  max-width: 40rem
+  margin: 0 auto
+  &.small, &.enlarge
+    .picker-wrapper
+      height: 0
+      width: 100%
+      overflow: hidden
+    .date-display
+      input
+        text-align: center
+    &.opened
+      .picker-wrapper
+        height: auto
+        overflow: visible
+      .date-display
+        height: 0
+        padding: 0
+        margin: 0
+        overflow: hidden
+  .input-field-date
+    visibility: hidden
+    width: 0
+    height: 0
+  .section
+    @extend .flex-row
+    justify-content: space-between
+  .date-month
+    @extend .flex-row
+    @extend .ui-panel-round
+    align-items: center
+    width: fit-content
+    padding: 0.5rem 1rem
+  .date-year
+    @extend .flex-row
+    @extend .ui-panel-round
+    align-items: center
+    width: fit-content
+    padding: 0.5rem 1rem
+  .date-day
+    padding: 2rem 0
+    width: 100%
+    .date-day-table
+      @extend .ui-panel
+      padding: 2rem
+      width: 100%
+      .table-head
+        tr
+          td
+            font-weight: 600
+            padding: 0 0 0.5rem 0
+      tr
+        td
+          position: relative
+          height: 3.5rem
+          padding: 0.1rem
+          text-align: center
+          font-size: $default-font-size
+          user-select: none
+          z-index: 1
+          //transition: color 100ms ease-in-out
+          cursor: pointer
+          &:before
+            display: block
+            position: absolute
+            top: 50%
+            left: 50%
+            transform: translate(-50%,-50%)
+            width: 0
+            height: 0
+            z-index: -1
+            content: ' '
+            box-shadow: none
+          &.selected
+            color: var(--prime)
+            font-weight: 600
+            &:before
+              width: 3.5rem
+              height: 3.5rem
+              @extend .round-edge
+              background: var(--bg)
+              @extend .box-shadow-out
+
+.ui-selector
+  position: relative
+  height: 4rem
+  @extend .ui-panel-round
+  @extend .flex-row
+  .selector-display
+    display: block
+    height: 100%
+    line-height: 220%
+    user-select: none
+  .material-icons
+    font-size: 2rem
+    padding: 0 1rem
+    cursor: pointer

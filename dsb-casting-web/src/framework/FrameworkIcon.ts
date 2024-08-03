@@ -12,10 +12,13 @@ enum FrameworkIcon {
     Key = "key",
     Login = "login",
     Logout = "logout",
+    Schedule = "schedule",
     Search = "search",
     Settings = "settings",
     Star = "star",
-    Verified = "verified"
+    Verified = "verified",
+    Left = "navigate_before",
+    Right = "navigate_next"
 }
 
 export default FrameworkIcon
