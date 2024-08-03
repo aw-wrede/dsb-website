@@ -17,6 +17,7 @@ public class Overlay : IPublicIdentified
     public string Uuid { get; set; } = UuidGenerator.GenerateUuid();
     
     public string Title { get; set; }
+    public DateTime ScheduledTime { get; set; }
     public OverlayType Type { get; set; }
     public TourneyGameVersion GameVersion { get; set; }
     public int MaxMatches { get; set; }
@@ -30,4 +31,23 @@ public class Overlay : IPublicIdentified
 
     public Localization Localization { get; set; } = Localization.English;
     public List<AppUserReference> Commentators { get; set; } = [];
+    
+    [JsonIgnore]
+    public LinkedList<OverlayReference> SuccessorOverlays { get; set; } = [];
+
+    [BsonIgnore]
+    [JsonPropertyName("successorOverlays")]
+    public LinkedList<string> SuccessorOverlayUuids
+    {
+        get
+        {
+            var list = new LinkedList<string>();
+            foreach (var successorOverlay in SuccessorOverlays)
+            {
+                list.AddLast(successorOverlay.Reference!.Uuid);
+            }
+
+            return list;
+        }
+    }
 }
