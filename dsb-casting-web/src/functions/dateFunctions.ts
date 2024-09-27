@@ -38,3 +38,31 @@ export function dateGetDayEuropean(date:Date):number {
     const day = date.getDay() - 1
     return day === -1 ? 6 : day
 }
+
+export function dateToTimeString(date:Date, showSeconds:boolean = false):string {
+    return `${pad(date.getHours(), 2)}:${pad(date.getMinutes(), 2)}${showSeconds ? `${pad(date.getSeconds(), 2)}` : ''}`
+}
+
+export function dateToCountdown(target:Date):string {
+    const now = new Date()
+
+    let remaining = target.getTime() - now.getTime()
+
+    if(remaining < 0) {
+        return "Gleich"
+    }
+
+    const days = Math.floor(remaining / (1000 * 60 * 60 * 24))
+    remaining -= days * 1000 * 60 * 60 * 24
+
+    const hours = Math.floor(remaining / (1000 * 60 * 60))
+    remaining -= hours * 1000 * 60 * 60
+
+    const minutes = Math.floor(remaining / (1000 * 60))
+    remaining -= minutes * 1000 * 60
+
+    const seconds = Math.floor(remaining / (1000))
+
+
+    return `${hours > 0 ? `${hours}:` : ''}${minutes}:${pad(seconds, 2)}`
+}

@@ -28,7 +28,7 @@ public class ApiOverlayWebSocketController : ApiWebSocketController<ApiOverlayWe
         {
             if (handler.User.SelectedOverlay?.ReferenceId == t.Id)
             {
-                handler.Send(JsonSerializer.Serialize(t));
+                SendOverlay(handler, t);
             }
             
         });
@@ -36,6 +36,11 @@ public class ApiOverlayWebSocketController : ApiWebSocketController<ApiOverlayWe
 
     private void SendOverlay(WebSocketsHandler handler, Overlay overlay)
     {
-        handler.Send(JsonSerializer.Serialize(overlay));
+        var options = new JsonSerializerOptions()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true
+        };
+        handler.Send(JsonSerializer.Serialize(overlay, options));
     }
 }

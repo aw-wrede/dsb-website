@@ -17,6 +17,7 @@ import {getBrowserLocalization} from "../functions/localizationFunctions.ts";
 import FileUploadResult from "./results/FileUploadResult.ts";
 
 const API_URL:string = "http://localhost:5000/api"
+export const WEBSOCKET_URL:string = "ws://localhost:5000/api/overlay/ws"
 
 const axiosInstance = axios.create({
     baseURL: API_URL,

@@ -18,6 +18,9 @@ export default function SiteEditOverlay() {
         const cancelToken = axios.CancelToken.source()
 
         getOverlay(cancelToken.token, uuid).then((o:Overlay) => {
+            if(o == null) {
+                return
+            }
             setOverlay(createOverlayRequestFromOverlay(o))
         })
 

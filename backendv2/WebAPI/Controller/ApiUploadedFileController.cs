@@ -58,10 +58,11 @@ public class ApiUploadedFileController : ControllerBase
         }
         
         var fileName = UuidGenerator.GenerateUuid();
-        
+
+        string filePath;
         try
         {
-            var filePath = Path.Combine(BackendServer.Instance.FileUploadConfiguration.Path, fileName);
+            filePath = Path.Combine(BackendServer.Instance.FileUploadConfiguration.Path, fileName);
             await using var stream = System.IO.File.Create(filePath);
             await formFile.CopyToAsync(stream);
         }
@@ -81,9 +82,19 @@ public class ApiUploadedFileController : ControllerBase
 
         if (!UploadedFileController.Instance.InsertOne(uploadedFile) || !UploadedFileController.Instance.TryGetByUuid(uploadedFile.Uuid, out uploadedFile))
         {
+            System.IO.File.Delete(filePath);
             return StatusCode(500);
         }
 
+        // delete old logo
+        if (team.TeamLogo?.Reference != null)
+        {
+            if (!team.TeamLogo.Reference.DeleteFile())
+            {
+                return StatusCode(500);
+            }
+        }
+        
         team.TeamLogo = uploadedFile.CreateReference();
 
         if (!TourneyTeamController.Instance.UpdateOneComplete(team))

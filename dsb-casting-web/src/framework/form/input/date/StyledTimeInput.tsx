@@ -12,7 +12,7 @@ export default function StyledTimeInput({name, date, setDate, icon, placeholder,
     }
 
     return <div className={`ui-input ${validClass} ${icon ? "ui-input-pre-icon" : ""}`}>
-        <input type="time" value={timeToInputString(date)} onChange={e => onChange(e.target.value)} placeholder={placeholder} required={required}/>
+        <input id={name} type="time" value={timeToInputString(date)} onChange={e => onChange(e.target.value)} placeholder={placeholder} required={required}/>
         {icon != null ? (
             <label htmlFor={name} className={"ui-input-label"}>
                 <StyledIcon icon={icon} />

@@ -63,7 +63,7 @@ public class ApiOverlayTemplateController : ControllerBase
 
     [HttpPut]
     [Route("add")]
-    public ActionResult Add(string? apiToken, [FromBody] OverlayTemplateAddRequest request)
+    public ActionResult Add(string? apiToken, [FromBody] OverlayTemplateRequest request)
     {
         if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Privileged, out var user))
         {
@@ -77,9 +77,37 @@ public class ApiOverlayTemplateController : ControllerBase
         template = OverlayTemplateController.Instance.GetByUuid(template.Uuid);
         return Ok(template);
     }
-    
-    public class OverlayTemplateAddRequest
+
+    [HttpPost]
+    [Route("update")]
+    public ActionResult Update(string? apiToken, [FromBody] OverlayTemplateRequest request)
     {
+        if (string.IsNullOrEmpty(request.Uuid))
+        {
+            return BadRequest();
+        }
+        
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
+        {
+            return Unauthorized();
+        }
+
+        if (!OverlayTemplateController.Instance.TryGetByUuid(request.Uuid, out var template))
+        {
+            return NotFound();
+        }
+        
+        var updatedTemplate = request.ToTemplate();
+        updatedTemplate.Id = template.Id;
+        updatedTemplate.Uuid = template.Uuid;
+
+        OverlayTemplateController.Instance.UpdateOneComplete(updatedTemplate);
+        return Ok();
+    }
+    
+    public class OverlayTemplateRequest
+    {
+        public string? Uuid { get; set; }
         public string Title { get; set; }
         public OverlayType Type { get; set; }
         public TourneyGameVersion GameVersion { get; set; }
@@ -91,7 +119,7 @@ public class ApiOverlayTemplateController : ControllerBase
         {
             return new OverlayTemplate()
             {
-                Uuid = UuidGenerator.GenerateUuid(),
+                Uuid = Uuid ?? UuidGenerator.GenerateUuid(),
                 Title = Title,
                 Type = Type,
                 GameVersion = GameVersion,

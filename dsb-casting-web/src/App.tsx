@@ -23,6 +23,7 @@ import SiteTeamList from "./sites/team/SiteTeamList.tsx";
 import "./style/style.sass"
 import SiteTeamEdit from "./sites/team/SiteTeamEdit.tsx";
 import SiteEditOverlayTemplate from "./sites/overlay/template/SiteEditOverlayTemplate.tsx";
+import SiteStartup from "./sites/live/startup/SiteStartup.tsx";
 
 export const UserContext = createContext<UserInfo>(null)
 
@@ -42,6 +43,8 @@ function AuthedRoutes({user, setUser}:{user:UserInfo, setUser: (user:UserInfo) =
         <Route path={"/overlay/template/edit/:uuid"} element={<SiteEditOverlayTemplate />} />
         <Route path={"/overlay/template/create"} element={<SiteCreateOverlayTemplate />} />
         <Route path={"/overlay/template/list"} element={<SiteTemplateList />} />
+
+        <Route path={"/live/startup"} element={<SiteStartup />} />
     </Routes>
 }
 

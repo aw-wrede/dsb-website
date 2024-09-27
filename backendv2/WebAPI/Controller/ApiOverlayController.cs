@@ -1,5 +1,4 @@
-﻿using Commons;
-using Commons.Localization;
+﻿using Commons.Localization;
 using Commons.Utils;
 using Core.Data.Casting;
 using Core.Data.Casting.Overlay;
@@ -110,18 +109,18 @@ public class ApiOverlayController : ControllerBase
             return NotFound();
         }
 
-        var newOverlay = request.ToOverlay();
-        if (newOverlay == null)
+        var updatedOverlay = request.ToOverlay();
+        if (updatedOverlay == null)
         {
             return BadRequest();
         }
 
-        newOverlay.Id = overlay.Id;
-        newOverlay.Uuid = overlay.Uuid;
+        updatedOverlay.Id = overlay.Id;
+        updatedOverlay.Uuid = overlay.Uuid;
 
-        OverlayController.Instance.UpdateOneComplete(newOverlay);
+        OverlayController.Instance.UpdateOneComplete(updatedOverlay);
         
-        ApiOverlayWebSocketController.Instance.Update(newOverlay);
+        ApiOverlayWebSocketController.Instance.Update(updatedOverlay);
         return Ok();
     }
 
@@ -129,6 +128,7 @@ public class ApiOverlayController : ControllerBase
     {
         public string? Uuid { get; set; }
         public string Title { get; set; }
+        public string ScheduledTime { get; set; }
         public OverlayType Type { get; set; }
         public int MaxMatches { get; set; }
         public TourneyMatch[] Matches { get; set; } = [];
@@ -137,6 +137,7 @@ public class ApiOverlayController : ControllerBase
         public TourneyGameVersion GameVersion { get; set; }
         public Localization Localization { get; set; }
         public string[] Commentators { get; set; } = [];
+        public string[] SuccessorOverlays { get; set; } = [];
         
         public Overlay? ToOverlay()
         {
@@ -144,27 +145,27 @@ public class ApiOverlayController : ControllerBase
             var teamBetaReference = TourneyTeamController.Instance.GetReference(TeamBeta);
 
             var commentatorReferences = AppUserController.Instance.GetReferences(Commentators);
+            var successorReferences = OverlayController.Instance.GetReferences(SuccessorOverlays);
             
-            if (teamAlphaReference == null || teamBetaReference == null || commentatorReferences == null)
+            if (teamAlphaReference == null || teamBetaReference == null || commentatorReferences == null || successorReferences == null)
             {
                 return null;
             }
-
+            
             return new Overlay()
             {
                 Uuid = Uuid ?? "",
                 Title = Title,
+                ScheduledTime = DateTime.Parse(ScheduledTime),
                 Type = Type,
                 MaxMatches = MaxMatches,
                 Matches = new LinkedList<TourneyMatch>(Matches),
                 TeamAlphaReference = teamAlphaReference,
                 TeamBetaReference = teamBetaReference,
                 Localization = Localization,
-                Commentators = commentatorReferences
+                Commentators = commentatorReferences,
+                SuccessorOverlays = successorReferences
             };
         }
     }
-
-    
-    
 }

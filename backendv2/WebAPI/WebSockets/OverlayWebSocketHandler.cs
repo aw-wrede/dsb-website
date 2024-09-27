@@ -13,7 +13,12 @@ public class OverlayWebSocketHandler : WebSocketsHandler
         var overlay = user.SelectedOverlay?.Reference;
         if (overlay != null)
         {
-            Send(JsonSerializer.Serialize(overlay));
+            var options = new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
+            Send(JsonSerializer.Serialize(overlay, options));
         }
     }
     
