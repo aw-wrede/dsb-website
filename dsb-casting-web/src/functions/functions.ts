@@ -6,3 +6,14 @@ export function pad(num:number, length:number):string {
 
     return s
 }
+
+export function stringIsNullOrEmpty(s:string|null|undefined):boolean {
+    if(s == null) {
+        return true
+    }
+    return s === ""
+}
+
+export function getBaseUrl():string {
+    return window.location.origin
+}

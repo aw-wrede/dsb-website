@@ -35,6 +35,9 @@ public class Overlay : IPublicIdentified
     [JsonIgnore]
     public LinkedList<OverlayReference> SuccessorOverlays { get; set; } = [];
 
+    public string TeamAlphaColor { get; set; } = "#d6c522";
+    public string TeamBetaColor { get; set; } = "#4320d1";
+    
     [BsonIgnore]
     [JsonPropertyName("successorOverlays")]
     public LinkedList<string> SuccessorOverlayUuids

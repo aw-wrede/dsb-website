@@ -18,22 +18,42 @@ html:has(.live-content)
   left: 0
   width: 100%
   height: 100%
-  background: url("/backgrounds/Concept_MIX.webp")
+  background: url("/backgrounds/Concept_WAVES.webp")
   background-size: cover
   .overlay-wrapper
     display: flex
     width: 100%
-    .matches-list, .stream-info
-      width: 50%
+    height: 100%
+    .matches-list
+      width: 60%
+      margin: auto 0
     .stream-info
-      .brand-logo
-        display: block
-        width: 50%
-        margin: 0 auto
-        object-fit: contain
+      width: 40%
+      margin: auto 0
+    .stream-info
+      .brand-wrapper
+        position: relative
+        .brand-logo
+          display: block
+          width: 70%
+          margin: 0 auto
+          object-fit: contain
+        .brand-name
+          font-size: 5rem
+          position: absolute
+          bottom: 17%
+          left: 50%
+          transform: translateX(-50%)
+          text-align: center
+          width: 60%
+          text-shadow: 0 0 1rem #000
+          font-weight: bold
+          line-height: 1
       .staff-info
         .staff-streamer, .staff-comm
-          font-size: 2rem
+          font-size: 3rem
           text-align: center
+          text-shadow: 0 0 1rem #000
+          font-weight: bold
         .staff-comm-wrapper
           padding: 2rem 0

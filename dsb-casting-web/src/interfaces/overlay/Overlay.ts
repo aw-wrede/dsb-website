@@ -18,4 +18,6 @@ export default interface Overlay {
     localization:Localization
     commentators:AppUserRef[]
     successorOverlays:string[]
+    teamAlphaColor:string
+    teamBetaColor:string
 }

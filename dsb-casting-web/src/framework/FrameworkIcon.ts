@@ -8,6 +8,7 @@ enum FrameworkIcon {
     Edit = "edit",
     Face = "face",
     Favorite = "favorite",
+    Fingerprint = "fingerprint",
     Home = "home",
     Key = "key",
     Login = "login",
@@ -16,6 +17,7 @@ enum FrameworkIcon {
     Search = "search",
     Settings = "settings",
     Star = "star",
+    Tv = "tv",
     Verified = "verified",
     Left = "navigate_before",
     Right = "navigate_next"

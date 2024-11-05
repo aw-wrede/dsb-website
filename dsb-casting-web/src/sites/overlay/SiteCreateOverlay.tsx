@@ -109,6 +109,10 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
 
     useEffect(() => {
         setTeamsIntoInputFields()
+        
+        if(overlayToUpdate != null) {
+            setDate(new Date(overlayToUpdate.scheduledTime))
+        }
     }, [overlayToUpdate]);
 
     useEffect(() => {

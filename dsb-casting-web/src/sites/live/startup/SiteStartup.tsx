@@ -16,7 +16,12 @@ export default function SiteStartup() {
     const [successors, setSuccessors] = useState<Overlay[]>([])
 
     function addSuccessor(overlay: Overlay) {
-        const newSuccessors:Overlay[] = Object.assign([], successors)
+        let newSuccessors:Overlay[] = Object.assign([], successors)
+        if(successors.filter(o => o.uuid === overlay.uuid).length > 0) {
+            console.error("Already exists")
+            newSuccessors = []
+        }
+
         newSuccessors.push(overlay)
         setSuccessors(newSuccessors)
     }
@@ -52,33 +57,14 @@ export default function SiteStartup() {
         //clear list
         setSuccessors([])
 
-        overlay.successorOverlays.forEach((successorUuid:string) => getOverlay(cancelToken.token, successorUuid).then(addSuccessor))
+        setTimeout(() => {
+            overlay.successorOverlays.forEach((successorUuid:string) => getOverlay(cancelToken.token, successorUuid).then(addSuccessor))
+        }, 1000)
 
         return () => {
             cancelToken.cancel()
         }
     }, [overlay]);
-
-    /*useEffect(() => {
-        if(user.user.selectedOverlay == null || user.user.selectedOverlay === "") {
-            return () => {}
-        }
-
-        const cancelToken = axios.CancelToken.source()
-
-        getOverlay(cancelToken.token, user.user.selectedOverlay).then((overlay:Overlay) => {
-            if(overlay == null) {
-                return
-            }
-            console.log(overlay)
-            setOverlay(overlay)
-            overlay.successorOverlays.forEach((successorUuid:string) => getOverlay(cancelToken.token, successorUuid).then(addSuccessor))
-        })
-
-        return () => {
-            cancelToken.cancel()
-        }
-    }, []);*/
 
     return <div className={"live-content"}>
         {overlay == null ? null : 
@@ -92,9 +78,14 @@ export default function SiteStartup() {
                 )}
             </div>
             <div className={"stream-info"}>
-                <img className={"brand-logo"} src="/images/dsb-logo.webp" alt=""/>
+                <div className="brand-wrapper">
+                    <img className={"brand-logo"} src="/images/dsb-logo.webp" alt=""/>
+                    <p className={"brand-name"}>Deutsche Splat Bundesliga</p>
+                </div>
                 <div className={"staff-info"}>
-                    <p className={"staff-streamer"}>{user.user.displayName}</p>
+                    {overlay.commentators.find(r => r.reference.uuid === user.user.uuid) != null ? null :
+                        <p className={"staff-streamer"}>{user.user.displayName}</p>}
+
                     <div className={"staff-comm-wrapper"}>
                         {overlay.commentators.map((commentator) =>
                             <p key={commentator.reference.uuid} className={"staff-comm"}>{commentator.reference.displayName}</p>)
