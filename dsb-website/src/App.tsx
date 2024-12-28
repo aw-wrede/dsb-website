@@ -23,17 +23,35 @@ import SitePrivacy from "./sites/about/SitePrivacy";
 import {getSiteTitle} from "./functions/functions";
 import SiteCalendar from "./sites/calendar/SiteCalendar";
 import TwitchBannerComponent from "./components/twitch-banner/TwitchBannerComponent";
+import axios from "axios";
+import {fetchCalendarData, fetchVenatusData} from "./AxiosApi";
 
 function App() {
 
     const [path, setPath] = useState(window.location.pathname)
+    const [enabled, setEnabled]:[boolean|null, any] = useState(null);
 
     useEffect(() => {
-        //setPath(window.location.pathname)
+        const cancelToken = axios.CancelToken.source()
+        const fetchData = async () => {
+            const data = await fetchVenatusData(cancelToken.token)
+            if(data == null) {
+                setEnabled(false)
+            } else {
+                setEnabled(data)
+            }
+        }
+
+        fetchData()
+
+        return () => {
+            cancelToken.cancel()
+        }
     }, [])
 
     return (
     <div className="App">
+        {enabled === false ? <div className={"v-banner-info"}></div> : null}
 
         <HelmetProvider>
             <Helmet>
