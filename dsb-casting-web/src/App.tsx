@@ -32,7 +32,7 @@ function AuthedRoutes({user, setUser}:{user:UserInfo, setUser: (user:UserInfo) =
     return <Routes>
         <Route path={"/"} element={<SiteHome />} />
         <Route path={"/user"} element={<SiteUser />} />
-        <Route path={"/list"} element={<SiteUserList />} />
+        <Route path={"/user/list"} element={<SiteUserList />} />
 
         <Route path={"/team/create"} element={<SiteCreateTeam />} />
         <Route path={"/team/list"} element={<SiteTeamList />} />
