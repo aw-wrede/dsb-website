@@ -33,16 +33,17 @@ export default function SiteTeamList() {
         
     }
     
-    function toCollapsibleElements(teams:TourneyTeam[], search:string) {
+    function toCollapsibleElements(teams:TourneyTeam[], search:string|null):CollapsibleElement[] {
         const data:CollapsibleElement[] = []
 
-        if(search == null) {
-            search = ""
-        }
+        if(search == null) search = ""
 
         search = search.toLowerCase()
 
-        teams.filter(t => t.name.toLowerCase().includes(search)).forEach(team => {
+        teams.filter(t => t.name.toLowerCase().includes(search))
+        .sort((a, b) => {
+            return a.name.localeCompare(b.name) // sort alphabetically
+        }).forEach(team => {
             data.push({
                 header: <div className={"flex-row-space-between flex-vertical-center"}>
                     <div className={"overlay-title-wrapper flex-row flex-vertical-center"}>
@@ -68,7 +69,7 @@ export default function SiteTeamList() {
                         ))}
                     </div>
                 </div>
-            })
+            } as CollapsibleElement)
         })
 
         return data
