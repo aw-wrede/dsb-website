@@ -19,37 +19,89 @@ import TourneyModeType, {
 } from "../../interfaces/tourney/TourneyModeType.ts";
 import InputSelectElement from "../../framework/form/input/InputSelectElement.ts";
 import StyledButton from "../../framework/form/button/StyledButton.tsx";
+import TourneyTeam from "../../interfaces/tourney/team/TourneyTeam.ts";
+import TourneyTeamType from "../../interfaces/tourney/team/TourneyTeamType.ts";
 
-export default function MatchCreateModal({visible, setVisible, gameVersion, match, setMatch, index, mapData, localization}:{visible:boolean, setVisible:(visible:boolean) => void, gameVersion:TourneyGameVersion, match:TourneyMatch, setMatch:(match:TourneyMatch, index:number|null) => void, index:number|null, mapData:Record<TourneyMapType, TourneyMap>, localization:Localization}) {
+type Props = {
+    visible: boolean
+    setVisible: (visible:boolean) => void
+    gameVersion: TourneyGameVersion
+    match: TourneyMatch
+    setMatch: (match:TourneyMatch, index:number|null) => void
+    index: number|null
+    mapData: Record<TourneyMapType, TourneyMap>
+    teams?:TourneyTeam[]
+    localization: Localization
+}
+
+export default function MatchCreateModal(props: Props) {
 
     const [mapSearchInput, setMapSearchInput] = useState("")
 
-    const [mapType, setMapType] = useState<TourneyMapType>(match.mapType)
-    const [modeType, setModeType] = useState<TourneyModeType>(match.modeType)
+    const [mapType, setMapType] = useState<TourneyMapType>(props.match.mapType)
+    const [modeType, setModeType] = useState<TourneyModeType>(props.match.modeType)
+    const [winnerTeam, setWinnerTeam] = useState<TourneyTeamType>(props.match.winnerTeam)
 
     const [searchElems, setSearchElems] = useState<SearchElement[]>([])
     const [modeElems, setModeElems] = useState<InputSelectElement[]>([])
+    const [teamElems, setTeamElems] = useState<InputSelectElement[]>([])
 
     useEffect(() => {
-        setMapType(match.mapType)
-        setModeType(match.modeType)
-        setMapSearchInput(getMapNameLocalized(getMapFromType(mapData, match.mapType), localization) ?? "")
-    }, [match]);
+        setMapType(props.match.mapType)
+        setModeType(props.match.modeType)
+        setWinnerTeam(props.match.winnerTeam)
+        setMapSearchInput(getMapNameLocalized(getMapFromType(props.mapData, props.match.mapType), props.localization) ?? "")
+    }, [props.match]);
 
     useEffect(() => {
         const elems:SearchElement[] = []
-        for (const key in mapData) {
-            const map = mapData[key] as TourneyMap
+        for (const key in props.mapData) {
+            const map = props.mapData[key] as TourneyMap
             elems.push({
                 id: map.mapIdentifier,
                 name: map.name,
                 value: map.mapIdentifier,
-                displayName: getMapNameLocalized(map, localization)
+                displayName: getMapNameLocalized(map, props.localization)
             })
         }
 
         setSearchElems(elems)
-    }, [mapData, localization]);
+    }, [props.mapData, props.localization]);
+
+    useEffect(() => {
+        if(props.teams == null || props.teams.length != 2) {
+            setTeamElems([])
+            return
+        }
+
+        const elems:InputSelectElement[] = []
+
+        // no one
+        elems.push({
+            id: "unknown",
+            value: TourneyTeamType.Unknown,
+            selected: props.match.winnerTeam == TourneyTeamType.Unknown,
+            display: "Unentschieden" //TODO localize
+        })
+
+        // team alpha
+        elems.push({
+            id: props.teams[0].uuid,
+            value: TourneyTeamType.Alpha,
+            selected: props.match.winnerTeam == TourneyTeamType.Alpha,
+            display: props.teams[0].name
+        })
+
+        // team beta
+        elems.push({
+            id: props.teams[1].uuid,
+            value: TourneyTeamType.Beta,
+            selected: props.match.winnerTeam == TourneyTeamType.Beta,
+            display: props.teams[1].name
+        })
+
+        setTeamElems(elems)
+    }, [props.teams, winnerTeam]);
 
     useEffect(() => {
         const elems:InputSelectElement[] = []
@@ -58,43 +110,45 @@ export default function MatchCreateModal({visible, setVisible, gameVersion, matc
                 id: mode.toString(),
                 value: mode,
                 selected: modeType === mode,
-                display: getTourneyModeNameLocalized(mode, localization)
+                display: getTourneyModeNameLocalized(mode, props.localization)
             })
         })
 
         setModeElems(elems)
-    }, [localization]);
+    }, [props.localization]);
 
     useEffect(() => {
-        if(visible === false) {
+        if(props.visible === false) {
             reset()
         }
-    }, [visible]);
+    }, [props.visible]);
 
     async function onSubmit(e) {
         e.preventDefault()
-        const newMatch = Object.assign({}, match)
+        const newMatch = Object.assign({}, props.match)
         newMatch.mapType = mapType
         newMatch.modeType = modeType
+        newMatch.winnerTeam = winnerTeam
 
-        setMatch(newMatch, index)
+        props.setMatch(newMatch, props.index)
 
-        setVisible(false)
+        props.setVisible(false)
         return true
     }
 
     function reset() {
         setModeType(TourneyModeType.Unknown)
         setMapType(TourneyMapType.Unknown)
+        setWinnerTeam(TourneyTeamType.Unknown)
         setMapSearchInput("")
     }
 
     function filter(s:string) {
         return searchElems.filter(elem => {
             const value = elem.value as TourneyMapType
-            const map = mapData[value]
+            const map = props.mapData[value]
 
-            if(map.gameVersion !== gameVersion) {
+            if(map.gameVersion !== props.gameVersion) {
                 return false
             }
 
@@ -108,14 +162,15 @@ export default function MatchCreateModal({visible, setVisible, gameVersion, matc
     }
 
     return (
-        <StyledModal visible={visible} setVisible={setVisible}>
+        <StyledModal visible={props.visible} setVisible={props.setVisible}>
             <StyledForm onSubmit={onSubmit}>
                 <StyledFormHeader headline={"Gespielte Map"} />
                 <SearchDropdown input={mapSearchInput} setInput={setMapSearchInput} setVal={setMapType} attributes={{id: "new-map", name: "map", placeholder: "Karte suchen", autoComplete: "off"}} filter={filter} />
                 <StyledFormHeader headline={"Gespielter Modus"} />
                 <StyledInputRadio name={"map-mode"} elements={modeElems} selected={modeType} setSelected={setModeType} />
+                <StyledInputRadio name={"winner-team"} elements={teamElems} selected={winnerTeam} setSelected={setWinnerTeam} />
                 <StyledButton type={"submit"}>
-                    Match hinzufügen
+                    {props.index == null ? 'Match hinzufügen' : 'Match aktualisieren'}
                 </StyledButton>
             </StyledForm>
         </StyledModal>

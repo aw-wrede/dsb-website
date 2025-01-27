@@ -407,6 +407,6 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
         </StyledForm>
         <MatchCreateModal visible={modalVisible} setVisible={setModalVisible} gameVersion={overlay.gameVersion}
                           match={currentMatch} setMatch={onSetMatch} index={currentMatchIndex} mapData={mapData}
-                          localization={user.localization}/>
+                          teams={teams} localization={user.localization}/>
     </div>
 }
