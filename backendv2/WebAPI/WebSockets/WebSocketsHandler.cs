@@ -1,4 +1,5 @@
 ﻿using System.Net.WebSockets;
+using Commons;
 using Core.Data.User;
 
 namespace WebAPI.WebSockets;
@@ -17,9 +18,16 @@ public class WebSocketsHandler
     public async void Send(string message)
     {
         var bytes = System.Text.Encoding.UTF8.GetBytes(message);
-        await _webSocket.SendAsync(
-            new ArraySegment<byte>(bytes), WebSocketMessageType.Text, WebSocketMessageFlags.EndOfMessage,
-            CancellationToken.None);
+        try
+        {
+            await _webSocket.SendAsync(
+                new ArraySegment<byte>(bytes), WebSocketMessageType.Text, WebSocketMessageFlags.EndOfMessage,
+                CancellationToken.None);
+        }
+        catch (Exception e)
+        {
+            Logger.Exception(e);
+        }
     }
     
     private void HandleMessage(string message) {}
