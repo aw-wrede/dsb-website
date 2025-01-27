@@ -75,7 +75,10 @@ export default function SiteOverlayList({user, setUser}:{user:UserInfo, setUser:
         }
 
         // remove selected overlay to not show twice
-        overlays.filter(o => o.uuid !== user.user.selectedOverlay).forEach(overlay => {
+        overlays.filter(o => o.uuid !== user.user.selectedOverlay)
+        .sort((a, b) => {
+            return new Date(a.scheduledTime).getTime()- new Date(b.scheduledTime).getTime() //TODO check
+        }).forEach(overlay => {
             data.push({
                 header: <div className={"flex-row-space-between flex-vertical-center"}>
                     <div className={"overlay-title-wrapper flex-row flex-vertical-center"}>

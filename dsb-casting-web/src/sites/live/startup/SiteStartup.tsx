@@ -28,7 +28,8 @@ export default function SiteStartup() {
 
     //#region WEBSOCKET
 
-    const { sendJsonMessage, lastJsonMessage, readyState } : {sendJsonMessage:(msg:string) => void, lastJsonMessage:object, readyState:ReadyState} = useWebSocket(WEBSOCKET_URL,
+    // { sendJsonMessage, lastJsonMessage, readyState } : {sendJsonMessage:(msg:string) => void, lastJsonMessage:object, readyState:ReadyState}
+    const { lastJsonMessage, readyState } : {lastJsonMessage:object, readyState:ReadyState} = useWebSocket(WEBSOCKET_URL,
         {
             share: false,
             shouldReconnect: () => true
