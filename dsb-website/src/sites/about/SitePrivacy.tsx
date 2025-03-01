@@ -1,13 +1,11 @@
-import {Helmet, HelmetProvider} from "react-helmet-async"
 import FooterComponent from "../../components/footer/FooterComponent";
+import {HeadProvider, Meta} from "react-head";
 export default function SitePrivacy() {
     return (
         <div  className={`main-content arrow-background fill-site`}>
-            <HelmetProvider>
-                <Helmet>
-                    <meta name={"robots"} content={"noindex"}/>
-                </Helmet>
-            </HelmetProvider>
+            <HeadProvider>
+                <Meta name={'robots'} content={'noindex'} />
+            </HeadProvider>
             <div  className="site-about">
                 <h1>Datenschutzerklärung</h1>
 

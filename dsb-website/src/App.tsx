@@ -1,82 +1,74 @@
-import React, {useEffect, useState} from 'react';
-import {Helmet, HelmetProvider} from "react-helmet-async"
-import './App.css';
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import SiteHome from "./sites/home/SiteHome";
-
+import './App.css'
 import "./style/style.sass"
-import SiteArchive from "./sites/archiv/SiteArchive";
-import Header2MenuComponent from "./components/header/header2/Header2MenuComponent";
+import "./index.sass"
+import {HeadProvider, Link, Meta, Title} from "react-head";
+import {useState} from "react";
+import TwitchBannerComponent from "./components/twitch-banner/TwitchBannerComponent.tsx";
+import Header2MenuComponent from "./components/header/header2/Header2MenuComponent.tsx";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {
     SITE_ARCHIVE_URL,
     SITE_CALENDAR_URL,
-    SITE_HOME_URL,
-    SITE_IMPRINT_URL,
-    SITE_PRIVACY_URL,
+    SITE_HOME_URL, SITE_IMPRINT_URL, SITE_PRIVACY_URL,
     SITE_SEASON_URL,
     SITE_TEAM_URL
-} from "./definitions/vars";
-import SiteTeam from "./sites/team/SiteTeam";
-import SiteSeason from "./sites/season/SiteSeason";
-import SiteImprint from "./sites/about/SiteImprint";
-import SitePrivacy from "./sites/about/SitePrivacy";
-import {getSiteTitle} from "./functions/functions";
-import SiteCalendar from "./sites/calendar/SiteCalendar";
-import TwitchBannerComponent from "./components/twitch-banner/TwitchBannerComponent";
-import axios from "axios";
-import {fetchCalendarData, fetchVenatusData} from "./AxiosApi";
+} from "./definitions/vars.ts";
+import SiteHome from "./sites/home/SiteHome.tsx";
+import SiteTeam from "./sites/team/SiteTeam.tsx";
+import SiteSeason from "./sites/season/SiteSeason.tsx";
+import SiteArchive from "./sites/archiv/SiteArchive.tsx";
+import SiteCalendar from "./sites/calendar/SiteCalendar.tsx";
+import SiteImprint from "./sites/about/SiteImprint.tsx";
+import SitePrivacy from "./sites/about/SitePrivacy.tsx";
+import {getSiteTitle} from "./functions/functions.tsx";
 
 function App() {
-
-    const [path, setPath] = useState(window.location.pathname)
-    const [enabled, setEnabled]:[boolean|null, any] = useState(null);
-
-    useEffect(() => {
-        const cancelToken = axios.CancelToken.source()
-        const fetchData = async () => {
-            const data = await fetchVenatusData(cancelToken.token)
-            if(data == null) {
-                setEnabled(false)
-            } else {
-                setEnabled(data)
-            }
-        }
-
-        fetchData()
-
-        return () => {
-            cancelToken.cancel()
-        }
-    }, [])
+    const [path] = useState(window.location.pathname)
 
     return (
-    <div className="App">
-        {enabled === false ? <div className={"v-banner-info"}></div> : null}
+        <>
+            <HeadProvider>
+                <Meta name={'og:image'} content={'/images/dsb-logo-256.webp'} />
+                <Meta name={'og:image:secure_url'} content={'/images/dsb-logo-256.webp'} />
+                <Meta name={'og:type'} content={'website'} />
+                <Meta name={'og:description'} content={'Events und Turniere zu Splatoon mit verschiedenen Divisionen für alle Skillklassen. Hier ist für Jeden was dabei!'} />
 
-        <HelmetProvider>
-            <Helmet>
-                <title>{getSiteTitle(path)}</title>
-            </Helmet>
-        </HelmetProvider>
+                <Meta name={'twitter:card'} content={'summary'} />
+                <Meta name={'twitter:site'} content={'@DeutscheSplateV'} />
+                <Meta name={'twitter:title'} content={'Deutsche Splat Bundesliga e.V.'} />
+                <Meta name={'twitter:image'} content={'/images/dsb-logo-256.webp'} />
+                <Meta name={'twitter:description'} content={'Events und Turniere zu Splatoon mit verschiedenen Divisionen für alle Skillklassen. Hier ist für Jeden was dabei!'} />
 
-        <TwitchBannerComponent />
+                <Meta name={'description'} content={'Events und Turniere zu Splatoon mit verschiedenen Divisionen für alle Skillklassen. Hier ist für Jeden was dabei!'} />
 
-        <Header2MenuComponent activeSite={path} />
-        <Router>
-            <Routes>
-                <Route path={SITE_HOME_URL} element={<SiteHome />} />
-                <Route path={SITE_TEAM_URL} element={<SiteTeam />} />
-                <Route path={SITE_SEASON_URL} element={<SiteSeason />} />
-                <Route path={SITE_ARCHIVE_URL} element={<SiteArchive />} />
-                
-                <Route path={SITE_CALENDAR_URL} element={<SiteCalendar />} />
+                <Link rel={'apple-touch-icon'} href={'/logo192.png'} />
+                <Link rel={'manifest'} href={'/manifest.json'} />
 
-                <Route path={SITE_IMPRINT_URL} element={<SiteImprint />} />
-                <Route path={SITE_PRIVACY_URL} element={<SitePrivacy />} />
-            </Routes>
-        </Router>
-    </div>
-    );
+                <Title>{getSiteTitle(path)}</Title>
+
+                <Link href={'/fonts/Material-Icons.css'} rel={'stylesheet'} />
+                <Link href={'/fonts/Nunito-Sans.css'} rel={'stylesheet'} />
+            </HeadProvider>
+
+            <TwitchBannerComponent />
+
+            <Header2MenuComponent activeSite={path} />
+
+            <BrowserRouter>
+                <Routes>
+                    <Route path={SITE_HOME_URL} element={<SiteHome />} />
+                    <Route path={SITE_TEAM_URL} element={<SiteTeam />} />
+                    <Route path={SITE_SEASON_URL} element={<SiteSeason />} />
+                    <Route path={SITE_ARCHIVE_URL} element={<SiteArchive />} />
+
+                    <Route path={SITE_CALENDAR_URL} element={<SiteCalendar />} />
+
+                    <Route path={SITE_IMPRINT_URL} element={<SiteImprint />} />
+                    <Route path={SITE_PRIVACY_URL} element={<SitePrivacy />} />
+                </Routes>
+            </BrowserRouter>
+        </>
+    )
 }
 
-export default App;
+export default App

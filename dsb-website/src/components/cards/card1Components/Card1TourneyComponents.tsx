@@ -1,3 +1,4 @@
+import "./card1Style.sass"
 import {Component} from "react";
 import {
     ArchiveBracket,
