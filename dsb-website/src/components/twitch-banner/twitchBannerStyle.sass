@@ -1,0 +1,39 @@
+
+
+.twitch-live-banner
+  z-index: 10
+  &.hidden
+    display: none
+  background: var(--bg-panel)
+  position: fixed
+  top: 11rem
+  right: 2rem
+  width: calc(100vw - 4rem)
+  max-width: 20rem
+  padding: 1rem
+  border-radius: 2rem
+  .twitch-live-banner-link
+    display: flex
+    flex-wrap: nowrap
+  .twitch-title
+    font-size: 2rem
+  .live-indicator-container
+    padding: 1rem 0.5rem
+    .live-indicator
+      display: block
+      width: 1rem
+      height: 1rem
+      border-radius: 1rem
+      background: #ff1616
+      animation: 1.5s blink ease infinite
+  .live-content-container
+    padding: 0.5rem
+    h1
+      padding: 0
+      margin: 0
+
+  @keyframes "blink"
+    from, to
+      opacity: 0.2
+    50%
+      opacity: 1

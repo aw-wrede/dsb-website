@@ -1,0 +1,136 @@
+import {enumKeys} from "../functions/functions";
+
+//Turnierleiter
+const COLOR_TO = "#2de0bc"
+
+//Aushilfs-Turnierleitung
+const COLOR_ASSIST_TO = "#95e9c1"
+
+//Council
+const COLOR_COUNCIL = "#4dd16c"
+
+//Developer
+const COLOR_DEVELOPER = "#3a69ff"
+
+//Social Media Manager
+const COLOR_SOCIAL_MEDIA_MANAGER = "#b440d8"
+
+//Streamer
+const COLOR_STREAMER = "#e64e14"
+
+//Kommentator
+const COLOR_COMMENTATOR = "#d67754"
+
+//Cutter
+const COLOR_CUTTER = "#85cfff"
+
+//Designer
+const COLOR_DESIGNER = "#d08ce2"
+
+export interface StaffMember {
+    id:number
+    name:string
+    roles:StaffRole[]
+    profileImageUrl:string|null
+    customColor:string|null
+    socialMedias:SocialMediaData[]
+}
+
+export enum SocialMediaType {
+    Unknown = 0,
+    X = 1,
+    Instagram = 2,
+    Twitch = 3,
+    YouTube = 4,
+    TikTok = 5
+}
+
+export interface SocialMediaData {
+    type:SocialMediaType
+    name:string
+    icon:string
+    url:string
+}
+
+export enum Localization {
+    Unknown = 0,
+    English = 1,
+    German = 2
+}
+
+export enum StaffRole {
+    TO = 1,
+    ASSIST_TO = 2,
+    Council = 3,
+    Developer = 10,
+    SocialMediaManager = 20,
+    Streamer = 21,
+    Commentator = 22,
+    Cutter = 23,
+    Designer = 30
+}
+
+export function getAllStaffRoles():StaffRole[] {
+    const list:StaffRole[] = []
+    for(const role of enumKeys(StaffRole)) {
+        list.push(StaffRole[role])
+    }
+
+    return list
+}
+
+export function getRoleNameLocalized(staffRole:StaffRole, locale:Localization = Localization.German) {
+    switch (staffRole) {
+        case StaffRole.TO: return "Turnierleitung"
+        case StaffRole.ASSIST_TO: return "Aushilfs-Turnierleitung"
+        case StaffRole.Council: return "Council"
+        case StaffRole.Developer: return "Developer"
+
+        case StaffRole.SocialMediaManager: return "Social-Media-Manager"
+        case StaffRole.Streamer: return "Streamer"
+        case StaffRole.Cutter: return "Cutter"
+        case StaffRole.Commentator: return "Kommentator"
+
+        case StaffRole.Designer: return "Designer"
+    }
+}
+
+export function getStaffColor(staffMember:StaffMember):string {
+    return staffMember.customColor ?? getPreferredColor(staffMember.roles) ?? ""
+}
+
+export function getStaffRoleColor(staffRole:StaffRole):string {
+    switch (staffRole) {
+        case StaffRole.TO: return COLOR_TO
+        case StaffRole.ASSIST_TO: return COLOR_ASSIST_TO
+        case StaffRole.Council: return COLOR_COUNCIL
+        case StaffRole.Developer: return COLOR_DEVELOPER
+        case StaffRole.SocialMediaManager: return COLOR_SOCIAL_MEDIA_MANAGER
+        case StaffRole.Streamer: return COLOR_STREAMER
+        case StaffRole.Commentator: return COLOR_COMMENTATOR
+        case StaffRole.Cutter: return COLOR_CUTTER
+        case StaffRole.Designer: return COLOR_DESIGNER
+    }
+}
+
+export function getPreferredColor(staffRoles:StaffRole[]):string|null {
+    return getStaffRoleColor(getHighestStaffRole(staffRoles)!)
+}
+
+export function getHighestStaffRole(staffRoles:StaffRole[]):StaffRole|null {
+    const length = staffRoles.length
+    if(length === 0) {
+        return null
+    }
+
+    let highestRole:StaffRole = staffRoles[0]
+
+
+    for(let i = 0; i < length; i++) {
+        if(staffRoles[i] < highestRole) {
+            highestRole = staffRoles[i]
+        }
+    }
+
+    return highestRole
+}

@@ -1,0 +1,113 @@
+$header-bg: rgba(0, 0, 0, 1)
+
+$menu-color: #fff
+$menu-color-current: #000
+$menu-current-background: #fff
+
+$transition-time: 200ms
+
+.header-container
+  z-index: 1
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 9.5rem
+  display: flex
+  justify-content: space-between
+  padding: 2rem
+  transition: background-color $transition-time ease-in-out
+  background-color: rgba(0,0,0,0)
+  &.with-bg
+    background-color: $header-bg
+  .header-brand
+    .brand-text
+      display: block
+      color: $menu-color
+    .brand-logo
+      display: none
+      border-radius: 50%
+      width: 4rem
+      height: 4rem
+      margin: 1rem
+  .header-menu
+    .mobile-menu-button
+      display: none
+      width: 4rem
+      height: 4rem
+      margin: 1rem
+      span
+        display: block
+        height: 3.5rem
+        //padding: 1rem 1.5rem
+        //font-weight: 500
+        font-size: 3.5rem
+        //line-height: 1.3rem
+        color: $menu-color
+        user-select: none
+    .menu-list
+      display: flex
+      flex-wrap: nowrap
+      li
+        //height: 4rem
+        margin: 0 1rem
+        border-radius: 2rem
+        a
+          display: block
+          height: 3.5rem
+          padding: 1rem 1.5rem
+          font-weight: 600
+          font-size: 1.6rem
+          line-height: 1.3rem
+          color: $menu-color
+          text-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.8)
+        &.current
+          background: $menu-current-background
+          a
+            color: $menu-color-current
+            text-shadow: none
+
+//brand text to brand logo
+@media (max-width: 960px)
+  .header-container
+    .header-brand
+      .brand-logo
+        display: block
+      .brand-text
+        display: none
+
+//menu to mobile menu
+@media (max-width: 740px)
+  .header-container
+    height: 7rem
+    padding: 0.5rem 1rem
+    .header-brand
+      .brand-logo
+        width: 4rem
+        height: 4rem
+    .header-menu
+      .mobile-menu-button
+        display: block
+        cursor: pointer
+        span
+          line-height: 1.2
+      .menu-list
+        display: block
+        position: fixed
+        top: 7rem
+        left: 0
+        width: 100%
+        margin: 0
+        padding: 0 1rem 2rem 1rem
+        background-color: rgba(0,0,0,0)
+        transition: transform $transition-time ease-in-out, background-color $transition-time ease-in-out
+        overflow: hidden
+        transform: scaleY(0)
+        transform-origin: top
+        li
+          width: 60%
+          margin: 0 auto
+        &.open
+          display: block
+          transform: scaleY(1)
+          background-color: $header-bg

@@ -1,0 +1,131 @@
+$color: #fff
+
+$discord-panel-background: #2f3136
+$discord-join-background: #43b581
+$discord-weak-color: #b9bbbe
+$discord-channel-color: #1fa0e5
+
+.home
+  .landing-section
+    position: relative
+    width: 100%
+    height: 100vh
+    overflow: hidden
+    .img-container
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      overflow: hidden
+      img
+        width: 100%
+        height: 100%
+        object-fit: cover
+        //filter: blur(1.5rem)
+    .landing-content
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%,-50%)
+    .dsb-logo
+      width: 30rem
+      max-width: 80vw
+      border-radius: 50%
+      //box-shadow: 0.5rem 0.5rem 1rem 0rem #000000
+      box-shadow: 0.2rem 0.2rem 1rem 0 #000000
+    .headline
+      font-size: 5rem
+      color: #fff
+      text-shadow: 0.2rem 0.2rem 0.2rem black
+  .section-socials
+    width: 100%
+    .socials-wrapper
+      width: 100%
+      max-width: 100rem
+      margin: 0 auto
+      padding: 0 0 10rem 0
+    .info-text
+      padding: 0 2rem
+      h1, p, i
+        user-select: none
+      h1, p
+        color: $color
+      h1
+        font-size: 3rem
+      p
+        font-size: 1.6rem
+      //font-weight: 400
+      i
+        color: $discord-channel-color
+        font-style: normal
+    .social-discord-server-container
+      padding: 4rem 2rem
+      display: flex
+      align-items: center
+      flex-direction: column
+      .social-discord-box
+        margin: 3rem 0 0 0
+    .socials-list
+      display: flex
+      justify-content: center
+      padding: 2rem 2rem 0 2rem
+      .socials-container
+        display: block
+        padding: 1rem
+        width: 8rem
+        height: 6rem
+        max-width: 15%
+        .socials-img
+          display: block
+          width: 100%
+          height: 100%
+          max-width: 10vw
+          object-fit: contain
+
+.social-discord-box
+  display: flex
+  flex-wrap: nowrap
+  justify-content: space-between
+  align-items: center
+  width: 100%
+  max-width: 42rem
+  background: $discord-panel-background
+  border-radius: 0.4rem
+  padding: 1.6rem
+  .dc-main
+    font-size: 1.6rem
+    color: $color
+  .dc-weak
+    color: $discord-weak-color
+  .discord-server-info
+    display: flex
+    flex-wrap: nowrap
+    p
+      //font-family: Whitney Medium Regular,Helvetica Neue,Helvetica,Arial,sans-serif
+      font-weight: 500
+      text-align: left
+    .discord-info-text
+      display: flex
+      flex-direction: column
+      justify-content: center
+      padding: 0 0 0 1.6rem
+    .discord-server-logo
+      width: 5rem
+      height: 5rem
+      object-fit: fill
+      border-radius: 1.5rem
+  .discord-join-button
+    display: flex
+    align-items: center
+    background: $discord-join-background
+    border-radius: 0.3rem
+    //height: 4rem
+    a
+      color: $color
+      line-height: 1
+      padding: 1.3rem 2rem
+
+.home-calendar-carousel
+  .calendar-container
+    margin: 8rem 4rem 2rem 4rem

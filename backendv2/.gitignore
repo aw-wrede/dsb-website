@@ -1,0 +1,10 @@
+.idea
+.DS_Store
+
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages
+cfg

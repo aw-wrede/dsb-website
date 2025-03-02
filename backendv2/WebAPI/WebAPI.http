@@ -1,0 +1,6 @@
+@WebAPI_HostAddress = http://localhost:5037
+
+GET {{WebAPI_HostAddress}}/calendar/getall/
+Accept: application/json
+
+###
