@@ -11,7 +11,7 @@ import {
 import {getSiteName} from "../../../functions/functions";
 import {HEADER_TITLE} from "../../../definitions/constants";
 
-export default function Header2MenuComponent({activeSite}) {
+export default function Header2MenuComponent({activeSite}:{activeSite:string}) {
 
     const [scrollPosition, setScrollPosition] = useState(0)
     const [opened, setOpened] = useState(false)

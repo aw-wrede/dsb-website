@@ -1,4 +1,3 @@
-import "../../components/cards/card1Components/card1Style.sass"
 import {
     Card1DivisionTourneyComponent,
     Card1TourneyBracketsComponent
@@ -7,7 +6,7 @@ import {
 import "./archiveStyle.sass"
 import {DATA_ARCHIVE} from "../../data/DataArchive";
 import FooterComponent from "../../components/footer/FooterComponent";
-import React, {useState} from "react";
+import {useState} from "react";
 import {
     ArchiveData,
     ArchiveSeason,
@@ -15,7 +14,6 @@ import {
     ArchiveType,
     getAllArchiveTypes, getArchiveTypeNameLocalized
 } from "../../interfaces/ArchiveData";
-import {getAllStaffRoles, getRoleNameLocalized} from "../../interfaces/StaffData";
 import UiCheckbox from "../../components/UiElements/UiCheckbox";
 
 export default function SiteArchive() {
