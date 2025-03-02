@@ -1,5 +1,5 @@
 import './twitchBannerStyle.sass'
-import React, {useEffect, useRef, useState} from "react";
+import {RefObject, useEffect, useRef, useState} from "react";
 import {SunnyTwitchData} from "../../interfaces/SunnyTwitchData";
 import axios from "axios";
 import {fetchTwitchLiveData} from "../../AxiosApi";
@@ -8,14 +8,14 @@ export default function TwitchBannerComponent() {
 
     const [sunnyTwitchInfo, setSunnyTwitchInfo]:[SunnyTwitchData, any] = useState({live: false, title: null, category: null})
 
-    const refreshTimer:React.MutableRefObject<NodeJS.Timer|null> = useRef(null)
+    const refreshTimer:RefObject<number|null> = useRef(null)
 
     useEffect(() => {
         const cancelToken = axios.CancelToken.source()
         const fetchData = async() => {
             const data = await fetchTwitchLiveData(cancelToken.token)
             if(data != null) setSunnyTwitchInfo(data)
-            console.log(data)
+            //console.log(data)
         }
 
         fetchData()

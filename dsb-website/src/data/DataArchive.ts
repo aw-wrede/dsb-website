@@ -1119,7 +1119,91 @@ const DSB_BUNDESLAENDER_BRAWL_2:ArchiveTourney = {
     links: []
 }
 
+const DSB_SEASON_8:ArchiveSeason = {
+    name: "DSB Season 8",
+    type: ArchiveType.DSB_SEASON,
+    start: new Date("2024-04-15"),
+    end: new Date("2024-06-09"),
+    image: "/images/dsb_season_8_banner.webp",
+    divisions: [
+        {
+            id: 1,
+            name: "Division 1",
+            url: "https://challonge.com/DSBS8D1",
+            show: true,
+            showUrl: false,
+            links: []
+        },
+        {
+            id: 2,
+            name: "Division 2",
+            url: "https://challonge.com/DSBS8D2",
+            show: true,
+            showUrl: false,
+            links: []
+        },
+        {
+            id: 3,
+            name: "Division 3",
+            url: "https://challonge.com/DSBS8D3",
+            show: true,
+            showUrl: false,
+            links: []
+        },
+        {
+            id: 4,
+            name: "Division 4",
+            url: "https://challonge.com/DSBS8D4",
+            show: true,
+            showUrl: false,
+            links: []
+        },
+        {
+            id: 5,
+            name: "Division 5",
+            url: "https://challonge.com/DSBS8D5",
+            show: true,
+            showUrl: false,
+            links: []
+        },
+        {
+            id: 6,
+            name: "Division 6",
+            url: "https://challonge.com/DSBS8D6",
+            show: true,
+            showUrl: false,
+            links: []
+        },
+        {
+            id: 7,
+            name: "Division 7",
+            url: "https://challonge.com/DSBS8D7",
+            show: true,
+            showUrl: false,
+            links: []
+        },
+        {
+            id: 8,
+            name: "Division 8",
+            url: "https://challonge.com/DSBS8D8",
+            show: true,
+            showUrl: false,
+            links: []
+        },
+        {
+            id: 9,
+            name: "Seeding Turnier",
+            url: "https://challonge.com/de/DSBS8Seeding",
+            show: false,
+            showUrl: true,
+            links: []
+        }
+    ],
+    links: []
+}
+
 export const DATA_ARCHIVE = [
+    DSB_SEASON_8,
     DSB_BUNDESLAENDER_BRAWL_2,
     DSP_5,
     SHOPPING_SPREE_1,

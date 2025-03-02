@@ -2,7 +2,7 @@ import './App.css'
 import "./style/style.sass"
 import "./index.sass"
 import {HeadProvider, Link, Meta, Title} from "react-head";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import TwitchBannerComponent from "./components/twitch-banner/TwitchBannerComponent.tsx";
 import Header2MenuComponent from "./components/header/header2/Header2MenuComponent.tsx";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
@@ -21,9 +21,30 @@ import SiteCalendar from "./sites/calendar/SiteCalendar.tsx";
 import SiteImprint from "./sites/about/SiteImprint.tsx";
 import SitePrivacy from "./sites/about/SitePrivacy.tsx";
 import {getSiteTitle} from "./functions/functions.tsx";
+import axios from "axios";
+import {fetchVenatusData} from "./AxiosApi.ts";
 
 function App() {
     const [path] = useState(window.location.pathname)
+    const [enabled, setEnabled]:[boolean|null, any] = useState(null)
+
+    useEffect(() => {
+        const cancelToken = axios.CancelToken.source()
+        const fetchData = async () => {
+            const data = await fetchVenatusData(cancelToken.token)
+            if(data == null) {
+                setEnabled(false)
+            } else {
+                setEnabled(data)
+            }
+        }
+
+        fetchData()
+
+        return () => {
+            cancelToken.cancel()
+        }
+    }, [])
 
     return (
         <>
@@ -49,6 +70,8 @@ function App() {
                 <Link href={'/fonts/Material-Icons.css'} rel={'stylesheet'} />
                 <Link href={'/fonts/Nunito-Sans.css'} rel={'stylesheet'} />
             </HeadProvider>
+
+            {enabled === false ? <div className={"v-banner-info"}></div> : null}
 
             <TwitchBannerComponent />
 

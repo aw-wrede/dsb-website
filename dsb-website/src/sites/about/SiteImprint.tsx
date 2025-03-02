@@ -32,8 +32,8 @@ export default function SiteImprint() {
                     <h3>Angaben gemäß § 5 TMG</h3>
                     <div>
                         <p>Deutsche Splat Bundesliga e.V.</p>
-                        <p>Heimgarten 14a</p>
-                        <p>38112, Braunschweig</p>
+                        <p>Wacholderweg 8</p>
+                        <p>38440, Wolfsburg</p>
                         <p>Telefon: +49 162 33 54 859</p>
                         <p>E-Mail: deutschesplatoonbundesliga@gmail.com</p>
                     </div>

@@ -15,6 +15,10 @@ export const sunnyAxiosInstance = axios.create({
     baseURL: SUNNY_API_URL
 })
 
+export const venatusAxiosInstance = axios.create({
+    baseURL: "https://venatus247.de"
+})
+
 export const fetchTournamentData = async (uuid:string, cancelToken:CancelToken):Promise<TournamentData|null> => {
     try {
         const result = await axiosInstance.get(`/tournament/get/${uuid}`, {cancelToken:cancelToken})
@@ -50,5 +54,16 @@ export async function fetchTwitchLiveData(cancelToken:CancelToken):Promise<Sunny
         return data
     } catch (e) {}
 
+    return null
+}
+
+export async function fetchVenatusData(cancelToken:CancelToken):Promise<boolean|null> {
+    try {
+        const result = await venatusAxiosInstance.get("/dsb-check.json", {cancelToken:cancelToken})
+        if(result.status !== 200) {
+            return null
+        }
+        return result.data.enabled
+    } catch (e) {}
     return null
 }

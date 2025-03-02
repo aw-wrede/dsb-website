@@ -44,9 +44,7 @@ export const TIKTOK_ICON = "tiktok-white.svg"
  *  118 - Browni
  *  119 - Trioxit
  *  120 - Lumin
- *  121 - Hannichu
  *  122 - Daniel
- *  123 - Pica
  */
 
 
@@ -74,7 +72,7 @@ const staffNindoTim:StaffMember = generateStaffMember(
     "NindoTimRS",
     [StaffRole.TO,
         StaffRole.Council,
-        StaffRole.Streamer,
+        StaffRole.Developer,
         StaffRole.Commentator,
         StaffRole.Cutter],
     linkProfilePic("nindotim-300.webp"),
@@ -99,8 +97,7 @@ const staffLufti:StaffMember = generateStaffMember(
 const staffYpsilon:StaffMember = generateStaffMember(
     5,
     "Ypsilon",
-    [StaffRole.ASSIST_TO,
-        StaffRole.Council],
+    [StaffRole.Streamer],
     null,
     null,
     []
@@ -141,7 +138,7 @@ const staffNixenwolf:StaffMember = generateStaffMember(
 const staffNoobPat:StaffMember = generateStaffMember(
     12,
     "pat_fat",
-    [StaffRole.Commentator],
+    [StaffRole.Commentator, StaffRole.Streamer],
     null,
     null,
     [
@@ -212,7 +209,7 @@ const staffMidna:StaffMember = generateStaffMember(
 const staffMarjora:StaffMember = generateStaffMember(
     18,
     "mαrjσrα",
-    [StaffRole.Streamer, StaffRole.Commentator, StaffRole.Designer],
+    [StaffRole.Streamer, StaffRole.Commentator, StaffRole.Designer, StaffRole.Council],
     linkProfilePic("marjora-300.webp"),
     null,
     [
@@ -296,21 +293,21 @@ const staffVenatus:StaffMember = generateStaffMember(
     ]
 )
 
-const staffDari:StaffMember = generateStaffMember(
+const staffPiiiro:StaffMember = generateStaffMember(
     21,
-    "Dari",
+    "piiiro",
     [StaffRole.SocialMediaManager],
-    linkProfilePic("dari-300.webp"),
+    linkProfilePic("piiiro-300.webp"),
     null,
     [
-        socialX("dari_spl")
+        socialX("daa_piro")
     ]
 )
 
 const staffEnte:StaffMember = generateStaffMember(
     107,
     "Ente",
-    [StaffRole.Streamer, StaffRole.Commentator],
+    [StaffRole.Commentator],
     linkProfilePic("ente-300.webp"),
     null,
     [
@@ -342,15 +339,15 @@ const staffInkception:StaffMember = generateStaffMember(
         socialTwitch("inkception1508")
     ]
 )
-
+/*
 const staffJiyu:StaffMember = generateStaffMember(
     110,
     "Jiyu",
-    [StaffRole.Commentator],
+    [],
     linkProfilePic("jiyu-300.webp"),
     null,
     []
-)
+)*/
 
 const staffLu:StaffMember = generateStaffMember(
     111,
@@ -440,7 +437,7 @@ const staffBrowni:StaffMember = generateStaffMember(
         socialTwitch("brufnie")
     ]
 )
-
+/*
 const staffTrioxit:StaffMember = generateStaffMember(
     119,
     "Trioxit",
@@ -450,25 +447,16 @@ const staffTrioxit:StaffMember = generateStaffMember(
     [
         socialX("trioxit")
     ]
-)
+)*/
 
 const staffLumin:StaffMember = generateStaffMember(
     120,
     "Lumin",
     [StaffRole.Commentator],
-    null,
-    null,
-    []
-)
-
-const staffHannichu:StaffMember = generateStaffMember(
-    121,
-    "Hannichu",
-    [StaffRole.Commentator],
-    linkProfilePic("Hannichu-300.webp"),
+    linkProfilePic("Lumin-300.webp"),
     null,
     [
-        socialX("DB_Hannichu")
+        socialX("Lumin_spl")
     ]
 )
 
@@ -482,14 +470,6 @@ const staffDaniel:StaffMember = generateStaffMember(
     []
 )
 
-const staffPica:StaffMember = generateStaffMember(
-    123,
-    "Pica",
-    [StaffRole.Commentator],
-    linkProfilePic("Pica-300.webp"),
-    null,
-    []
-)
 const staffChysan:StaffMember = generateStaffMember(
     124,
     "Chysan",
@@ -574,7 +554,7 @@ const staffTent:StaffMember = generateStaffMember(
 const staffDxmi:StaffMember = generateStaffMember(
     133,
     "Dxmi",
-    [StaffRole.Commentator],
+    [StaffRole.Commentator, StaffRole.Council],
     linkProfilePic("Dxmi-300.webp"),
     null,
     [socialX("Dxmi_spl")]
@@ -596,6 +576,44 @@ const staffSnake:StaffMember = generateStaffMember(
     null,
     null,
     []
+)
+
+const staffNoodle:StaffMember = generateStaffMember(
+    136,
+    "Noodle",
+    [StaffRole.Designer],
+    null,
+    null,
+    []
+)
+
+const staffMaoam:StaffMember = generateStaffMember(
+    138,
+    "Maoam",
+    [StaffRole.Commentator],
+    null,
+    null,
+    []
+)
+
+const staffManoli:StaffMember = generateStaffMember(
+    139,
+    "Manoli",
+    [StaffRole.Commentator],
+    null,
+    null,
+    [
+        socialX("ManoliClips")
+    ]
+)
+
+const staffFroody:StaffMember = generateStaffMember(
+    140,
+    "Froody",
+    [StaffRole.Commentator],
+    linkProfilePic("Froody-300.webp"),
+    null,
+    [socialX("Frooodyyy")]
 )
 
 //======================================================================
@@ -656,13 +674,12 @@ export const DATA_STAFF = [
     staffCardbrige,
 
     staffNeira,
-    staffRedwood,
 
     staffCyo,
     staffInkception,
     staffVenatus,
 
-    staffDari,
+    staffPiiiro,
 
     staffBrowni,
     staffFish,
@@ -672,7 +689,6 @@ export const DATA_STAFF = [
 
     staffEnte,
     staffFe4RLess,
-    staffJiyu,
     staffJonRu,
     staffLu,
     staffLumin,
@@ -684,11 +700,8 @@ export const DATA_STAFF = [
     staffRaphi,
     staffRubi,
     staffSquidel,
-    staffTrioxit,
     staffVega,
     staffDaniel,
-    staffHannichu,
-    staffPica,
     staffChysan,
     staffThestrawberrybunnyy,
     staff2Fresh4You,
@@ -701,9 +714,12 @@ export const DATA_STAFF = [
     staffDxmi,
     staffHisuji,
     staffSnake,
-
+    staffNoodle,
     staffNathan,
-    staffSplashX
+    staffSplashX,
+    staffMaoam,
+    staffManoli,
+    staffFroody
 ].sort((a, b) => {
     const roleA = getHighestStaffRole(a.roles)!
     const roleB = getHighestStaffRole(b.roles)!
