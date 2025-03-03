@@ -1,4 +1,5 @@
 import './App.sass'
+import "./style/style.sass"
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom"
 import axios from "axios";
 import SiteUser from "./sites/user/SiteUser.tsx";
@@ -19,12 +20,11 @@ import SiteCreateTeam from "./sites/team/SiteCreateTeam.tsx";
 import SiteOverlayList from "./sites/overlay/SiteOverlayList.tsx";
 import SiteEditOverlay from "./sites/overlay/SiteEditOverlay.tsx";
 import SiteTeamList from "./sites/team/SiteTeamList.tsx";
-
-import "./style/style.sass"
 import SiteTeamEdit from "./sites/team/SiteTeamEdit.tsx";
 import SiteEditOverlayTemplate from "./sites/overlay/template/SiteEditOverlayTemplate.tsx";
 import SiteStartup from "./sites/live/startup/SiteStartup.tsx";
 import SiteMatchOverview from "./sites/live/matchOverview/SiteMatchOverview.tsx";
+import SiteUserCreate from "./sites/user/SiteUserCreate.tsx";
 
 export const UserContext = createContext<UserInfo>(null)
 
@@ -33,6 +33,7 @@ function AuthedRoutes({user, setUser}:{user:UserInfo, setUser: (user:UserInfo) =
         <Route path={"/"} element={<SiteHome />} />
         <Route path={"/user"} element={<SiteUser />} />
         <Route path={"/user/list"} element={<SiteUserList />} />
+        <Route path={"/user/create"} element={<SiteUserCreate />} />
 
         <Route path={"/team/create"} element={<SiteCreateTeam />} />
         <Route path={"/team/list"} element={<SiteTeamList />} />

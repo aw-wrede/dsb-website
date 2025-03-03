@@ -14,8 +14,8 @@ import "./user.sass"
 
 export default function UserProfileComponent({user, userToEdit}:{user:UserInfo, userToEdit:UserInfo}) {
 
-    const [userData, setUserData] = useState<AppUser>(userToEdit.user);
-    const [newPassword, setNewPassword] = useState({password: "", passwordConfirm: ""});
+    const [userData, setUserData] = useState<AppUser>(userToEdit.user)
+    const [newPassword, setNewPassword] = useState({password: "", passwordConfirm: ""})
 
     useEffect(() => {
         setUserData(userToEdit.user);
@@ -93,7 +93,7 @@ export default function UserProfileComponent({user, userToEdit}:{user:UserInfo, 
                              required={true} icon={FrameworkIcon.Face} autoComplete={"off"} />
 
                 {user.user.uuid !== userToEdit.user.uuid ? (
-                    <UserProfileGroupSelector user={user} editUser={userToEdit.user} />
+                    <UserProfileGroupSelector user={user} editUser={userToEdit.user} setEditUser={setUserData} />
                 ) : null}
 
                 <StyledButton type={"submit"} children={"Speichern"}/>

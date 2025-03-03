@@ -15,6 +15,7 @@ import TeamCreateResult from "./results/TeamCreateResult.ts";
 import Overlay from "../interfaces/overlay/Overlay.ts";
 import {getBrowserLocalization} from "../functions/localizationFunctions.ts";
 import FileUploadResult from "./results/FileUploadResult.ts";
+import AppUserCreateData from "../interfaces/user/AppUserCreateData.ts";
 
 const API_URL:string = "http://localhost:5000/api"
 export const WEBSOCKET_URL:string = "ws://localhost:5000/api/overlay/ws"
@@ -86,6 +87,27 @@ export async function getAllUsers(cancelToken:CancelToken): Promise<AppUser[]|nu
         console.error(`Could not fetch users data. Error ${e.name}: ${e.message}`)
         return null
     }
+}
+
+export async function createNewUser(newUserData:AppUserCreateData, cancelToken:CancelToken): Promise<boolean> {
+    let result: AxiosResponse<any, any>
+
+    try {
+        result = await axiosInstance.put("/user/create", newUserData, {
+            cancelToken: cancelToken
+        })
+
+        if(result.status === 200) {
+            return true
+        }
+    } catch (e) {
+        // do not display error if request was canceled
+        if(!axios.isCancel(e)) {
+            console.error(`Could not save user data. Error ${e.name}: ${e.message}`)
+        }
+        return false
+    }
+    return false
 }
 
 export async function saveUserData(userData:AppUser, cancelToken:CancelToken): Promise<boolean> {

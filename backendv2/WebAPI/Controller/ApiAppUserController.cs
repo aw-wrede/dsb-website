@@ -231,7 +231,7 @@ public class ApiAppUserController : ControllerBase
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public string Password { get; set; }
-
+        public AppUserGroup UserGroup { get; set; }
         public AppUser ToAppUser()
         {
             return new AppUser(Name, DisplayName, Password);
