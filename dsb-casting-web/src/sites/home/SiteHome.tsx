@@ -17,6 +17,9 @@ export default function SiteHome() {
                 {user.user.userGroup >= AppUserGroup.Privileged ?
                     <StyledLinkButton href={"/user/list"}>Liste aller Nutzer</StyledLinkButton>
                     : null}
+                {user.user.userGroup >= AppUserGroup.Admin ?
+                    <StyledLinkButton href={"/user/create"}>Neuen Nutzer erstellen</StyledLinkButton>
+                    : null}
                 <StyledLinkButton href={"/user"}>
                     Eigenen Nutzer bearbeiten
                 </StyledLinkButton>
