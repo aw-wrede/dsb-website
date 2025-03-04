@@ -30,12 +30,13 @@ public class AppUser : IPublicIdentified
 
     public AppUser() {}
 
-    public AppUser(string name, string displayName, string password)
+    public AppUser(string name, string displayName, string password, AppUserGroup? userGroup)
     {
         Uuid = UuidGenerator.GenerateUuid();
         Name = name;
         DisplayName = displayName;
         Credentials = AppUserCredentials.Create(password, true);
+        UserGroup = userGroup ?? AppUserGroup.Default;
     }
     
     public bool VerifyLoginAttempt(string password)
