@@ -9,6 +9,8 @@ import UserInfo from "../../interfaces/user/UserInfo.ts";
 import StyledButton from "../../framework/form/button/StyledButton.tsx";
 import {createNewUser} from "../../axios/AxiosApi.ts";
 import axios from "axios";
+import { useState } from "react";
+import ButtonActionStatus from "../../framework/form/button/ButtonActionStatus.ts";
 
 type Props = {
     user:UserInfo
@@ -18,13 +20,23 @@ type Props = {
 
 export default function UserCreateComponent(props:Props) {
 
+    const [submitSuccess, setSubmitSuccess] = useState<ButtonActionStatus>(ButtonActionStatus.Nothing)
+
     async function onSubmit(e) {
+        setSubmitSuccess(ButtonActionStatus.Loading)
         e.preventDefault()
         console.log(props.newUser)
 
         const cancelToken = axios.CancelToken.source()
 
-        return await createNewUser(props.newUser, cancelToken.token)
+        const result = await createNewUser(props.newUser, cancelToken.token)
+
+        setSubmitSuccess(result ? ButtonActionStatus.Success : ButtonActionStatus.Error)
+        setTimeout(() => {
+            setSubmitSuccess(ButtonActionStatus.Nothing)
+        }, 2000)
+
+        return result
     }
 
     function updateValue(e) {
@@ -51,7 +63,7 @@ export default function UserCreateComponent(props:Props) {
     }
 
     return (
-        <div className={"user-component"}>
+        <div className={"component user-component"}>
             <StyledForm onSubmit={e => onSubmit(e)}>
                 <StyledFormHeader headline={"Neuen Account erstellen"} />
 
@@ -67,7 +79,7 @@ export default function UserCreateComponent(props:Props) {
 
                 <UserProfileGroupSelector user={props.user} editUser={props.newUser} setEditUser={props.setNewUser} />
 
-                <StyledButton type={"submit"} children={"Nutzer hinzufügen"}/>
+                <StyledButton success={submitSuccess} type={"submit"} children={"Nutzer hinzufügen"}/>
             </StyledForm>
         </div>
     )
