@@ -110,6 +110,27 @@ export async function createNewUser(newUserData:AppUserCreateData, cancelToken:C
     return false
 }
 
+export async function deleteUser(uuid:string, cancelToken:CancelToken):Promise<boolean> {
+    let result: AxiosResponse<any, any>
+
+    try {
+        result = await axiosInstance.delete(`/user/delete/${uuid}`, {
+            cancelToken: cancelToken
+        })
+
+        if(result.status === 200) {
+            return true
+        }
+    } catch (e) {
+        // do not display error if request was canceled
+        if(!axios.isCancel(e)) {
+            console.error(`Could not save user data. Error ${e.name}: ${e.message}`)
+        }
+        return false
+    }
+    return false
+}
+
 export async function saveUserData(userData:AppUser, cancelToken:CancelToken): Promise<boolean> {
     const request:UserUpdateRequest = {
         uuid: userData.uuid,

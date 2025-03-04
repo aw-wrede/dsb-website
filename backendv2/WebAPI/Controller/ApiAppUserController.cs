@@ -145,7 +145,7 @@ public class ApiAppUserController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("delete")]
+    [Route("delete/{uuid}")]
     public ActionResult Delete(string uuid, string? apiToken)
     {
         if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Privileged, out var user))

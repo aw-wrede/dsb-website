@@ -1,9 +1,10 @@
+import "./siteUserList.sass"
 import {useContext, useEffect, useState} from "react";
 import UserInfo from "../../interfaces/user/UserInfo.ts";
 import {UserContext} from "../../App.tsx";
 import AppUser from "../../interfaces/user/AppUser.ts";
-import axios from "axios";
-import {getAllUsers} from "../../axios/AxiosApi.ts";
+import axios, { CancelToken } from "axios";
+import {deleteUser, getAllUsers} from "../../axios/AxiosApi.ts";
 import CollapsibleElement from "../../framework/collapsible/CollapsibleElement.ts";
 import StyledIcon from "../../framework/StyledIcon.tsx";
 import FrameworkIcon from "../../framework/FrameworkIcon.ts";
@@ -18,9 +19,8 @@ export default function SiteUserList() {
     const [search, setSearch] = useState<string>("");
     const [users, setUsers] = useState<AppUser[]>([])
 
-    useEffect(() => {
-        const cancelToken = axios.CancelToken.source()
-        getAllUsers(cancelToken.token).then((users) => {
+    function loadUsers(cancelToken:CancelToken): void {
+        getAllUsers(cancelToken).then((users) => {
             if(users == null) {
                 return
             }
@@ -30,14 +30,25 @@ export default function SiteUserList() {
                 return a.name.localeCompare(b.name) // sort alphabetically
             }))
         })
+    }
 
+    useEffect(() => {
+        const cancelToken = axios.CancelToken.source()
+
+        loadUsers(cancelToken.token)
         return () => {
             cancelToken.cancel()
         }
     }, []);
 
     function onDeleteClick(u:AppUser) {
-
+        const cancelToken = axios.CancelToken.source()
+        deleteUser(u.uuid, cancelToken.token).then(success => {
+            if(success) {
+                console.log("User deleted");
+                loadUsers(cancelToken.token)
+            }
+        })
     }
 
     function toCollapsibleElements(users:AppUser[], search:string|null):CollapsibleElement[] {
@@ -54,12 +65,12 @@ export default function SiteUserList() {
                         <p>{u.name}</p>
                     </div>
                     <div className={"actions"}>
-                        <a href={`/user/edit/${u.uuid}`}><StyledIcon icon={FrameworkIcon.Edit}/></a>
-                        {user.user.userGroup >= AppUserGroup.Privileged ?
+                        {user.user.userGroup >= AppUserGroup.Privileged && user.user.userGroup > u.userGroup ?
                             <StyledIcon icon={FrameworkIcon.Delete} onClick={() => {
                                 onDeleteClick(u)
                             }}/>
                             : null}
+                        <a href={`/user/edit/${u.uuid}`}><StyledIcon icon={FrameworkIcon.Edit}/></a>
                     </div>
                 </div>,
                 body: <div>
@@ -74,7 +85,7 @@ export default function SiteUserList() {
     }
 
     return (
-        <div className={"content"}>
+        <div className={"content siteUserList"}>
             <StyledInput name={"filter-users"} type={"text"} value={search} onChange={e => setSearch(e.target.value)} placeholder={"Nutzer filtern"} required={false} autoComplete={"off"} />
             <StyledCollapsible elements={toCollapsibleElements(users, search)}/>
         </div>
