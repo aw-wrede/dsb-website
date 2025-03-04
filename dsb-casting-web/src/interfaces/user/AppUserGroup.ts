@@ -19,6 +19,10 @@ export function getAllGroups() {
     ]
 }
 
+/**
+ * @deprecated
+ * @param group
+ */
 export function getGroupName(group: AppUserGroup):string {
     switch (group) {
         case AppUserGroup.Guest:
