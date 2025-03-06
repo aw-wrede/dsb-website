@@ -14,7 +14,7 @@ import AppUserGroup from "../../interfaces/user/AppUserGroup.ts";
 
 import "../sitesList.sass"
 import StyledInput from "../../framework/form/input/StyledInput.tsx";
-import {getLiveOverlaySiteUrl, getStartupSiteUrl} from "../../functions/overlayFunctions.ts";
+import {getLiveIngameSiteUrl, getLiveOverlaySiteUrl, getStartupSiteUrl} from "../../functions/overlayFunctions.ts";
 
 export default function SiteOverlayList({user, setUser}:{user:UserInfo, setUser: (user:UserInfo) => void}) {
     const [overlays, setOverlays] = useState<Overlay[]>([]);
@@ -68,6 +68,7 @@ export default function SiteOverlayList({user, setUser}:{user:UserInfo, setUser:
                     <div>
                         <StyledInput name={"live-startup"} type={"text"} value={`${getStartupSiteUrl()}`} onChange={() => {}} icon={FrameworkIcon.Tv} placeholder={""} required={false} readonly={true} />
                         <StyledInput name={"live-overview"} type={"text"} value={`${getLiveOverlaySiteUrl()}`} onChange={() => {}} icon={FrameworkIcon.Tv} placeholder={""} required={false} readonly={true} />
+                        <StyledInput name={"live-overview"} type={"text"} value={`${getLiveIngameSiteUrl()}`} onChange={() => {}} icon={FrameworkIcon.Tv} placeholder={""} required={false} readonly={true} />
                     </div>
                     <MatchList matches={selectedOverlay.matches} mapData={mapData} localization={user.localization} setModalVisible={null} allowAdd={false} allowEdit={false} />
                 </div>

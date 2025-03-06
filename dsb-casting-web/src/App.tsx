@@ -25,6 +25,7 @@ import SiteEditOverlayTemplate from "./sites/overlay/template/SiteEditOverlayTem
 import SiteStartup from "./sites/live/startup/SiteStartup.tsx";
 import SiteMatchOverview from "./sites/live/matchOverview/SiteMatchOverview.tsx";
 import SiteUserCreate from "./sites/user/SiteUserCreate.tsx";
+import SiteIngame from "./sites/live/ingame/SiteIngame.tsx";
 
 export const UserContext = createContext<UserInfo>(null)
 
@@ -48,6 +49,7 @@ function AuthedRoutes({user, setUser}:{user:UserInfo, setUser: (user:UserInfo) =
 
         <Route path={"/live/startup"} element={<SiteStartup />} />
         <Route path={"/live/overview"} element={<SiteMatchOverview />} />
+        <Route path={"/live/ingame"} element={<SiteIngame />} />
     </Routes>
 }
 

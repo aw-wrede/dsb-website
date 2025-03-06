@@ -53,3 +53,7 @@ export function getStartupSiteUrl():string {
 export function getLiveOverlaySiteUrl():string {
     return `${getBaseUrl()}/live/overview`
 }
+
+export function getLiveIngameSiteUrl():string {
+    return `${getBaseUrl()}/live/ingame`
+}
