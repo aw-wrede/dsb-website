@@ -45,6 +45,7 @@ import "./createOverlay.sass"
 import StyledInputWithButton from "../../framework/form/input/StyledInputWithButton.tsx";
 import StyledDateInput from "../../framework/form/input/date/StyledDateInput.tsx";
 import StyledTimeInput from "../../framework/form/input/date/StyledTimeInput.tsx";
+import {getTeamByUuid} from "../../functions/teamFunctions.ts";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:CreateOverlayRequest}) {
@@ -94,8 +95,6 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
 
     useEffect(() => {
         const cancelToken = axios.CancelToken.source()
-
-        console.log(user)
 
         getMapData(cancelToken.token).then(setMapData)
         getAllUsers(cancelToken.token).then(setUsersData)
@@ -407,6 +406,6 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
         </StyledForm>
         <MatchCreateModal visible={modalVisible} setVisible={setModalVisible} gameVersion={overlay.gameVersion}
                           match={currentMatch} setMatch={onSetMatch} index={currentMatchIndex} mapData={mapData}
-                          teams={teams} localization={user.localization}/>
+                          teams={[getTeamByUuid(overlay.teamAlpha, teams), getTeamByUuid(overlay.teamBeta, teams)]} localization={user.localization}/>
     </div>
 }

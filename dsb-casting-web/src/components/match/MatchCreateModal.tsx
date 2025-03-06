@@ -69,7 +69,11 @@ export default function MatchCreateModal(props: Props) {
     }, [props.mapData, props.localization]);
 
     useEffect(() => {
-        if(props.teams == null || props.teams.length != 2) {
+        if(props.teams == null
+            || props.teams.length != 2
+            || props.teams[0] == null
+            || props.teams[1] == null
+        ) {
             setTeamElems([])
             return
         }
