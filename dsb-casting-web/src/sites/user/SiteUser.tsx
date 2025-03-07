@@ -8,7 +8,7 @@ export default function SiteUser() {
 
     return (
         <div className={"content"}>
-            <UserProfileComponent user={user} userToEdit={user} />
+            <UserProfileComponent user={user} userToEdit={user.user} />
         </div>
     )
 }

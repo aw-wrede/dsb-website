@@ -64,6 +64,31 @@ export async function fetchUserData(cancelToken:CancelToken, apiToken?:string): 
     }
 }
 
+export async function getUserData(uuid:string, cancelToken:CancelToken): Promise<AppUser> {
+    let result: AxiosResponse<any, any>
+
+try {
+    result = await axiosInstance.get(`/user/get/${uuid}`, {
+        cancelToken: cancelToken
+    })
+
+    if(result.status === 200) {
+        return result.data as AppUser
+    }
+
+    console.error(`Could not fetch users data. Error ${result.status}: ${result.statusText}`)
+    return null
+} catch (e) {
+    // do not display error if request was canceled
+    if(axios.isCancel(e)) {
+        return null
+    }
+    //console.error(e)
+    console.error(`Could not fetch users data. Error ${e.name}: ${e.message}`)
+    return null
+}
+}
+
 export async function getAllUsers(cancelToken:CancelToken): Promise<AppUser[]|null> {
     let result: AxiosResponse<any, any>
 

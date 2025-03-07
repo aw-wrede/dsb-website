@@ -12,14 +12,19 @@ import UserProfileGroupSelector from "./UserProfileGroupSelector.tsx";
 
 import "./user.sass"
 
-export default function UserProfileComponent({user, userToEdit}:{user:UserInfo, userToEdit:UserInfo}) {
+type Props = {
+    user:UserInfo
+    userToEdit:AppUser
+}
 
-    const [userData, setUserData] = useState<AppUser>(userToEdit.user)
+export default function UserProfileComponent(props:Props) {
+
+    const [userData, setUserData] = useState<AppUser>(props.userToEdit)
     const [newPassword, setNewPassword] = useState({password: "", passwordConfirm: ""})
 
     useEffect(() => {
-        setUserData(userToEdit.user);
-    }, [userToEdit]);
+        setUserData(props.userToEdit);
+    }, [props.userToEdit]);
 
     function updateValue(e) {
         const data = Object.assign({}, userData)
@@ -84,7 +89,7 @@ export default function UserProfileComponent({user, userToEdit}:{user:UserInfo, 
     return (
         <div className={"component user-component"}>
             <StyledForm onSubmit={e => onSubmit(e)}>
-                <StyledFormHeader headline={user.user.uuid === userToEdit.user.uuid ? "Dein Profil" : `Profil von ${userToEdit.user.displayName}`}></StyledFormHeader>
+                <StyledFormHeader headline={props.user.user.uuid === props.userToEdit.uuid ? "Dein Profil" : `Profil von ${props.userToEdit.displayName}`}></StyledFormHeader>
                 <StyledInput name={"name"} type={"text"} value={userData.name}
                              onChange={e => updateValue(e)} placeholder={"Nutzername"}
                              required={true} icon={FrameworkIcon.AccountCircle} autoComplete={"off"} />
@@ -92,8 +97,8 @@ export default function UserProfileComponent({user, userToEdit}:{user:UserInfo, 
                              onChange={e => updateValue(e)} placeholder={"Anzeigename"}
                              required={true} icon={FrameworkIcon.Face} autoComplete={"off"} />
 
-                {user.user.uuid !== userToEdit.user.uuid ? (
-                    <UserProfileGroupSelector user={user} editUser={userToEdit.user} setEditUser={setUserData} />
+                {props.user.user.uuid !== props.userToEdit.uuid ? (
+                    <UserProfileGroupSelector user={props.user} editUser={props.userToEdit} setEditUser={setUserData} />
                 ) : null}
 
                 <StyledButton type={"submit"} children={"Speichern"}/>

@@ -12,8 +12,8 @@ public class ApiAppUserController : ControllerBase
 {
     
     [HttpGet]
-    [Route("get")]
-    public ActionResult<AppUser> Get(string? uuid, string? apiToken)
+    [Route("get/{uuid?}")]
+    public ActionResult<AppUser> Get([FromRoute] string? uuid, string? apiToken)
     {
         if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Guest, out var user))
         {

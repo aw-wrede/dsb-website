@@ -26,6 +26,7 @@ import SiteStartup from "./sites/live/startup/SiteStartup.tsx";
 import SiteMatchOverview from "./sites/live/matchOverview/SiteMatchOverview.tsx";
 import SiteUserCreate from "./sites/user/SiteUserCreate.tsx";
 import SiteIngame from "./sites/live/ingame/SiteIngame.tsx";
+import SiteUserEdit from "./sites/user/SiteUserEdit.tsx";
 
 export const UserContext = createContext<UserInfo>(null)
 
@@ -35,6 +36,7 @@ function AuthedRoutes({user, setUser}:{user:UserInfo, setUser: (user:UserInfo) =
         <Route path={"/user"} element={<SiteUser />} />
         <Route path={"/user/list"} element={<SiteUserList />} />
         <Route path={"/user/create"} element={<SiteUserCreate />} />
+        <Route path={"/user/edit/:uuid"} element={<SiteUserEdit />} />
 
         <Route path={"/team/create"} element={<SiteCreateTeam />} />
         <Route path={"/team/list"} element={<SiteTeamList />} />
