@@ -109,7 +109,7 @@ export default function SiteMatchOverview() {
             </div>
             <div className="live-footer live-container-style">
                 {overlay.commentators.find(r => r.reference.uuid === user.user.uuid) != null ? null :
-                    <p>Streamer: {user.user.displayName}</p>}
+                    <p>Streamer: {user.user.displayName} |</p>}
                 <p>{overlay.commentators.length === 1 ? "Kommentator:" : "Kommentatoren:"} {usersToString(overlay.commentators)}</p>
             </div>
         </>}
