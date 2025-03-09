@@ -20,7 +20,6 @@ html:has(.content-ingame)
     overflow: hidden
   .ingame-container
     padding: $image-overflow
-    //margin: 1rem
     border-radius: $border-radius-body
     &.bg-01, &.bg-02
       background-repeat: no-repeat
@@ -79,11 +78,18 @@ html:has(.content-ingame)
     animation: fadeInAnimationImageBox ease 1s
     animation-iteration-count: 1
     animation-fill-mode: forwards
+    position: relative
+    z-index: 10
+    //top: 0 !important
     @keyframes fadeInAnimationImageBox
       0%
         height: 11rem
+        opacity: 0
+        scale: 0.5
       100%
         height: 14.5rem
+        opacity: 1
+        scale: 1
     .ingame-body
       animation: fadeInAnimationBody ease 1s 0s
       animation-iteration-count: 1
@@ -98,37 +104,82 @@ html:has(.content-ingame)
           scale: 1
           opacity: 1
           top: 0
-  .ingame-body
-    .ingame-team-stats
-      height: 4rem
-      overflow: hidden
-    .stats-animation-wrapper
-      position: relative
-      opacity: 0
-      overflow: hidden
-      width: 100%
-      &.team-alpha
-        top: 100%
-        animation: fadeInAnimationStatsAlpha ease 0.7s 0.7s
-        animation-iteration-count: 1
-        animation-fill-mode: forwards
-        @keyframes fadeInAnimationStatsAlpha
-          0%
-            opacity: 0
-            top: 100%
-          100%
-            opacity: 1
-            top: 0
+    .ingame-body
+      .ingame-team-stats
+        height: 4rem
+        overflow: hidden
+      .stats-animation-wrapper
+        position: relative
+        opacity: 0
+        overflow: hidden
+        width: 100%
+        &.team-alpha
+          top: 100%
+          animation: fadeInAnimationStatsAlpha ease 0.7s 0.7s
+          animation-iteration-count: 1
+          animation-fill-mode: forwards
+          @keyframes fadeInAnimationStatsAlpha
+            0%
+              opacity: 0
+              top: 100%
+            100%
+              opacity: 1
+              top: 0
 
-      &.team-beta
-        top: -100%
-        animation: fadeInAnimationStatsBeta ease 0.7s 0.7s
-        animation-iteration-count: 1
-        animation-fill-mode: forwards
-        @keyframes fadeInAnimationStatsBeta
-          0%
-            opacity: 0
-            top: -100%
-          100%
-            opacity: 1
-            top: 0
+        &.team-beta
+          top: -100%
+          animation: fadeInAnimationStatsBeta ease 0.7s 0.7s
+          animation-iteration-count: 1
+          animation-fill-mode: forwards
+          @keyframes fadeInAnimationStatsBeta
+            0%
+              opacity: 0
+              top: -100%
+            100%
+              opacity: 1
+              top: 0
+  .ingame-container-02
+    animation: fadeInAnimationCommentaryBox ease 1s 1s
+    animation-iteration-count: 1
+    animation-fill-mode: forwards
+    position: relative
+    top: -10rem
+    opacity: 0
+    scale: 0
+    margin: 1rem 0 0 0
+    z-index: 9
+    @keyframes fadeInAnimationCommentaryBox
+      0%
+        top: -10rem
+        opacity: 0
+        scale: 0
+      100%
+        top: 0
+        opacity: 1
+        scale: 1
+  .ingame-container-03
+    animation: fadeInAnimationStreamerBox ease 5s 2s
+    animation-iteration-count: 1
+    animation-fill-mode: forwards
+    position: relative
+    top: -10rem
+    opacity: 0
+    scale: 0
+    margin: 1rem 0 0 0
+    @keyframes fadeInAnimationStreamerBox
+      0%
+        top: -8rem
+        opacity: 0
+        scale: 0
+      20%
+        top: 0
+        opacity: 1
+        scale: 1
+      80%
+        top: 0
+        opacity: 1
+        scale: 1
+      100%
+        top: -8rem
+        opacity: 0
+        scale: 0

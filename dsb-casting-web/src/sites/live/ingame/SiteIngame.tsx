@@ -66,7 +66,7 @@ export default function SiteIngame() {
                     </div>
                 </div>
 
-                <div className={"ingame-container bg-02"}>
+                <div className={"ingame-container bg-02 ingame-container-02"}>
                     <div className="ingame-body">
                         <div className="ingame-box ingame-commentators">
                             {overlay.commentators.map((commentator) => (
@@ -77,7 +77,7 @@ export default function SiteIngame() {
                 </div>
 
                 {overlay.commentators.find(r => r.reference.uuid === user.user.uuid) != null ? null :
-                    <div className={"ingame-container bg-02"}>
+                    <div className={"ingame-container bg-02 ingame-container-03"}>
                         <div className="ingame-body">
                             <div className="ingame-box ingame-commentators">
                                 <p>{user.user.displayName}</p>
