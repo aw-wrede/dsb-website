@@ -16,6 +16,7 @@ import Overlay from "../interfaces/overlay/Overlay.ts";
 import {getBrowserLocalization} from "../functions/localizationFunctions.ts";
 import FileUploadResult from "./results/FileUploadResult.ts";
 import AppUserCreateData from "../interfaces/user/AppUserCreateData.ts";
+import InkColorPair from "../interfaces/inkColor/InkColorPair.ts";
 
 const API_URL:string = "http://localhost:5000/api"
 export const WEBSOCKET_URL:string = "ws://localhost:5000/api/overlay/ws"
@@ -515,4 +516,22 @@ export async function updateTeamLogo(cancelToken:CancelToken, uuid:string, file:
     }
 
     return FileUploadResult.Failure
+}
+
+export async function getInkColorsPairs(cancelToken:CancelToken):Promise<InkColorPair[]|null> {
+    let result: AxiosResponse<any, any>
+
+    try {
+        result = await axiosInstance.get("/color/getall", {cancelToken: cancelToken})
+
+        if(result.status === 200) {
+            return result.data as InkColorPair[]
+        }
+    } catch (e) {
+        if(!axios.isCancel(e)) {
+            console.error(`Could not get ink color pairs. Error ${e.name}: ${e.message}`)
+        }
+    }
+
+    return []
 }

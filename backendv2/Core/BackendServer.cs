@@ -7,6 +7,7 @@ using Core.Data.Calendar;
 using Core.Data.Casting.Overlay;
 using Core.Data.Casting.OverlayTemplate;
 using Core.Data.Casting.TourneyMap;
+using Core.Data.InkColor;
 using Core.Data.UploadedFile;
 using Core.Data.User;
 using MongoDB.Bson;
@@ -69,5 +70,6 @@ public class BackendServer : Singleton<BackendServer>
         TourneyMapController.Instance.OnStartup();
         OverlayTemplateController.Instance.OnStartup();
         OverlayController.Instance.OnStartup();
+        InkColorPairController.Instance.OnStartup();
     }
 }

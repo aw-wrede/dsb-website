@@ -1,3 +1,4 @@
+import "./createOverlay.sass"
 import UserInfo from "../../interfaces/user/UserInfo.ts";
 import StyledForm from "../../framework/form/StyledForm.tsx";
 import StyledFormHeader from "../../framework/form/header/StyledFormHeader.tsx";
@@ -11,7 +12,7 @@ import TourneyMap from "../../interfaces/tourney/TourneyMap.ts";
 import {
     getAllOverlayTemplates,
     getAllTeams,
-    getAllUsers,
+    getAllUsers, getInkColorsPairs,
     getMapData,
     saveNewOverlay,
     updateOverlay
@@ -40,12 +41,11 @@ import {applyOverlayTemplate} from "../../functions/overlayFunctions.ts";
 import TourneyTeam from "../../interfaces/tourney/team/TourneyTeam.ts";
 import ButtonActionStatus from "../../framework/form/button/ButtonActionStatus.ts";
 import {UserContext} from "../../App.tsx";
-
-import "./createOverlay.sass"
 import StyledInputWithButton from "../../framework/form/input/StyledInputWithButton.tsx";
 import StyledDateInput from "../../framework/form/input/date/StyledDateInput.tsx";
 import StyledTimeInput from "../../framework/form/input/date/StyledTimeInput.tsx";
 import {getTeamByUuid} from "../../functions/teamFunctions.ts";
+import InkColorPair from "../../interfaces/inkColor/InkColorPair.ts";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:CreateOverlayRequest}) {
@@ -56,8 +56,10 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
     const [usersData, setUsersData] = useState<AppUser[]>([])
     const [mapData, setMapData] = useState<Record<TourneyMapType, TourneyMap>>({} as Record<TourneyMapType, TourneyMap>);
 
-    const [teams, setTeams] = useState<TourneyTeam[]>([]);
+    const [teams, setTeams] = useState<TourneyTeam[]>([])
     const [teamSearchElems, setTeamSearchElems] = useState<SearchElement[]>([])
+
+    const [inkColors, setInkColors] = useState<InkColorPair[]>([])
 
     const [teamAlphaInput, setTeamAlphaInput] = useState<string>("")
     const [teamBetaInput, setTeamBetaInput] = useState<string>("")
@@ -100,6 +102,7 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
         getAllUsers(cancelToken.token).then(setUsersData)
         getAllOverlayTemplates(cancelToken.token).then(setTemplates)
         getAllTeams(cancelToken.token).then(setTeams)
+        getInkColorsPairs(cancelToken.token).then(setInkColors)
 
         return () => {
             cancelToken.cancel()
@@ -342,6 +345,11 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
             <MatchList matches={overlay.matches} mapData={mapData} localization={user.localization}
                        setModalVisible={setModalVisible} allowAdd={true} onAdd={onAddMatchClicked} allowEdit={true}
                        onEdit={onEditMatchClicked}/>
+
+            <StyledFormHeader headline={"Aktuelle Tintenfarbe"}/>
+            <div>
+                {inkColors.sort((a,b) => a.position - b.position).map(color => (<p key={color.position}>{color.alphaColor} vs. {color.betaColor}</p>))}
+            </div>
 
             <StyledFormHeader headline={"Teams festlegen"}/>
             <SearchDropdown input={teamAlphaInput} setInput={setTeamAlphaInput}
