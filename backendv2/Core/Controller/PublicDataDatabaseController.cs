@@ -16,11 +16,6 @@ public abstract class PublicDataDatabaseController<TController, T> : DatabaseCon
         return Collection.FindSync(x => x.Uuid == uuid).FirstOrDefault();
     }
 
-    public List<T> GetAll()
-    {
-        return Collection.FindSync(_ => true).ToList();
-    }
-
     public bool DeleteOne(string uuid)
     {
         return Collection.DeleteOne(t => t.Uuid == uuid).DeletedCount == 1;
