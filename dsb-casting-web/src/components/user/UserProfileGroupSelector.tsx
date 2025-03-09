@@ -17,10 +17,22 @@ export default function UserProfileGroupSelector(props:Props) {
     const [group, setGroup] = useState<AppUserGroup>(AppUserGroup.Normal);
 
     useEffect(() => {
+        if(props.editUser.userGroup === group) {
+            return
+        }
+
         const data = Object.assign({}, props.editUser)
         data.userGroup = group
         props.setEditUser(data)
     }, [group]);
+
+    useEffect(() => {
+        if(props.editUser?.userGroup === group) {
+            return
+        }
+
+        setGroup(props.editUser.userGroup)
+    }, [props.editUser])
 
     const groups:AppUserGroup[] = getAllGroups().filter(group => group < props.user.user.userGroup)
     const inputData:InputSelectElement[] = []

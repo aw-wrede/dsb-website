@@ -9,8 +9,9 @@ import UserInfo from "../../interfaces/user/UserInfo.ts";
 import StyledButton from "../../framework/form/button/StyledButton.tsx";
 import {createNewUser} from "../../axios/AxiosApi.ts";
 import axios from "axios";
-import { useState } from "react";
+import {useState} from "react";
 import ButtonActionStatus from "../../framework/form/button/ButtonActionStatus.ts";
+import AppUserGroup from "../../interfaces/user/AppUserGroup.ts";
 
 type Props = {
     user:UserInfo
@@ -32,11 +33,24 @@ export default function UserCreateComponent(props:Props) {
         const result = await createNewUser(props.newUser, cancelToken.token)
 
         setSubmitSuccess(result ? ButtonActionStatus.Success : ButtonActionStatus.Error)
+        if(result) {
+            clearForm()
+        }
+
         setTimeout(() => {
             setSubmitSuccess(ButtonActionStatus.Nothing)
         }, 2000)
 
         return result
+    }
+
+    function clearForm() {
+        props.setNewUser({
+            name: "",
+            displayName: "",
+            password: "",
+            userGroup: AppUserGroup.Normal
+        })
     }
 
     function updateValue(e) {
