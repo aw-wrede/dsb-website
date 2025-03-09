@@ -1,4 +1,5 @@
-﻿using Commons.Localization;
+﻿using Commons;
+using Commons.Localization;
 using Commons.Utils;
 using Core.Data.Casting;
 using Core.Data.Casting.Overlay;
@@ -120,7 +121,14 @@ public class ApiOverlayController : ControllerBase
 
         OverlayController.Instance.UpdateOneComplete(updatedOverlay);
         
-        ApiOverlayWebSocketController.Instance.Update(updatedOverlay);
+        try
+        {
+            ApiOverlayWebSocketController.Instance.Update(updatedOverlay);
+        }
+        catch (Exception e)
+        {
+            Logger.Exception(e);
+        }
         return Ok();
     }
 
