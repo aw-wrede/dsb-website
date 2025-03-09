@@ -4,6 +4,7 @@ import TourneyMatch from "../../interfaces/tourney/TourneyMatch.ts";
 import Localization from "../../interfaces/Localization.tsx";
 import Overlay from "../../interfaces/overlay/Overlay.ts";
 import AppUserRef from "../../interfaces/user/AppUserRef.ts";
+import InkColorPair from "../../interfaces/inkColor/InkColorPair.ts";
 
 export default interface CreateOverlayRequest {
     uuid?:string
@@ -18,6 +19,7 @@ export default interface CreateOverlayRequest {
     localization:Localization
     commentators:string[]
     successorOverlays:string[]
+    inkColorPair?:InkColorPair
 }
 
 function commentatorsToUuidList(list:AppUserRef[]):Array<string> {
@@ -42,6 +44,7 @@ export function createOverlayRequestFromOverlay(overlay:Overlay):CreateOverlayRe
         teamBeta: overlay.teamBeta.reference.uuid,
         localization: overlay.localization,
         commentators: commentatorsToUuidList(overlay.commentators),
-        successorOverlays: overlay.successorOverlays
+        successorOverlays: overlay.successorOverlays,
+        inkColorPair: overlay.inkColorPair,
     }
 }

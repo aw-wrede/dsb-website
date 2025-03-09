@@ -3,6 +3,7 @@ using Commons.Localization;
 using Commons.Utils;
 using Core.Controller;
 using Core.Data.Casting.TourneyTeam;
+using Core.Data.InkColor;
 using Core.Data.User;
 using Core.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
@@ -35,8 +36,7 @@ public class Overlay : IPublicIdentified
     [JsonIgnore]
     public LinkedList<OverlayReference> SuccessorOverlays { get; set; } = [];
 
-    public string TeamAlphaColor { get; set; } = "#d6c522";
-    public string TeamBetaColor { get; set; } = "#4320d1";
+    public InkColorPair InkColorPair { get; set; } = new InkColorPair(0, "#D7C422", "#4221D1");
     
     [BsonIgnore]
     [JsonPropertyName("successorOverlays")]

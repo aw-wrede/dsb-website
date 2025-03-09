@@ -74,8 +74,8 @@ export default function SiteMatchOverview() {
 
 
     return <div className={"live-content live-overview"} style={{
-        "--teamAlphaColor": overlay?.teamAlphaColor,
-        "--teamBetaColor": overlay?.teamBetaColor
+        "--teamAlphaColor": overlay?.inkColorPair.alphaColor,
+        "--teamBetaColor": overlay?.inkColorPair.betaColor
     }}>
         {overlay == null ? null : <>
             <div className="live-header">

@@ -5,6 +5,7 @@ using Core.Data.Casting;
 using Core.Data.Casting.Overlay;
 using Core.Data.Casting.TourneyMatch;
 using Core.Data.Casting.TourneyTeam;
+using Core.Data.InkColor;
 using Core.Data.User;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Utils;
@@ -147,6 +148,8 @@ public class ApiOverlayController : ControllerBase
         public string[] Commentators { get; set; } = [];
         public string[] SuccessorOverlays { get; set; } = [];
         
+        public InkColorPair InkColorPair { get; set; }
+        
         public Overlay? ToOverlay()
         {
             var teamAlphaReference = TourneyTeamController.Instance.GetReference(TeamAlpha);
@@ -172,7 +175,8 @@ public class ApiOverlayController : ControllerBase
                 TeamBetaReference = teamBetaReference,
                 Localization = Localization,
                 Commentators = commentatorReferences,
-                SuccessorOverlays = successorReferences
+                SuccessorOverlays = successorReferences,
+                InkColorPair = InkColorPair,
             };
         }
     }

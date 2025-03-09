@@ -46,6 +46,7 @@ import StyledDateInput from "../../framework/form/input/date/StyledDateInput.tsx
 import StyledTimeInput from "../../framework/form/input/date/StyledTimeInput.tsx";
 import {getTeamByUuid} from "../../functions/teamFunctions.ts";
 import InkColorPair from "../../interfaces/inkColor/InkColorPair.ts";
+import InputSelectElement from "../../framework/form/input/InputSelectElement.ts";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:CreateOverlayRequest}) {
@@ -170,6 +171,24 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
         newOverlay.type = type
 
         setOverlay(newOverlay)
+    }
+
+    function getInkColorPairInputElements():InputSelectElement[] {
+        return inkColors.sort((a,b) => a.position - b.position).map(pair => ({
+            id: `${pair.position}`,
+            value: pair,
+            display: `${pair.position}`,
+            selected: false
+        }))
+    }
+
+    function setInkColorPair(colorPair:InkColorPair) {
+        console.log(colorPair)
+
+        const newOverlay = Object.assign({}, overlay)
+        newOverlay.inkColorPair = colorPair
+        setOverlay(newOverlay)
+
     }
 
     async function onChange(e:any) {
@@ -347,8 +366,13 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
                        onEdit={onEditMatchClicked}/>
 
             <StyledFormHeader headline={"Aktuelle Tintenfarbe"}/>
-            <div>
-                {inkColors.sort((a,b) => a.position - b.position).map(color => (<p key={color.position}>{color.alphaColor} vs. {color.betaColor}</p>))}
+            <StyledInputRadio name={"ink-color"} elements={getInkColorPairInputElements()} selected={overlay.inkColorPair} setSelected={setInkColorPair} />
+            <div className={"overlay-custom-colors"} style={{
+                "--teamAlphaColor": overlay?.inkColorPair?.alphaColor,
+                "--teamBetaColor": overlay?.inkColorPair?.betaColor
+            }}>
+                <p>Gesetzte Farbe:</p>
+                <div className={"custom-colors-display"}></div>
             </div>
 
             <StyledFormHeader headline={"Teams festlegen"}/>

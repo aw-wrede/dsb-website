@@ -4,6 +4,7 @@ import TourneyMatch from "../tourney/TourneyMatch.ts";
 import TourneyTeamRef from "../tourney/team/TourneyTeamRef.ts";
 import Localization from "../Localization.tsx";
 import AppUserRef from "../user/AppUserRef.ts";
+import InkColorPair from "../inkColor/InkColorPair.ts";
 
 export default interface Overlay {
     uuid:string
@@ -18,6 +19,5 @@ export default interface Overlay {
     localization:Localization
     commentators:AppUserRef[]
     successorOverlays:string[]
-    teamAlphaColor:string
-    teamBetaColor:string
+    inkColorPair:InkColorPair
 }

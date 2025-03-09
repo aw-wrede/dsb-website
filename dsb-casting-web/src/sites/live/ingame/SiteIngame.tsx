@@ -40,8 +40,8 @@ export default function SiteIngame() {
     return <>
         {overlay == null ? null :
             <div className={"content-ingame"} style={{
-                "--teamAlphaColor": overlay.teamAlphaColor,
-                "--teamBetaColor": overlay.teamBetaColor
+                "--teamAlphaColor": overlay.inkColorPair.alphaColor,
+                "--teamBetaColor": overlay.inkColorPair.betaColor
             }}>
                 <div className="ingame-container bg-01 ingame-container-01">
                     <div className="ingame-header">
