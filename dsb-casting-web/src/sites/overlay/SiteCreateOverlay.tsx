@@ -37,7 +37,11 @@ import FrameworkIcon from "../../framework/FrameworkIcon.ts";
 import OverlayTemplate from "../../interfaces/overlay/OverlayTemplate.ts";
 import SearchDropdown from "../../framework/form/input/search/SearchDropdown.tsx";
 import SearchElement from "../../framework/form/input/search/SearchElement.ts";
-import {applyOverlayTemplate} from "../../functions/overlayFunctions.ts";
+import {
+    applyOverlayTemplate,
+    overlayGetTeamAlphaWins,
+    overlayGetTeamBetaWins
+} from "../../functions/overlayFunctions.ts";
 import TourneyTeam from "../../interfaces/tourney/team/TourneyTeam.ts";
 import ButtonActionStatus from "../../framework/form/button/ButtonActionStatus.ts";
 import {UserContext} from "../../App.tsx";
@@ -81,7 +85,12 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
         teamBeta:"",
         localization:Localization.German,
         commentators:[],
-        successorOverlays: []
+        successorOverlays: [],
+        inkColorPair: {
+            position: 0,
+            alphaColor: "#D7C422",
+            betaColor: "#4221D1"
+        }
     });
     const [type, setType] = useState<OverlayType>(OverlayType.Static);
 
@@ -96,6 +105,9 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
 
     const [successorInput, setSuccessorInput] = useState<string>("")
 
+    /**
+     * Load data from backend
+     */
     useEffect(() => {
         const cancelToken = axios.CancelToken.source()
 
@@ -216,10 +228,25 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
     function onSetMatch(match:TourneyMatch, index:number|null) {
         const newOverlay = Object.assign({}, overlay)
 
+        const oldWins = overlayGetTeamAlphaWins(newOverlay) + overlayGetTeamBetaWins(newOverlay)
+
+        console.log("onSetMatch")
+
         if(index == null) {
             newOverlay.matches.push(match)
         } else {
             newOverlay.matches[index] = match
+        }
+
+        const newWins = overlayGetTeamAlphaWins(newOverlay) + overlayGetTeamBetaWins(newOverlay)
+
+        // check if a win was added -> go to next ink color
+        if(newWins > oldWins) {
+            console.log("Win added")
+            const newPosition = (overlay.inkColorPair.position + 1) % inkColors.length
+            newOverlay.inkColorPair = inkColors.find(c => c.position === newPosition) ?? overlay.inkColorPair
+        } else {
+            console.log(`old: ${oldWins} new: ${newWins}`)
         }
 
         console.log(newOverlay)
@@ -366,7 +393,10 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
                        onEdit={onEditMatchClicked}/>
 
             <StyledFormHeader headline={"Aktuelle Tintenfarbe"}/>
-            <StyledInputRadio name={"ink-color"} elements={getInkColorPairInputElements()} selected={overlay.inkColorPair} setSelected={setInkColorPair} />
+            <StyledInputRadio name={"ink-color"} elements={getInkColorPairInputElements()}
+                              selected={inkColors.find(c => c.alphaColor === overlay.inkColorPair.alphaColor
+                                  && c.betaColor === overlay.inkColorPair.betaColor)}
+                              setSelected={setInkColorPair} />
             <div className={"overlay-custom-colors"} style={{
                 "--teamAlphaColor": overlay?.inkColorPair?.alphaColor,
                 "--teamBetaColor": overlay?.inkColorPair?.betaColor

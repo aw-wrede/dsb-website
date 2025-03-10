@@ -21,11 +21,11 @@ export function applyOverlayTemplate(template:OverlayTemplate):CreateOverlayRequ
     }
 }
 
-export function overlayGetTeamAlphaWins(overlay:Overlay):number {
+export function overlayGetTeamAlphaWins(overlay:Overlay|CreateOverlayRequest):number {
     return overlay.matches.filter(m => m.winnerTeam === TourneyTeamType.Alpha).length
 }
 
-export function overlayGetTeamBetaWins(overlay:Overlay):number {
+export function overlayGetTeamBetaWins(overlay:Overlay|CreateOverlayRequest):number {
     return overlay.matches.filter(m => m.winnerTeam === TourneyTeamType.Beta).length
 }
 
