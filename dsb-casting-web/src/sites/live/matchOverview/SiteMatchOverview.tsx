@@ -15,6 +15,7 @@ import LiveMapViewComponent from "../../../components/live/match/LiveMapViewComp
 import {getMapFromType, getUnknownMap, getUnknownMatch} from "../../../functions/mapFunctions.ts";
 import OverlayType from "../../../interfaces/overlay/OverlayType.ts";
 import {usersToString} from "../../../functions/userFunctions.ts";
+import TourneyTeamType from "../../../interfaces/tourney/team/TourneyTeamType.ts";
 
 export default function SiteMatchOverview() {
 
@@ -75,7 +76,7 @@ export default function SiteMatchOverview() {
 
     return <div className={"live-content live-overview"} style={{
         "--teamAlphaColor": overlay?.inkColorPair.alphaColor,
-        "--teamBetaColor": overlay?.inkColorPair.betaColor
+        "--teamBetaColor": overlay?.inkColorPair.betaColor,
     }}>
         {overlay == null ? null : <>
             <div className="live-header">
@@ -102,9 +103,14 @@ export default function SiteMatchOverview() {
                 </div>
             </div>
             <div className="live-maps">
-                {overlay.matches.map((match, index) => <LiveMapViewComponent key={index} match={match} map={getMapFromType(mapData, match.mapType)} localization={overlay.localization} />)}
+                {overlay.matches.map((match, index) => <LiveMapViewComponent key={index} match={match}
+                                                                             map={getMapFromType(mapData, match.mapType)}
+                                                                             localization={overlay.localization}
+                                                                             winnerColor={match.winnerTeam === TourneyTeamType.Alpha ? overlay?.inkColorPair.alphaColor : match.winnerTeam === TourneyTeamType.Beta ? overlay?.inkColorPair.betaColor : ""} />)}
                 {overlay.type === OverlayType.Static ? <>
-                    {fillerMatches.map(i => <LiveMapViewComponent key={i} match={getUnknownMatch()} localization={overlay.localization} map={getUnknownMap()} />)}
+                    {fillerMatches.map(i => <LiveMapViewComponent key={i} match={getUnknownMatch()}
+                                                                  localization={overlay.localization}
+                                                                  map={getUnknownMap()} winnerColor={""} />)}
                 </> : null }
             </div>
             <div className="live-footer live-container-style">
