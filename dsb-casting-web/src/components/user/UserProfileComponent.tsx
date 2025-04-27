@@ -1,5 +1,5 @@
 import AppUser from "../../interfaces/user/AppUser.ts";
-import {saveUserData} from "../../axios/AxiosApi.ts";
+import {getApiToken, saveUserData} from "../../axios/AxiosApi.ts";
 import axios from "axios";
 import StyledButton from "../../framework/form/button/StyledButton.tsx";
 import StyledForm from "../../framework/form/StyledForm.tsx";
@@ -19,8 +19,21 @@ type Props = {
 
 export default function UserProfileComponent(props:Props) {
 
+    const [userApiToken, setUserApiToken] = useState<string>("");
     const [userData, setUserData] = useState<AppUser>(props.userToEdit)
     const [newPassword, setNewPassword] = useState({password: "", passwordConfirm: ""})
+
+    useEffect(() => {
+        const cancelToken = axios.CancelToken.source()
+
+        getApiToken(cancelToken.token).then(token => {
+            if(token == null) {
+                return
+            }
+
+            setUserApiToken(token);
+        })
+    }, [])
 
     useEffect(() => {
         setUserData(props.userToEdit);
@@ -90,6 +103,10 @@ export default function UserProfileComponent(props:Props) {
         <div className={"component user-component"}>
             <StyledForm onSubmit={e => onSubmit(e)}>
                 <StyledFormHeader headline={props.user.user.uuid === props.userToEdit.uuid ? "Dein Profil" : `Profil von ${props.userToEdit.displayName}`}></StyledFormHeader>
+
+                {props.user.user.uuid !== props.userToEdit.uuid ? null :
+                    <StyledInput name={"apiToken"} type={"text"} value={userApiToken} onChange={() => {}} placeholder={"Dein API Token"} required={false} readonly={true} icon={FrameworkIcon.Key} /> }
+
                 <StyledInput name={"name"} type={"text"} value={userData.name}
                              onChange={e => updateValue(e)} placeholder={"Nutzername"}
                              required={true} icon={FrameworkIcon.AccountCircle} autoComplete={"off"} />
@@ -104,6 +121,7 @@ export default function UserProfileComponent(props:Props) {
                 <StyledButton type={"submit"} children={"Speichern"}/>
             </StyledForm>
             <StyledForm onSubmit={e => onPasswordChange(e)}>
+                <input type={"text"} name={"name"} hidden={true} value={userData.name} readOnly={true} autoComplete={"username"}/>
                 <div className={"ui-form-header"}>
                     <h2 className="ui-form-headline">Passwort ändern</h2>
                 </div>

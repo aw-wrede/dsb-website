@@ -535,3 +535,21 @@ export async function getInkColorsPairs(cancelToken:CancelToken):Promise<InkColo
 
     return []
 }
+
+export async function getApiToken(cancelToken:CancelToken):Promise<string|null> {
+    let result: AxiosResponse<any, any>
+
+    try {
+        result = await axiosInstance.get("/user/apiToken", {cancelToken: cancelToken})
+
+        if(result.status === 200) {
+            return result.data.token
+        }
+    } catch (e) {
+        if(!axios.isCancel(e)) {
+            console.error(`Could not get api token. Error ${e.name}: ${e.message}`)
+        }
+    }
+
+    return null
+}

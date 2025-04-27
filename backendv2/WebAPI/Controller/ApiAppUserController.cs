@@ -1,4 +1,5 @@
 ﻿using Commons;
+using Core.Data.AccessToken;
 using Core.Data.User;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models;
@@ -132,8 +133,16 @@ public class ApiAppUserController : ControllerBase
         {
             return Unauthorized();
         }
-
+        
+        // Create new user
+        
         var newUser = req.ToAppUser();
+
+        // Prevent creation of user with higher privileges
+        if (newUser.UserGroup > user!.UserGroup)
+        {
+            return BadRequest();
+        }
         
         if (!AppUserController.Instance.InsertOne(newUser)) return StatusCode(500);
         
@@ -141,6 +150,21 @@ public class ApiAppUserController : ControllerBase
         
         Logger.Debug($"{user!.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) created new user {newUser.Name} ({newUser.Id})");
         
+        
+        // Create user api token
+        
+        // only create api token for at least normal users
+        if (newUser.UserGroup < AppUserGroup.Normal) return Ok(newUser);
+        
+        var newUserToken = new AppAccessToken()
+        {
+            Token = AppAccessToken.CreateToken(),
+            AppUserReference = newUser.CreateReference()
+        };
+        
+        AppAccessTokenController.Instance.InsertOne(newUserToken);
+
+
         return Ok(newUser);
     }
 
@@ -158,6 +182,7 @@ public class ApiAppUserController : ControllerBase
             return NotFound();
         }
         
+        // prevent deletion by users without required privileges
         if (userToDelete.UserGroup >= user!.UserGroup)
         {
             return Forbid();
@@ -205,6 +230,23 @@ public class ApiAppUserController : ControllerBase
         Logger.Debug($"{user.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) updated user data of {userToUpdate.Name} ({userToUpdate.Id})");
         
         return Ok(userToUpdate);
+    }
+
+    [HttpGet]
+    [Route("apiToken")]
+    public ActionResult GetApiToken()
+    {
+        if (!ApiAuthUtils.TryAuth(Request, Response, null, AppUserGroup.Normal, out var user))
+        {
+            return Unauthorized();
+        }
+
+        if (!AppAccessTokenController.Instance.TryGetByUser(user!, out var token))
+        {
+            return StatusCode(500);
+        }
+        
+        return Ok(new {token.Token});
     }
     
     public class LoginRequest
