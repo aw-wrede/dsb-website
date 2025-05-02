@@ -17,7 +17,12 @@ export function applyOverlayTemplate(template:OverlayTemplate):CreateOverlayRequ
         teamAlpha: "",
         teamBeta: "",
         localization:template.localization,
-        commentators: []
+        commentators: [],
+        inkColorPair: {
+            position: 0,
+            alphaColor: "#D7C422",
+            betaColor: "#4221D1"
+        }
     }
 }
 

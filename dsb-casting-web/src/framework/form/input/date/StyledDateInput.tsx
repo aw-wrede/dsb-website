@@ -8,13 +8,11 @@ export default function StyledDateInput({date, setDate}: {date: Date; setDate: (
     function changeMonth(m:number):void {
         const newDate = new Date(date)
         newDate.setMonth(m)
-        newDate.setMonth(m)
         setDate(newDate)
     }
 
     function changeYear(y:number):void {
         const newDate = new Date(date)
-        newDate.setFullYear(y)
         newDate.setFullYear(y)
         setDate(newDate)
     }
