@@ -6,7 +6,7 @@ import Overlay from "../../../interfaces/overlay/Overlay.ts";
 import "./siteStartup.sass"
 import MatchPreviewComponent from "../../../components/live/match/MatchPreviewComponent.tsx";
 import useWebSocket, {ReadyState} from "react-use-websocket";
-import {getOverlay, WEBSOCKET_URL} from "../../../axios/AxiosApi.ts";
+import {getManyOverlays, getOverlay, WEBSOCKET_URL} from "../../../axios/AxiosApi.ts";
 import axios from "axios";
 
 export default function SiteStartup() {
@@ -15,15 +15,22 @@ export default function SiteStartup() {
     const [overlay, setOverlay] = useState<Overlay>(null)
     const [successors, setSuccessors] = useState<Overlay[]>([])
 
-    function addSuccessor(overlay: Overlay) {
-        let newSuccessors:Overlay[] = Object.assign([], successors)
-        if(successors.filter(o => o.uuid === overlay.uuid).length > 0) {
-            console.error("Already exists")
-            newSuccessors = []
-        }
+    function addSuccessors(overlays: Overlay[]) {
+        let newSuccessors:Overlay[] = Object.assign([], successors.filter((o) => {
+            return overlays.find(x => x.uuid === o.uuid) == null
+        }))
 
-        newSuccessors.push(overlay)
-        setSuccessors(newSuccessors)
+        console.log(overlays)
+
+        newSuccessors = newSuccessors.concat(overlays)
+
+        setSuccessors(newSuccessors.sort((a, b) => {
+            const aDate = new Date(a.scheduledTime)
+            const bDate = new  Date(b.scheduledTime)
+            return aDate - bDate //TODO
+        }))
+
+        console.log(newSuccessors)
     }
 
     //#region WEBSOCKET
@@ -58,9 +65,12 @@ export default function SiteStartup() {
         //clear list
         setSuccessors([])
 
+        console.log("Successors:")
+        console.log(overlay.successorOverlays)
+
         setTimeout(() => {
-            overlay.successorOverlays.forEach((successorUuid:string) => getOverlay(cancelToken.token, successorUuid).then(addSuccessor))
-        }, 1000)
+            getManyOverlays(cancelToken.token, overlay.successorOverlays).then(addSuccessors)
+        }, 500)
 
         return () => {
             cancelToken.cancel()
@@ -71,7 +81,7 @@ export default function SiteStartup() {
         {overlay == null ? null : 
         <div className={"overlay-wrapper"}>
             <div className={"matches-list"}>
-                <MatchPreviewComponent overlay={overlay} timeFormat={"relative"} />
+                <MatchPreviewComponent overlay={overlay} timeFormat={"relative"} className={"current"} />
                 {successors.map(successor =>
                     <div key={successor.uuid}>
                         <MatchPreviewComponent overlay={successor} timeFormat={"absolute"} />

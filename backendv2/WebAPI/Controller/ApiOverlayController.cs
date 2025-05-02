@@ -1,4 +1,5 @@
-﻿using Commons;
+﻿using System.Text.Json.Nodes;
+using Commons;
 using Commons.Localization;
 using Commons.Utils;
 using Core.Data.Casting;
@@ -8,6 +9,8 @@ using Core.Data.Casting.TourneyTeam;
 using Core.Data.InkColor;
 using Core.Data.User;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
+using Newtonsoft.Json;
 using WebAPI.Utils;
 using WebAPI.WebSockets;
 
@@ -33,6 +36,27 @@ public class ApiOverlayController : ControllerBase
         return Ok(overlay);
     }
 
+    [HttpPost]
+    [Route("getmany")]
+    public ActionResult GetMany(string? apiToken, [FromBody]ManyOverlayRequest request)
+    {
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
+        {
+            return Unauthorized();
+        }
+        
+        Logger.Info($"GetMany {request.Uuids}");
+
+        if (request.Uuids.Length == 0)
+        {
+            return BadRequest();
+        }
+        
+        var overlays = OverlayController.Instance.Collection.FindSync(x => request.Uuids.Contains(x.Uuid)).ToList();
+        
+        return Ok(overlays);
+    }
+    
     [HttpGet]
     [Route("getall")]
     public ActionResult GetAll(string? apiToken)
@@ -133,6 +157,11 @@ public class ApiOverlayController : ControllerBase
         return Ok();
     }
 
+    
+    public class ManyOverlayRequest
+    {
+        public string[] Uuids { get; set; }
+    }
     public class OverlayRequest
     {
         public string? Uuid { get; set; }

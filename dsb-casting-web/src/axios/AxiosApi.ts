@@ -366,6 +366,25 @@ export async function getAllOverlays(cancelToken:CancelToken):Promise<Overlay[]>
     return []
 }
 
+export async function getManyOverlays(cancelToken:CancelToken, uuids:string[]):Promise<Overlay[]> {
+    let result: AxiosResponse<any, any>
+    try {
+        result = await axiosInstance.post("/overlay/getmany",
+            {uuids: uuids},
+            {cancelToken: cancelToken}
+        )
+        if(result.status === 200) {
+            return result.data as Overlay[]
+        }
+    } catch (e) {
+        if(!axios.isCancel(e)) {
+            console.error(`Could not get overlays. Error ${e.name}: ${e.message}`)
+        }
+    }
+
+    return []
+}
+
 export async function saveNewOverlay(cancelToken:CancelToken, overlay:CreateOverlayRequest):Promise<boolean> {
     let result: AxiosResponse<any, any>
 
