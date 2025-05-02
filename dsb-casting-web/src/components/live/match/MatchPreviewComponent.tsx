@@ -8,6 +8,7 @@ import {teamGetLogo, teamGetName} from "../../../functions/teamFunctions.ts";
 type Props = {
     overlay: Overlay
     timeFormat: "result"|"relative"|"absolute"
+    className?: string
 }
 
 export default function MatchPreviewComponent(props:Props) {
@@ -45,7 +46,7 @@ export default function MatchPreviewComponent(props:Props) {
     }, [time]);
 
 
-    return <div className={"match-preview"}>
+    return <div className={`match-preview ${props.className}`}>
         <div className={"preview-header"}>
             <p>{props.overlay.title}</p>
         </div>
