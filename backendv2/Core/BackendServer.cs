@@ -1,6 +1,7 @@
 ﻿using Commons;
 using Commons.Configuration;
 using Commons.Localization;
+using Commons.Logging;
 using Core.Configuration;
 using Core.Controller;
 using Core.Data.Calendar;
@@ -23,8 +24,9 @@ public class BackendServer : Singleton<BackendServer>
 
     public ConfigLoader ConfigLoader { get; private set; }
     public IMongoDatabase Database { get; private set; }
-    
     public FileUploadConfiguration FileUploadConfiguration { get; private set; }
+    
+    public LoggingConfiguration LoggingConfiguration { get; private set; }
     
     protected BackendServer()
     {
@@ -40,6 +42,32 @@ public class BackendServer : Singleton<BackendServer>
         OpenDatabase();
 
         FileUploadConfiguration = ConfigLoader.GetConfiguration<FileUploadConfiguration>();
+        LoggingConfiguration = ConfigLoader.GetConfiguration<LoggingConfiguration>();
+
+        #region Log File
+
+        if (!File.Exists(LoggingConfiguration.Path))
+        {
+            var fileInfo = new FileInfo(LoggingConfiguration.Path);
+            Directory.CreateDirectory(fileInfo.DirectoryName);
+            
+            File.Create(LoggingConfiguration.Path).Close();
+        }
+        
+        Logger.RegisterCallback((level, message, exception) =>
+        {
+            if (level < LoggingConfiguration.LogLevel)
+            {
+                return;
+            }
+            
+            using var outputFile = new StreamWriter(LoggingConfiguration.Path);
+            outputFile.WriteLine($"{DateTime.Now.ToLongTimeString()} [{level}] {message}");
+        });
+
+        #endregion
+        
+        
         
         RegisterSerializer();
         RegisterController();

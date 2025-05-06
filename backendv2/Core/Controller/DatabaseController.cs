@@ -1,4 +1,5 @@
 ﻿using Commons;
+using Commons.Logging;
 using MongoDB.Driver;
 
 namespace Core.Controller;

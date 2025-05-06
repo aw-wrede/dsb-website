@@ -1,5 +1,6 @@
 ﻿using Commons;
 using Commons.Localization;
+using Commons.Logging;
 using Core.Controller;
 using MongoDB.Driver;
 

@@ -1,5 +1,6 @@
 ﻿using System.Net.WebSockets;
 using Commons;
+using Commons.Logging;
 using Core.Data.User;
 
 namespace WebAPI.WebSockets;
