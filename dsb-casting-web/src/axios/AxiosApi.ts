@@ -17,6 +17,7 @@ import {getBrowserLocalization} from "../functions/localizationFunctions.ts";
 import FileUploadResult from "./results/FileUploadResult.ts";
 import AppUserCreateData from "../interfaces/user/AppUserCreateData.ts";
 import InkColorPair from "../interfaces/inkColor/InkColorPair.ts";
+import UserPasswordUpdateRequest from "./requests/UserPasswordUpdateRequest.ts";
 
 const API_URL:string = "http://localhost:5000/api"
 export const WEBSOCKET_URL:string = "ws://localhost:5000/api/overlay/ws"
@@ -172,6 +173,33 @@ export async function saveUserData(userData:AppUser, cancelToken:CancelToken): P
         })
 
         if(result.status == 200) {
+            return true
+        }
+
+    } catch (e) {
+        // do not display error if request was canceled
+        if(!axios.isCancel(e)) {
+            console.error(`Could not save user data. Error ${e.name}: ${e.message}`)
+        }
+        return false
+    }
+    return false
+}
+
+export async function saveUserPassword(uuid:string, password:string, cancelToken:CancelToken): Promise<boolean> {
+    const request:UserPasswordUpdateRequest = {
+        uuid: uuid,
+        password: password
+    }
+
+    let result: AxiosResponse<any, any>
+
+    try {
+        result = await axiosInstance.post(`/user/updatePassword`, request, {
+            cancelToken: cancelToken
+        })
+
+        if(result.status === 200) {
             return true
         }
 

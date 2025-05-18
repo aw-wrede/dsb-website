@@ -233,6 +233,46 @@ public class ApiAppUserController : ControllerBase
         return Ok(userToUpdate);
     }
 
+    [HttpPost]
+    [Route("updatePassword")]
+    public ActionResult UpdatePassword(string? apiToken, [FromBody] UserPasswordUpdateRequest updateRequest)
+    {
+        if (!ApiAuthUtils.TryAuth(Request, Response, apiToken, AppUserGroup.Normal, out var user))
+        {
+            return Unauthorized();
+        }
+
+        if (user == null)
+        {
+            return StatusCode(500);
+        }
+        
+        if (user.Uuid == updateRequest.Uuid)
+        {
+            updateRequest.ApplyUpdate(user);
+            AppUserController.Instance.UpdateOneComplete(user);
+            Logger.Debug($"{user.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) updated own password");
+            return Ok(user);
+        }
+        
+        if (!AppUserController.Instance.TryGetByUuid(updateRequest.Uuid, out var userToUpdate))
+        {
+            return NotFound();
+        }
+
+        if (userToUpdate.UserGroup >= user.UserGroup)
+        {
+            return Forbid();
+        }
+        
+        updateRequest.ApplyUpdate(userToUpdate);
+        AppUserController.Instance.UpdateOneComplete(userToUpdate);
+        
+        Logger.Debug($"{user.Name} ({Request.HttpContext.Connection.RemoteIpAddress}) updated password of {userToUpdate.Name} ({userToUpdate.Id})");
+        
+        return Ok(userToUpdate);
+    }
+    
     [HttpGet]
     [Route("apiToken")]
     public ActionResult GetApiToken()
@@ -266,6 +306,17 @@ public class ApiAppUserController : ControllerBase
         {
             user.Name = Name;
             user.DisplayName = DisplayName;
+        }
+    }
+    
+    public class UserPasswordUpdateRequest
+    {
+        public string Uuid { get; set; }
+        public string Password { get; set; }
+
+        public void ApplyUpdate(AppUser user)
+        {
+            user.SetCredentials(Password);
         }
     }
     

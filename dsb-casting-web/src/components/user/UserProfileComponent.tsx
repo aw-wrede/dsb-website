@@ -1,5 +1,5 @@
 import AppUser from "../../interfaces/user/AppUser.ts";
-import {getApiToken, saveUserData} from "../../axios/AxiosApi.ts";
+import {getApiToken, saveUserData, saveUserPassword} from "../../axios/AxiosApi.ts";
 import axios from "axios";
 import StyledButton from "../../framework/form/button/StyledButton.tsx";
 import StyledForm from "../../framework/form/StyledForm.tsx";
@@ -11,6 +11,7 @@ import UserInfo from "../../interfaces/user/UserInfo.ts";
 import UserProfileGroupSelector from "./UserProfileGroupSelector.tsx";
 
 import "./user.sass"
+import ButtonActionStatus from "../../framework/form/button/ButtonActionStatus.ts";
 
 type Props = {
     user:UserInfo
@@ -22,6 +23,9 @@ export default function UserProfileComponent(props:Props) {
     const [userApiToken, setUserApiToken] = useState<string>("");
     const [userData, setUserData] = useState<AppUser>(props.userToEdit)
     const [newPassword, setNewPassword] = useState({password: "", passwordConfirm: ""})
+
+    const [submitSuccess, setSubmitSuccess] = useState<ButtonActionStatus>(ButtonActionStatus.Nothing)
+    const [passwordSuccess, setPasswordSuccess] = useState<ButtonActionStatus>(ButtonActionStatus.Nothing)
 
     useEffect(() => {
         const cancelToken = axios.CancelToken.source()
@@ -79,9 +83,18 @@ export default function UserProfileComponent(props:Props) {
 
     async function onSubmit(e) {
         e.preventDefault()
+
+        setSubmitSuccess(ButtonActionStatus.Loading)
+
         const cancelToken = axios.CancelToken.source()
         const result = saveUserData(userData, cancelToken.token)
         console.log(await result)
+
+        setSubmitSuccess(result ? ButtonActionStatus.Success : ButtonActionStatus.Error)
+        setTimeout(() => {
+            setSubmitSuccess(ButtonActionStatus.Nothing)
+        }, 2000)
+
         return result
     }
 
@@ -90,6 +103,19 @@ export default function UserProfileComponent(props:Props) {
         if(newPassword.password !== newPassword.passwordConfirm) {
             return false
         }
+
+        setPasswordSuccess(ButtonActionStatus.Loading)
+
+        const cancelToken = axios.CancelToken.source()
+        const result = await saveUserPassword(userData.uuid, newPassword.password, cancelToken.token)
+        console.log(result)
+
+        setPasswordSuccess(result ? ButtonActionStatus.Success : ButtonActionStatus.Error)
+        setTimeout(() => {
+            setPasswordSuccess(ButtonActionStatus.Nothing)
+        }, 2000)
+
+        return result
     }
 
     function isPasswordValid():boolean|null {
@@ -118,7 +144,7 @@ export default function UserProfileComponent(props:Props) {
                     <UserProfileGroupSelector user={props.user} editUser={props.userToEdit} setEditUser={setUserData} />
                 ) : null}
 
-                <StyledButton type={"submit"} children={"Speichern"}/>
+                <StyledButton type={"submit"} children={"Speichern"} success={submitSuccess}/>
             </StyledForm>
             <StyledForm onSubmit={e => onPasswordChange(e)}>
                 <input type={"text"} name={"name"} hidden={true} value={userData.name} readOnly={true} autoComplete={"username"}/>
@@ -131,7 +157,7 @@ export default function UserProfileComponent(props:Props) {
                 <StyledInput name={"passwordConfirm"} type={"password"} value={newPassword.passwordConfirm}
                          onChange={e => updateNewPassword(e)} placeholder={"Neues Passwort bestätigen"}
                          required={true} icon={FrameworkIcon.Key} valid={isPasswordValid()} autoComplete={"new-password"} />
-                <StyledButton type={"submit"} children={"Speichern"}/>
+                <StyledButton type={"submit"} children={"Speichern"} success={passwordSuccess}/>
             </StyledForm>
         </div>
     )
