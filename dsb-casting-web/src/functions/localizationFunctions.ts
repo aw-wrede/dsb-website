@@ -5,6 +5,7 @@ export function getBrowserLocalization() {
 
     switch (lang.toLowerCase()) {
         case "de-de":
+        case "de":
             return Localization.German
         case "en-us":
         default:
