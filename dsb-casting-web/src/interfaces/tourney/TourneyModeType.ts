@@ -41,7 +41,7 @@ export function getTourneyModeNameLocalized(mode:TourneyModeType, localization:L
                 case Localization.German:
                     return "Turmkommando"
                 default:
-                    return "Turf War"
+                    return "Tower Control"
             }
         case TourneyModeType.Rainmaker:
             switch (localization) {
