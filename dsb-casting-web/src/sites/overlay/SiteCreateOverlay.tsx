@@ -225,7 +225,7 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
         return true
     }
 
-    function onSetMatch(match:TourneyMatch, index:number|null) {
+    async function onSetMatch(match:TourneyMatch, index:number|null) {
         const newOverlay = Object.assign({}, overlay)
 
         const oldWins = overlayGetTeamAlphaWins(newOverlay) + overlayGetTeamBetaWins(newOverlay)
@@ -250,6 +250,25 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
         }
 
         console.log(newOverlay)
+
+        if(overlayToUpdate != null) {
+            // Push update
+            setSubmitSuccess(ButtonActionStatus.Loading)
+
+            const cancelToken = axios.CancelToken.source()
+
+            let result = false
+            result = await updateOverlay(cancelToken.token, newOverlay)
+
+            console.log(result)
+
+            setSubmitSuccess(result ? ButtonActionStatus.Success : ButtonActionStatus.Error)
+            setTimeout(() => {
+                setSubmitSuccess(ButtonActionStatus.Nothing)
+            }, 2000)
+            //return result
+        }
+
         setOverlay(newOverlay)
     }
 
