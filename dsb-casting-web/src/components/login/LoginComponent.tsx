@@ -13,6 +13,7 @@ import UserInfo from "../../interfaces/user/UserInfo.ts";
 import {useNavigate} from "react-router-dom";
 import LoginStatus from "../../interfaces/LoginStatus.ts";
 import {getBrowserLocalization} from "../../functions/localizationFunctions.ts";
+import ButtonActionStatus from "../../framework/form/button/ButtonActionStatus.ts";
 
 export default function LoginComponent({setUser}: {setUser: (user:UserInfo) => void}) {
 
@@ -20,9 +21,12 @@ export default function LoginComponent({setUser}: {setUser: (user:UserInfo) => v
 
     const [loginData, setLoginData]:[LoginData, any] = useState({name:"",password:""})
 
+    const [loginSuccess, setLoginSuccess] = useState<ButtonActionStatus>(ButtonActionStatus.Nothing)
 
     async function onLogin(e):Promise<boolean> {
         e.preventDefault()
+
+        setLoginSuccess(ButtonActionStatus.Loading)
 
         const cancelToken = axios.CancelToken.source()
         const user:AppUser|null = await performLogin(loginData, cancelToken.token)
@@ -32,7 +36,13 @@ export default function LoginComponent({setUser}: {setUser: (user:UserInfo) => v
         console.log(user)
 
         if(user != null) {
+            setLoginSuccess(ButtonActionStatus.Success)
             navigate("/")
+        } else {
+            setLoginSuccess(ButtonActionStatus.Error)
+            setTimeout(() => {
+                setLoginSuccess(ButtonActionStatus.Nothing)
+            }, 2000)
         }
 
         return user != null
@@ -63,7 +73,7 @@ export default function LoginComponent({setUser}: {setUser: (user:UserInfo) => v
                 <StyledInput name={"name"} type={"text"} value={loginData.name} onChange={e => onUsernameChange(e)}
                              placeholder={"Nutzername"} required={true} autoComplete={"username"} />
                 <StyledInput name={"password"} type={"password"} value={loginData.password} onChange={e => onPasswordChange(e)} placeholder={"Passwort"} required={true} autoComplete={"current-password"} />
-                <StyledButton type={"submit"} children={"Anmelden"}/>
+                <StyledButton type={"submit"} children={"Anmelden"} success={loginSuccess}/>
             </StyledForm>
         </div>
     )
