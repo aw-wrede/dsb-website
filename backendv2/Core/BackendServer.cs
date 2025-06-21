@@ -20,7 +20,8 @@ namespace Core;
 
 public class BackendServer : Singleton<BackendServer>
 {
-    public const double Version = 1.0;
+    public const double Version = 1.01;
+    private static readonly object Lock = new();
 
     public ConfigLoader ConfigLoader { get; private set; }
     public IMongoDatabase Database { get; private set; }
@@ -60,9 +61,13 @@ public class BackendServer : Singleton<BackendServer>
             {
                 return;
             }
+
+            lock (Lock)
+            {
+                using var outputFile = new StreamWriter(LoggingConfiguration.Path, true);
+                outputFile.WriteLine($"{DateTime.Now.ToLongTimeString()} [{level}] {message}");
+            }
             
-            using var outputFile = new StreamWriter(LoggingConfiguration.Path);
-            outputFile.WriteLine($"{DateTime.Now.ToLongTimeString()} [{level}] {message}");
         });
 
         #endregion
