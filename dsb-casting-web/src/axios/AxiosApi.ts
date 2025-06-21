@@ -19,8 +19,8 @@ import AppUserCreateData from "../interfaces/user/AppUserCreateData.ts";
 import InkColorPair from "../interfaces/inkColor/InkColorPair.ts";
 import UserPasswordUpdateRequest from "./requests/UserPasswordUpdateRequest.ts";
 
-const API_URL:string = "http://localhost:5000/api"
-export const WEBSOCKET_URL:string = "ws://localhost:5000/api/overlay/ws"
+const API_URL:string = import.meta.env.VITE_API_URL;
+export const WEBSOCKET_URL:string = import.meta.env.VITE_WEBSOCKET_URL;
 
 const axiosInstance = axios.create({
     baseURL: API_URL,
@@ -31,6 +31,7 @@ export async function fetchUserData(cancelToken:CancelToken, apiToken?:string): 
     let result: AxiosResponse<any, any>
 
     console.debug("Token: " + apiToken)
+    console.debug("URL: " + API_URL)
 
     try {
         result = await axiosInstance.get(`/user/get${apiToken != null ? "?apiToken=" + apiToken : ""}`, {
