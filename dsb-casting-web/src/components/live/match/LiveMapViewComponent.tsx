@@ -7,6 +7,7 @@ import TourneyModeType from "../../../interfaces/tourney/TourneyModeType.ts";
 import {getModeIcon} from "../../../functions/overlayFunctions.ts";
 import TourneyTeamType from "../../../interfaces/tourney/team/TourneyTeamType.ts";
 import BasicLogoVector from "../../BasicLogoVector.tsx";
+import {getUnknownMap} from "../../../functions/mapFunctions.ts";
 
 type Props = {
     match:TourneyMatch
@@ -16,10 +17,13 @@ type Props = {
 }
 
 export default function LiveMapViewComponent(props:Props) {
+
+    const placeholderMap = getUnknownMap()
+
     return <div className={"live-match"} style={{
-        "--winnerColor": props.winnerColor,
-    }}>
-        <img className={"match-map-img"} src={props.map?.image} alt=""/>
+            "--winnerColor": props.winnerColor,
+        }}>
+        <img className={"match-map-img"} src={props.map?.image ?? placeholderMap.image} alt=""/>
 
         {props.match.modeType !== TourneyModeType.Unknown ?
             <img className={"match-map-mode"} src={getModeIcon(props.match.modeType)}/> : null
