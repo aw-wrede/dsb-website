@@ -26,7 +26,7 @@ export default function OverlayTemplateEditForm({user, template, setTemplate, on
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [mapData, setMapData] = useState<Record<TourneyMapType, TourneyMap>>({} as Record<TourneyMapType, TourneyMap>);
 
-    const [maxMatchesInput, setMaxMatchesInput] = useState("9")
+    const [maxMatchesInput, setMaxMatchesInput] = useState(`${template.maxMatches}`)
 
     const [currentMatch, setCurrentMatch] = useState<TourneyMatch>({
         mapType: TourneyMapType.Unknown,
