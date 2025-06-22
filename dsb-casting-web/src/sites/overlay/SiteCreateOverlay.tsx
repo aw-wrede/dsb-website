@@ -92,7 +92,6 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
             betaColor: "#4221D1"
         }
     });
-    const [type, setType] = useState<OverlayType>(OverlayType.Static);
 
     const [currentMatch, setCurrentMatch] = useState<TourneyMatch>({
         mapType: TourneyMapType.Unknown,
@@ -129,10 +128,6 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
             setDate(new Date(overlayToUpdate.scheduledTime))
         }
     }, [overlayToUpdate]);
-
-    useEffect(() => {
-        setOverlayType(type)
-    }, [type]);
 
     useEffect(() => {
         const elems:SearchElement[] = []
@@ -407,6 +402,7 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
             <StyledFormHeader headline={"Mapliste bearbeiten"}/>
             <StyledInput name={"max-matches"} type={"number"} value={overlay.maxMatches} onChange={onChange}
                          placeholder={"Maximale Anzahl Runden"} required={true} autoComplete={"off"}/>
+
             <MatchList matches={overlay.matches} mapData={mapData} localization={user.localization}
                        setModalVisible={setModalVisible} allowAdd={true} onAdd={onAddMatchClicked} allowEdit={true}
                        onEdit={onEditMatchClicked}/>
@@ -442,8 +438,8 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
 
             <StyledFormHeader headline={"Typ festlegen"}/>
 
-            <StyledInputRadio name={"type"} elements={overlayTypesToSelectElements(overlay.type)} selected={type}
-                              setSelected={setType}/>
+            <StyledInputRadio name={"type"} elements={overlayTypesToSelectElements(overlay.type)} selected={overlay.type}
+                              setSelected={setOverlayType}/>
 
             <StyledFormHeader headline={"Kommentatoren hinzufügen"}/>
 
