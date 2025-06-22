@@ -70,6 +70,9 @@ public class ApiOverlayTemplateController : ControllerBase
             return Unauthorized();
         }
 
+        // Ignores user defined uuid and lets backend create uuid
+        request.Uuid = null;
+        
         var template = request.ToTemplate();
         
         if (!OverlayTemplateController.Instance.InsertOne(template)) return StatusCode(500);
