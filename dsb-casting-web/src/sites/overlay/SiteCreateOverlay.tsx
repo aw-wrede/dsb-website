@@ -300,7 +300,8 @@ export default function SiteCreateOverlay(props:Props) {
     }
 
     function selectOverlayTemplate(template:OverlayTemplate) {
-        setOverlay(applyOverlayTemplate(template))
+        const newOverlay = applyOverlayTemplate(overlay, template)
+        setOverlay(newOverlay)
     }
 
     function filterTemplates(s:string) {

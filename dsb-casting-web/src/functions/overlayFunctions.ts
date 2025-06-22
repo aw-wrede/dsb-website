@@ -5,25 +5,17 @@ import TourneyTeamType from "../interfaces/tourney/team/TourneyTeamType.ts";
 import TourneyModeType from "../interfaces/tourney/TourneyModeType.ts";
 import {getBaseUrl} from "./functions.ts";
 
-export function applyOverlayTemplate(template:OverlayTemplate):CreateOverlayRequest {
-    return {
-        scheduledTime: new Date().toString(),
-        successorOverlays: [],
-        title: template.title,
-        type: template.type,
-        gameVersion:template.gameVersion,
-        maxMatches:template.maxMatches,
-        matches:template.matches,
-        teamAlpha: "",
-        teamBeta: "",
-        localization:template.localization,
-        commentators: [],
-        inkColorPair: {
-            position: 0,
-            alphaColor: "#D7C422",
-            betaColor: "#4221D1"
-        }
-    }
+export function applyOverlayTemplate(overlay:CreateOverlayRequest, template:OverlayTemplate):CreateOverlayRequest {
+    const newOverlay = Object.assign({}, overlay);
+
+    newOverlay.title = template.title
+    newOverlay.type = template.type
+    newOverlay.gameVersion = template.gameVersion
+    newOverlay.maxMatches = template.maxMatches
+    newOverlay.matches = template.matches
+    newOverlay.localization = template.localization
+
+    return newOverlay
 }
 
 export function overlayGetTeamAlphaWins(overlay:Overlay|CreateOverlayRequest):number {
