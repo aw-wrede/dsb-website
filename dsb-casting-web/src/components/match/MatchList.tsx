@@ -10,27 +10,38 @@ import MatchListElement from "./MatchListElement.tsx";
 
 import "./matchList.sass"
 
-export default function MatchList({matches, mapData, localization, setModalVisible, allowAdd, onAdd, allowEdit, onEdit}:{matches:TourneyMatch[], mapData:Record<TourneyMapType, TourneyMap>, localization:Localization, setModalVisible:(b:boolean) => void, allowAdd:boolean, onAdd?:() => void, allowEdit:boolean, onEdit?:(match: TourneyMatch, index:number) => void}) {
+type Props = {
+    matches: TourneyMatch[]
+    mapData: Record<TourneyMapType, TourneyMap>
+    localization: Localization
+    setModalVisible:(b:boolean) => void
+    allowAdd: boolean
+    onAdd: () => void
+    allowEdit: boolean
+    onEdit?: (match: TourneyMatch, index:number) => void
+}
+
+export default function MatchList(props:Props) {
 
     function onEditClick(match:TourneyMatch, index:number){
-        setModalVisible(true)
-        if(onEdit != null) {
-            onEdit(match, index)
+        props.setModalVisible(true)
+        if(props.onEdit != null) {
+            props.onEdit(match, index)
         }
     }
 
     function onAddClick() {
-        setModalVisible(true)
-        if(onAdd != null) {
-            onAdd()
+        props.setModalVisible(true)
+        if(props.onAdd != null) {
+            props.onAdd()
         }
     }
 
     return <div className={"match-list"}>
-        {matches.map((match, index) => (
-            <MatchListElement key={index} match={match} index={index} map={getMapFromType(mapData, match.mapType)}  localization={localization} allowEdit={allowEdit} onEdit={onEditClick} />
+        {props.matches.map((match, index) => (
+            <MatchListElement key={index} match={match} index={index} map={getMapFromType(props.mapData, match.mapType)}  localization={props.localization} allowEdit={props.allowEdit} onEdit={onEditClick} />
         ))}
-        {allowAdd ?
+        {props.allowAdd ?
             <StyledButton type={"button"} onClick={onAddClick}>
                 <StyledIcon icon={FrameworkIcon.Add} />
             </StyledButton> : null}
