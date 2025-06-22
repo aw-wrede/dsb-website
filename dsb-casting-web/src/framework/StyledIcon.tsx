@@ -1,7 +1,12 @@
 import FrameworkIcon from "./FrameworkIcon.ts";
 
-export default function StyledIcon({icon, onClick}: {icon: FrameworkIcon, onClick?: (e) => void}) {
+type Props = {
+    icon: FrameworkIcon
+    onClick?: (e) => void
+}
+
+export default function StyledIcon(props:Props) {
     return (
-        <span className="material-icons" onClick={onClick}>{icon}</span>
+        <span className="material-icons" onClick={props.onClick}>{props.icon}</span>
     )
 }

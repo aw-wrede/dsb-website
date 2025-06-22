@@ -6,7 +6,7 @@ import Overlay from "../../../interfaces/overlay/Overlay.ts";
 import "./siteStartup.sass"
 import MatchPreviewComponent from "../../../components/live/match/MatchPreviewComponent.tsx";
 import useWebSocket, {ReadyState} from "react-use-websocket";
-import {getManyOverlays, getOverlay, WEBSOCKET_URL} from "../../../axios/AxiosApi.ts";
+import {getManyOverlays, WEBSOCKET_URL} from "../../../axios/AxiosApi.ts";
 import axios from "axios";
 
 export default function SiteStartup() {

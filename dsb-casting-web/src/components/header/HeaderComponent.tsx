@@ -9,14 +9,20 @@ import {useNavigate} from "react-router-dom";
 import UserInfo from "../../interfaces/user/UserInfo.ts";
 import LoginStatus from "../../interfaces/LoginStatus.ts";
 
-export default function HeaderComponent({user, setUser} : {user:UserInfo, setUser: (user:UserInfo) => void}) {
+type Props = {
+    user:UserInfo
+    setUser: (user:UserInfo) => void
+}
+
+export default function HeaderComponent(props:Props) {
     const navigate = useNavigate()
 
     async function onClick() {
         const cancelToken = axios.CancelToken.source()
         const success = await performLogout(cancelToken.token)
+
         if(success) {
-            setUser({user: null, loginStatus: LoginStatus.Unauthorized})
+            props.setUser({user: null, loginStatus: LoginStatus.Unauthorized, localization: props.user.localization})
             console.log("Logged out")
             navigate("/")
         }
@@ -28,7 +34,7 @@ export default function HeaderComponent({user, setUser} : {user:UserInfo, setUse
                 <a href="/"><h1 className={"title"}>DSB Casting Overlay</h1></a>
             </div>
             <div className={"header-right"}>
-                {user.loginStatus === LoginStatus.Authorized ? (<StyledButton type={"button"} onClick={onClick}>
+                {props.user.loginStatus === LoginStatus.Authorized ? (<StyledButton type={"button"} onClick={onClick}>
                     <StyledIcon icon={FrameworkIcon.Logout} />
                 </StyledButton>) : null}
             </div>

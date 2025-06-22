@@ -52,8 +52,12 @@ import {getTeamByUuid} from "../../functions/teamFunctions.ts";
 import InkColorPair from "../../interfaces/inkColor/InkColorPair.ts";
 import InputSelectElement from "../../framework/form/input/InputSelectElement.ts";
 
+type Props = {
+    overlayToUpdate?:CreateOverlayRequest
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:CreateOverlayRequest}) {
+export default function SiteCreateOverlay(props:Props) {
     const user = useContext<UserInfo>(UserContext)
 
     const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -74,7 +78,7 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
 
     const [date, setDate] = useState<Date>(new Date());
 
-    const [overlay, setOverlay] = useState<CreateOverlayRequest>(overlayToUpdate ?? {
+    const [overlay, setOverlay] = useState<CreateOverlayRequest>(props.overlayToUpdate ?? {
         title: "",
         scheduledTime: new Date().toString(),
         type: OverlayType.Static,
@@ -124,10 +128,10 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
     useEffect(() => {
         setTeamsIntoInputFields()
         
-        if(overlayToUpdate != null) {
-            setDate(new Date(overlayToUpdate.scheduledTime))
+        if(props.overlayToUpdate != null) {
+            setDate(new Date(props.overlayToUpdate.scheduledTime))
         }
-    }, [overlayToUpdate]);
+    }, [props.overlayToUpdate]);
 
     useEffect(() => {
         const elems:SearchElement[] = []
@@ -166,10 +170,10 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
     }, [date])
 
     function setTeamsIntoInputFields() {
-        if(overlayToUpdate != null) {
-            setOverlay(overlayToUpdate)
-            setTeamAlphaInput(teams?.find(t => t.uuid === overlayToUpdate.teamAlpha)?.name ?? "")
-            setTeamBetaInput(teams?.find(t => t.uuid === overlayToUpdate.teamBeta)?.name ?? "")
+        if(props.overlayToUpdate != null) {
+            setOverlay(props.overlayToUpdate)
+            setTeamAlphaInput(teams?.find(t => t.uuid === props.overlayToUpdate.teamAlpha)?.name ?? "")
+            setTeamBetaInput(teams?.find(t => t.uuid === props.overlayToUpdate.teamBeta)?.name ?? "")
         }
     }
 
@@ -246,14 +250,13 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
 
         console.log(newOverlay)
 
-        if(overlayToUpdate != null) {
+        if(props.overlayToUpdate != null) {
             // Push update
             setSubmitSuccess(ButtonActionStatus.Loading)
 
             const cancelToken = axios.CancelToken.source()
 
-            let result = false
-            result = await updateOverlay(cancelToken.token, newOverlay)
+            const result = await updateOverlay(cancelToken.token, newOverlay)
 
             console.log(result)
 
@@ -369,8 +372,8 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
 
         const cancelToken = axios.CancelToken.source()
 
-        let result = false
-        if(overlayToUpdate == null) {
+        let result: boolean
+        if(props.overlayToUpdate == null) {
             result = await saveNewOverlay(cancelToken.token, overlay)
         } else {
             result = await updateOverlay(cancelToken.token, overlay)
@@ -385,7 +388,7 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
 
     return <div className={"content create-overlay"}>
         <StyledForm onSubmit={onSubmit}>
-            <StyledFormHeader headline={overlayToUpdate == null ? "Overlay erstellen" : "Overlay aktualisieren"}/>
+            <StyledFormHeader headline={props.overlayToUpdate == null ? "Overlay erstellen" : "Overlay aktualisieren"}/>
 
             <StyledFormHeader headline={"Aus Vorlage laden"}/>
             <SearchDropdown setVal={selectOverlayTemplate} attributes={{
@@ -479,7 +482,7 @@ export default function SiteCreateOverlay({overlayToUpdate}:{overlayToUpdate?:Cr
                               selected={overlay.localization} setSelected={setOverlayLocalization}/>
 
             <StyledButton type={"submit"}
-                          success={submitSuccess}>{overlayToUpdate == null ? "Overlay erstellen" : "Overlay aktualisieren"}</StyledButton>
+                          success={submitSuccess}>{props.overlayToUpdate == null ? "Overlay erstellen" : "Overlay aktualisieren"}</StyledButton>
         </StyledForm>
         <MatchCreateModal visible={modalVisible} setVisible={setModalVisible} gameVersion={overlay.gameVersion}
                           match={currentMatch} setMatch={onSetMatch} index={currentMatchIndex} mapData={mapData}

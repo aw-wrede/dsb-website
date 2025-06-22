@@ -1,8 +1,13 @@
 import {ReactElement} from "react";
 
-export default function StyledCollapsibleElement({header, body}:{header:ReactElement, body:ReactElement}) {
+type ElementProps = {
+    header:ReactElement
+    body:ReactElement
+}
+
+export default function StyledCollapsibleElement(props:ElementProps) {
     return <li>
-        {header}
-        {body}
+        {props.header}
+        {props.body}
     </li>
 }

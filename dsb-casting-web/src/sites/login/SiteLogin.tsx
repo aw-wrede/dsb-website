@@ -1,11 +1,15 @@
 import LoginComponent from "../../components/login/LoginComponent.tsx";
 import UserInfo from "../../interfaces/user/UserInfo.ts";
 
-export default function SiteLogin({user, setUser} : {user: UserInfo, setUser: (user:UserInfo) => void}) {
+type Props = {
+    user: UserInfo
+    setUser: (user:UserInfo) => void
+}
 
+export default function SiteLogin(props:Props) {
     return (
         <div className={"content"}>
-            <LoginComponent setUser={setUser} />
+            <LoginComponent setUser={props.setUser} />
         </div>
     )
 }

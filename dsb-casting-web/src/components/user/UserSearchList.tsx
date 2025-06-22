@@ -3,18 +3,25 @@ import AppUser from "../../interfaces/user/AppUser.ts";
 import {useEffect, useState} from "react";
 import SearchElement from "../../framework/form/input/search/SearchElement.ts";
 
-export default function UserSearchList({id, placeholder, users, selectUser}:{id:string, placeholder?:string, users:AppUser[], selectUser:(user:AppUser) => void}) {
+type Props = {
+    id:string
+    placeholder?:string
+    users:AppUser[]
+    selectUser:(user:AppUser) => void
+}
+
+export default function UserSearchList(props:Props) {
 
     const [input, setInput] = useState("")
     const [elems, setElems] = useState<SearchElement[]>([]);
 
     useEffect(() => {
-        if(users == null) {
+        if(props.users == null) {
             return
         }
 
         const elems:SearchElement[] = []
-        users.forEach(user => {
+        props.users.forEach(user => {
             elems.push({
                 id: user.uuid,
                 name: user.uuid,
@@ -24,7 +31,7 @@ export default function UserSearchList({id, placeholder, users, selectUser}:{id:
         })
 
         setElems(elems)
-    }, [users]);
+    }, [props.users]);
 
     function filter(s:string):SearchElement[] {
         return elems.filter(elem => {
@@ -40,13 +47,13 @@ export default function UserSearchList({id, placeholder, users, selectUser}:{id:
 
     function setVal(val:any) {
         setInput("")
-        selectUser(val)
+        props.selectUser(val)
     }
 
     return <SearchDropdown input={input} setInput={setInput} setVal={setVal} attributes={{
-        id: id,
+        id: props.id,
         name: "search-user",
         autoComplete: "off",
-        placeholder: placeholder ?? "Nutzer"
+        placeholder: props.placeholder ?? "Nutzer"
     }} filter={filter} />
 }

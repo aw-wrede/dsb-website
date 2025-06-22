@@ -15,7 +15,11 @@ import LoginStatus from "../../interfaces/LoginStatus.ts";
 import {getBrowserLocalization} from "../../functions/localizationFunctions.ts";
 import ButtonActionStatus from "../../framework/form/button/ButtonActionStatus.ts";
 
-export default function LoginComponent({setUser}: {setUser: (user:UserInfo) => void}) {
+type Props = {
+    setUser: (user:UserInfo) => void
+}
+
+export default function LoginComponent(props:Props) {
 
     const navigate = useNavigate()
 
@@ -31,7 +35,11 @@ export default function LoginComponent({setUser}: {setUser: (user:UserInfo) => v
         const cancelToken = axios.CancelToken.source()
         const user:AppUser|null = await performLogin(loginData, cancelToken.token)
 
-        setUser({user:user, loginStatus: user != null ? LoginStatus.Authorized : LoginStatus.Unauthorized, localization: getBrowserLocalization()})
+        props.setUser({
+            user:user,
+            loginStatus: user != null ? LoginStatus.Authorized : LoginStatus.Unauthorized,
+            localization: getBrowserLocalization()
+        })
 
         console.log(user)
 

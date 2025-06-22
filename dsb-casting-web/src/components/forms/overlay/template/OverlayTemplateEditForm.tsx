@@ -22,11 +22,19 @@ import StyledButton from "../../../../framework/form/button/StyledButton.tsx";
 import MatchCreateModal from "../../../match/MatchCreateModal.tsx";
 import BasicFormType from "../../BasicFormType.ts";
 
-export default function OverlayTemplateEditForm({user, template, setTemplate, onSubmit, type}:{user:UserInfo, template:OverlayTemplate, setTemplate:(template:OverlayTemplate) => void, onSubmit:(e:any) => Promise<boolean>, type:BasicFormType}) {
+type Props = {
+    user:UserInfo
+    template:OverlayTemplate
+    setTemplate:(template:OverlayTemplate) => void
+    onSubmit:(e:any) => Promise<boolean>
+    type:BasicFormType
+}
+
+export default function OverlayTemplateEditForm(props:Props) {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [mapData, setMapData] = useState<Record<TourneyMapType, TourneyMap>>({} as Record<TourneyMapType, TourneyMap>);
 
-    const [maxMatchesInput, setMaxMatchesInput] = useState(`${template.maxMatches}`)
+    const [maxMatchesInput, setMaxMatchesInput] = useState(`${props.template.maxMatches}`)
 
     const [currentMatch, setCurrentMatch] = useState<TourneyMatch>({
         mapType: TourneyMapType.Unknown,
@@ -60,28 +68,28 @@ export default function OverlayTemplateEditForm({user, template, setTemplate, on
     }, [maxMatchesInput])
 
     function setOverlayType(type:OverlayType) {
-        const newTemplate = Object.assign({}, template)
+        const newTemplate = Object.assign({}, props.template)
         newTemplate.type = type
 
-        setTemplate(newTemplate)
+        props.setTemplate(newTemplate)
     }
 
     function setTemplateLocalization(localization:Localization) {
-        const newTemplate = Object.assign({}, template)
+        const newTemplate = Object.assign({}, props.template)
         newTemplate.localization = localization
 
-        setTemplate(newTemplate)
+        props.setTemplate(newTemplate)
     }
 
     function setMaxMatches(maxMatches:number) {
-        const newTemplate = Object.assign({}, template)
+        const newTemplate = Object.assign({}, props.template)
         newTemplate.maxMatches = maxMatches
-        setTemplate(newTemplate)
+        props.setTemplate(newTemplate)
     }
 
     async function onChange(e:any) {
         const value = e.target.value
-        const newTemplate = Object.assign({}, template)
+        const newTemplate = Object.assign({}, props.template)
 
         switch (e.target.name) {
             case "title":
@@ -91,17 +99,17 @@ export default function OverlayTemplateEditForm({user, template, setTemplate, on
                 break
         }
 
-        setTemplate(newTemplate)
+        props.setTemplate(newTemplate)
         return true
     }
 
     function onSetMatch(match:TourneyMatch) {
-        const newTemplate = Object.assign({}, template)
+        const newTemplate = Object.assign({}, props.template)
         newTemplate.matches.push(match)
 
         console.log(newTemplate)
 
-        setTemplate(newTemplate)
+        props.setTemplate(newTemplate)
     }
 
     function onAddMatchClicked() {
@@ -119,25 +127,35 @@ export default function OverlayTemplateEditForm({user, template, setTemplate, on
     }
 
     return <>
-        <StyledForm onSubmit={onSubmit}>
-            <StyledFormHeader headline={type === BasicFormType.Create ? "Vorlage erstellen" : "Vorlage bearbeiten"} />
-            <StyledInput name={"title"} type={"text"} value={template.title} onChange={onChange} placeholder={"Titel"} autoComplete={"off"} required={true} />
+        <StyledForm onSubmit={props.onSubmit}>
+            <StyledFormHeader headline={props.type === BasicFormType.Create ? "Vorlage erstellen" : "Vorlage bearbeiten"} />
+            <StyledInput name={"title"} type={"text"} value={props.template.title} onChange={onChange} placeholder={"Titel"} autoComplete={"off"} required={true} />
 
-            <StyledFormHeader headline={template.type === OverlayType.Static ? "Anzahl Matches" : "Maximale Anzahl Matches"} />
-            <StyledInput name={"max-matches"} type={"number"} value={maxMatchesInput} onChange={(e) => setMaxMatchesInput(e.target.value)} placeholder={template.type === OverlayType.Static ? "Anzahl Matches" : "Maximale Anzahl Matches"} required={true} autoComplete={"off"} />
-            <i className={"max-matches-info"}>{isNaN(template.maxMatches) ? `Eingabe ist fehlerhaft.` : ""}</i>
+            <StyledFormHeader headline={props.template.type === OverlayType.Static ? "Anzahl Matches" : "Maximale Anzahl Matches"} />
+            <StyledInput name={"max-matches"} type={"number"} value={maxMatchesInput}
+                         onChange={(e) => setMaxMatchesInput(e.target.value)}
+                         placeholder={props.template.type === OverlayType.Static ? "Anzahl Matches" : "Maximale Anzahl Matches"}
+                         required={true} autoComplete={"off"} />
+            <i className={"max-matches-info"}>{isNaN(props.template.maxMatches) ? `Eingabe ist fehlerhaft.` : ""}</i>
 
             <StyledFormHeader headline={"Mapliste bearbeiten"} />
-            <MatchList matches={template.matches} mapData={mapData} localization={user.localization}  setModalVisible={setModalVisible} allowAdd={true} onAdd={onAddMatchClicked} allowEdit={true} onEdit={onEditMatchClicked}/>
+            <MatchList matches={props.template.matches} mapData={mapData} localization={props.user.localization}
+                       setModalVisible={setModalVisible} allowAdd={true} onAdd={onAddMatchClicked} allowEdit={true}
+                       onEdit={onEditMatchClicked}/>
 
             <StyledFormHeader headline={"Typ festlegen"} />
-            <StyledInputRadio name={"type"} elements={overlayTypesToSelectElements(template.type)} selected={template.type} setSelected={setOverlayType}/>
+            <StyledInputRadio name={"type"} elements={overlayTypesToSelectElements(props.template.type)}
+                              selected={props.template.type} setSelected={setOverlayType}/>
 
             <StyledFormHeader headline={"Sprache auswählen"} />
-            <StyledInputRadio name={"template-localization"} elements={localizationsToSelectElements(template.localization, getMeaningfulLocalizations())} selected={template.localization} setSelected={setTemplateLocalization} />
+            <StyledInputRadio name={"template-localization"} elements={localizationsToSelectElements(props.template.localization, getMeaningfulLocalizations())}
+                              selected={props.template.localization} setSelected={setTemplateLocalization} />
 
-            <StyledButton type={"submit"}>{type === BasicFormType.Create ? "Vorlage erstellen" : "Vorlage speichern"}</StyledButton>
+            <StyledButton type={"submit"}>{props.type === BasicFormType.Create ? "Vorlage erstellen" : "Vorlage speichern"}</StyledButton>
         </StyledForm>
-        <MatchCreateModal visible={modalVisible} setVisible={setModalVisible} gameVersion={template.gameVersion} match={currentMatch} setMatch={onSetMatch} index={currentMatchIndex} mapData={mapData} localization={user.localization} />
+        
+        <MatchCreateModal visible={modalVisible} setVisible={setModalVisible} gameVersion={props.template.gameVersion}
+                          match={currentMatch} setMatch={onSetMatch} index={currentMatchIndex} mapData={mapData}
+                          localization={props.user.localization} />
     </>
 }
