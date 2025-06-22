@@ -199,6 +199,7 @@ public class ApiOverlayController : ControllerBase
                 Title = Title,
                 ScheduledTime = DateTime.Parse(ScheduledTime),
                 Type = Type,
+                GameVersion = GameVersion,
                 MaxMatches = MaxMatches,
                 Matches = new LinkedList<TourneyMatch>(Matches),
                 TeamAlphaReference = teamAlphaReference,
