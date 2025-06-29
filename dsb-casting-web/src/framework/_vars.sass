@@ -7,8 +7,14 @@ $border-radius: 0.8rem
 $bg-color: #ecf0f3
 $bg-panel: #dadada
 
+$bg-color-dark: #1b1f23
+$bg-panel-dark: #1A1B1F
+
 $color: #5f5f5f
 $weak-color: #808080
+
+$color-dark: #fcfcfc
+$weak-color-dark: #808080
 
 $prime: #db4646
 
@@ -50,9 +56,9 @@ html
     font-size: 20px
 //for own light/dark mode
 html[data-theme="dark"]
-  --bg: #1b1f23
-  --bg-panel: #1A1B1F
-  --color: #fcfcfc
+  --bg: #{$bg-color-dark}
+  --bg-panel: #{$bg-panel-dark}
+  --color: #{$color-dark}
   --weak-color: #{$weak-color}
   --bs-1: #{$box-shadow-1-dark}
   --bs-2: #{$box-shadow-2-dark}
@@ -62,9 +68,9 @@ html[data-theme="dark"]
 //for system based dark/mode
 @media (prefers-color-scheme: dark)
   \:root
-    --bg: #1b1f23
-    --bg-panel: #1A1B1F
-    --color: #fcfcfc
+    --bg: #{$bg-color-dark}
+    --bg-panel: #{$bg-panel-dark}
+    --color: #{$color-dark}
     --weak-color: #{$weak-color}
     --bs-1: #{$box-shadow-1-dark}
     --bs-2: #{$box-shadow-2-dark}

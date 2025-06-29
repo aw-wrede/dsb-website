@@ -1,3 +1,5 @@
+@use 'src/framework/vars'
+
 $border-radius-header: 2.5rem
 $border-radius-body: 2.5rem
 $border-radius-team-box: 2rem
@@ -15,7 +17,7 @@ html:has(.content-ingame)
   left: 3.2rem
   width: 30rem
   .ingame-box
-    background: var(--bg)
+    background: vars.$bg-color-dark
     border-radius: $border-radius-body
     overflow: hidden
   .ingame-container
@@ -30,15 +32,15 @@ html:has(.content-ingame)
       background: url("/backgrounds/ingame-bg-02.webp")
     p
       font-size: 2rem
+      color: vars.$color-dark
     .ingame-header
       position: relative
       padding: 0.5rem 1.5rem
-      background: var(--bg)
+      background: vars.$bg-color-dark
       border-radius: $border-radius-header
       z-index: 10
       p
         font-weight: bold
-        //padding: 0 0 0.2rem 0
         text-align: center
         font-size: 2.2rem
     .ingame-body
@@ -50,7 +52,7 @@ html:has(.content-ingame)
           position: relative
           top: 0
           left: 0.5rem
-          background: var(--bg)
+          background: vars.$bg-color-dark
           width: calc(100% - 0.5rem)
           &.corner-top
             border-radius: $border-radius-team-box 0 0 0
@@ -66,6 +68,7 @@ html:has(.content-ingame)
               white-space: nowrap
               padding: 0 2rem 0 2rem
               line-height: 3.5rem
+              color: vars.$color-dark
             .team-name
               max-width: 29rem
               text-overflow: ellipsis

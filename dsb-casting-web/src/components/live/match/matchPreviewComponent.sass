@@ -1,5 +1,7 @@
+@use 'src/framework/vars'
+
 .match-preview
-  background: var(--bg)
+  background: vars.$bg-panel-dark
   border-radius: 3rem
   width: 70%
   padding: 2rem
@@ -11,6 +13,7 @@
   p
     font-size: 3rem
     text-align: center
+    color: vars.$color-dark
   .preview-header
     padding: 0 0 2rem 0
   .preview-content

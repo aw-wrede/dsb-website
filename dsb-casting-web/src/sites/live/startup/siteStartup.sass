@@ -1,3 +1,5 @@
+@use 'src/framework/vars'
+
 html:has(.live-content)
   animation: fadeInAnimation ease 2s
   animation-iteration-count: 1
@@ -49,11 +51,13 @@ html:has(.live-content)
           text-shadow: 0 0 1rem #000
           font-weight: bold
           line-height: 1
+          color: vars.$color-dark
       .staff-info
         .staff-streamer, .staff-comm
           font-size: 3rem
           text-align: center
           text-shadow: 0 0 1rem #000
           font-weight: bold
+          color: vars.$color-dark
         .staff-comm-wrapper
           padding: 2rem 0

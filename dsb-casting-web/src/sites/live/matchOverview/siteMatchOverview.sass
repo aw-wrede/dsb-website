@@ -1,3 +1,5 @@
+@use 'src/framework/vars'
+
 .live-overview
   .live-container-style
     background: var(--bg)
@@ -13,8 +15,8 @@
       align-items: center
       height: 8rem
       margin: 0 2rem
-      //padding: 1rem
       overflow: hidden
+      background: vars.$bg-color-dark
     .header-teams
       .team-alpha, .team-beta
         position: relative
@@ -39,8 +41,10 @@
         padding: 0 2rem
       .team-name
         width: 35rem
+        color: vars.$color-dark
       .header-score
         position: relative
+        color: vars.$color-dark
         font-weight: bolder
         font-size: 5rem
         letter-spacing: 0.5rem
@@ -67,7 +71,7 @@
         height: 8rem
         object-fit: contain
         object-position: center
-        background: var(--bg)
+        background: vars.$bg-color-dark
         border-radius: 50% 50% 0 50%
         padding: 0.5rem
         z-index: 1
@@ -78,6 +82,7 @@
         object-fit: contain
       .header-match-title
         padding: 0 3rem 0 0
+        color: vars.$color-dark
   .live-maps
     display: flex
     justify-content: center
@@ -96,5 +101,7 @@
     width: fit-content
     margin: 5rem auto 0 auto
     padding: 1.9rem 3rem
+    background: vars.$bg-color-dark
     p
       padding: 0 0.5rem 0.2rem 0.5rem
+      color: vars.$color-dark
