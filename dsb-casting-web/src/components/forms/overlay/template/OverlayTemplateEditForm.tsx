@@ -21,6 +21,7 @@ import StyledInputRadio from "../../../../framework/form/input/StyledInputRadio.
 import StyledButton from "../../../../framework/form/button/StyledButton.tsx";
 import MatchCreateModal from "../../../match/MatchCreateModal.tsx";
 import BasicFormType from "../../BasicFormType.ts";
+import ButtonActionStatus from "../../../../framework/form/button/ButtonActionStatus.ts";
 
 type Props = {
     user:UserInfo
@@ -42,6 +43,8 @@ export default function OverlayTemplateEditForm(props:Props) {
         winnerTeam: TourneyTeamType.Unknown
     })
     const [currentMatchIndex, setCurrentMatchIndex] = useState<number|null>(null)
+
+    const [submitSuccess, setSubmitSuccess] = useState<ButtonActionStatus>(ButtonActionStatus.Nothing);
 
     useEffect(() => {
         const cancelToken = axios.CancelToken.source()
@@ -126,8 +129,21 @@ export default function OverlayTemplateEditForm(props:Props) {
         setCurrentMatch(match)
     }
 
+    async function onSubmit(e:any):Promise<boolean> {
+        setSubmitSuccess(ButtonActionStatus.Loading)
+
+        const result = await props.onSubmit(e)
+        setSubmitSuccess(result ? ButtonActionStatus.Success : ButtonActionStatus.Error)
+
+        setTimeout(() => {
+            setSubmitSuccess(ButtonActionStatus.Nothing)
+        }, 2000)
+
+        return result
+    }
+
     return <>
-        <StyledForm onSubmit={props.onSubmit}>
+        <StyledForm onSubmit={onSubmit}>
             <StyledFormHeader headline={props.type === BasicFormType.Create ? "Vorlage erstellen" : "Vorlage bearbeiten"} />
             <StyledInput name={"title"} type={"text"} value={props.template.title} onChange={onChange} placeholder={"Titel"} autoComplete={"off"} required={true} />
 
@@ -151,7 +167,7 @@ export default function OverlayTemplateEditForm(props:Props) {
             <StyledInputRadio name={"template-localization"} elements={localizationsToSelectElements(props.template.localization, getMeaningfulLocalizations())}
                               selected={props.template.localization} setSelected={setTemplateLocalization} />
 
-            <StyledButton type={"submit"}>{props.type === BasicFormType.Create ? "Vorlage erstellen" : "Vorlage speichern"}</StyledButton>
+            <StyledButton type={"submit"} success={submitSuccess}>{props.type === BasicFormType.Create ? "Vorlage erstellen" : "Vorlage speichern"}</StyledButton>
         </StyledForm>
         
         <MatchCreateModal visible={modalVisible} setVisible={setModalVisible} gameVersion={props.template.gameVersion}
