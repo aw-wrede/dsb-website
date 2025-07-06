@@ -1,4 +1,4 @@
-﻿using Commons;
+using Commons;
 using Commons.Localization;
 using Commons.Logging;
 using Core.Controller;
@@ -1080,6 +1080,31 @@ public class TourneyMapController : DatabaseController<TourneyMapController, Tou
             ThumbnailImageLink = $"{mapWebDirectory}{TourneyGameVersion.Splatoon3}/{TourneyMapType.LemuriaHub.ToString()}.webp"
         });
         #endregion
+        
+        #region Urchin Underpass
+        list.Add(new TourneyMap()
+        {
+            MapIdentifier = TourneyMapType.UrchinUnderpassSpl3,
+            GameVersion = TourneyGameVersion.Splatoon3,
+            Name = "Urchin Underpass",
+            LocalizedNames = new Dictionary<Localization, string>
+            {
+                { Localization.English, "Urchin Underpass"},
+                { Localization.Japanese, "デカライン高架下" },
+                { Localization.Dutch, "Knooppunt Kabeljauw" },
+                { Localization.French, "Passage Turbot" },
+                { Localization.German, "Dekabahnstation" },
+                { Localization.Italian, "Periferia urbana" },
+                { Localization.Russian, "Район Дека" },
+                { Localization.Spanish, "Parque Viaducto" },
+                { Localization.Chinese , "海星高架下"},
+                {Localization.Korean, "데카 라인 고가 밑"},
+                { Localization.Portuguese , "Periferia Urbana"}
+            },
+            ThumbnailImageLink = $"{mapWebDirectory}{TourneyGameVersion.Splatoon3}/{TourneyMapType.UrchinUnderpassSpl3.ToString()}.webp"
+        });
+        #endregion
+        
         #endregion
         
         return list;

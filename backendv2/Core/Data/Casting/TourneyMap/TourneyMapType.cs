@@ -52,5 +52,6 @@ public enum TourneyMapType
     RoboRom = 44,
     BluefinDepotSpl3 = 45,
     MarlinAirport = 46,
-    LemuriaHub = 47
+    LemuriaHub = 47,
+    UrchinUnderpassSpl3 = 48
 }
