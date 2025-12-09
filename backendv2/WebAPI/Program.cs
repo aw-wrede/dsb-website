@@ -1,15 +1,22 @@
 using Core;
-using Core.Data.Calendar;
 
 const string corsAllowDevLocalhost = "DevLocalhostOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
+//TODO change JsonIgnore to Newtonsoft to use
+// builder.Services.AddControllers().AddNewtonsoftJson();
+
+builder.Services.AddControllers();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: corsAllowDevLocalhost, policyBuilder =>
     {
-        policyBuilder.WithOrigins("http://localhost:3000");
+        policyBuilder.WithOrigins("http://localhost:5173");
+        policyBuilder.AllowAnyHeader();
+        policyBuilder.AllowAnyMethod();
+        policyBuilder.AllowCredentials();
     });
 });
 
@@ -28,16 +35,11 @@ if (app.Environment.IsDevelopment())
     app.UseCors(corsAllowDevLocalhost);
 }
 
+app.UseWebSockets();
+
 BackendServer.Instance.OnStartup();
 
-//app.UseHttpsRedirection();
 
-app.MapGet("/api/calendar/getall", () =>
-{
-    var calendars = DsbCalendarController.Instance.GetAll();
-    return calendars;
-})
-.WithName("GetAllCalendars")
-.WithOpenApi();
+app.MapControllers();
 
 app.Run();

@@ -1,4 +1,5 @@
 ﻿using Commons;
+using Commons.Logging;
 using MongoDB.Driver;
 
 namespace Core.Controller;
@@ -9,6 +10,11 @@ public abstract class DatabaseController<TController, T> : IdentifiedController<
         
     public IMongoCollection<T> Collection => BackendServer.Instance.Database.GetCollection<T>(typeof(T).Name);
 
+    public List<T> GetAll()
+    {
+        return Collection.FindSync(_ => true).ToList();
+    }
+    
     public bool TryGetById(long id, out T t)
     {
         t = Collection.FindSync(x => x.Id.Equals(id)).FirstOrDefault();
@@ -33,7 +39,26 @@ public abstract class DatabaseController<TController, T> : IdentifiedController<
             return false;
         }
     }
-        
+
+    public bool InsertMany(IEnumerable<T> ts)
+    {
+        try
+        {
+            Collection.InsertMany(ts);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Logger.Exception(e);
+            return false;
+        }
+    }
+    
+    public bool DeleteOne(long id)
+    {
+        return Collection.DeleteOne(t => t.Id == id).DeletedCount == 1;
+    }
+    
     public bool UpdateOneComplete(T t)
     {
         return Collection.ReplaceOne(x => x.Id.Equals(t.Id), t).ModifiedCount > 0;

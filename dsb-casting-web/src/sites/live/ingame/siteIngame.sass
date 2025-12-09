@@ -1,0 +1,188 @@
+@use 'src/framework/vars'
+
+$border-radius-header: 2.5rem
+$border-radius-body: 2.5rem
+$border-radius-team-box: 2rem
+$image-overflow: 0.8rem
+
+html:has(.content-ingame)
+  html, body
+    background: transparent
+  .header
+    display: none
+
+.content-ingame
+  position: fixed
+  top: 1.6rem
+  left: 3.2rem
+  width: 30rem
+  .ingame-box
+    background: vars.$bg-color-dark
+    border-radius: $border-radius-body
+    overflow: hidden
+  .ingame-container
+    padding: $image-overflow
+    border-radius: $border-radius-body
+    &.bg-01, &.bg-02
+      background-repeat: no-repeat
+      background-size: cover
+    &.bg-01
+      background: url("/backgrounds/ingame-bg-01.webp")
+    &.bg-02
+      background: url("/backgrounds/ingame-bg-02.webp")
+    p
+      font-size: 2rem
+      color: vars.$color-dark
+    .ingame-header
+      position: relative
+      padding: 0.5rem 1.5rem
+      background: vars.$bg-color-dark
+      border-radius: $border-radius-header
+      z-index: 10
+      p
+        font-weight: bold
+        text-align: center
+        font-size: 2.2rem
+    .ingame-body
+      position: relative
+      .ingame-team
+        background: linear-gradient(180deg, var(--teamAlphaColor) 50%, var(--teamBetaColor) 50%)
+        margin: $image-overflow 0 0 0
+        .ingame-team-stats
+          position: relative
+          top: 0
+          left: 0.5rem
+          background: vars.$bg-color-dark
+          width: calc(100% - 0.5rem)
+          &.corner-top
+            border-radius: $border-radius-team-box 0 0 0
+          &.corner-bottom
+            border-radius: 0 0 0 $border-radius-team-box
+          .stats-animation-wrapper
+            display: flex
+            justify-content: space-between
+            width: 100%
+            height: 100%
+            min-width: fit-content
+            p
+              white-space: nowrap
+              padding: 0 2rem 0 2rem
+              line-height: 3.5rem
+              color: vars.$color-dark
+            .team-name
+              max-width: 29rem
+              text-overflow: ellipsis
+              overflow: hidden
+      .ingame-commentators
+        padding: 0.5rem 2rem 0.5rem 3rem
+
+.content-ingame
+  .ingame-container-01
+    animation: fadeInAnimationImageBox ease 1s
+    animation-iteration-count: 1
+    animation-fill-mode: forwards
+    position: relative
+    z-index: 10
+    //top: 0 !important
+    @keyframes fadeInAnimationImageBox
+      0%
+        height: 11rem
+        opacity: 0
+        scale: 0.5
+      100%
+        height: 14.5rem
+        opacity: 1
+        scale: 1
+    .ingame-body
+      animation: fadeInAnimationBody ease 1s 0s
+      animation-iteration-count: 1
+      animation-fill-mode: forwards
+      scale: 0
+      @keyframes fadeInAnimationBody
+        0%
+          scale: 0
+          opacity: 0
+          top: -10rem
+        100%
+          scale: 1
+          opacity: 1
+          top: 0
+    .ingame-body
+      .ingame-team-stats
+        height: 4rem
+        overflow: hidden
+      .stats-animation-wrapper
+        position: relative
+        opacity: 0
+        overflow: hidden
+        width: 100%
+        &.team-alpha
+          top: 100%
+          animation: fadeInAnimationStatsAlpha ease 0.7s 0.7s
+          animation-iteration-count: 1
+          animation-fill-mode: forwards
+          @keyframes fadeInAnimationStatsAlpha
+            0%
+              opacity: 0
+              top: 100%
+            100%
+              opacity: 1
+              top: 0
+
+        &.team-beta
+          top: -100%
+          animation: fadeInAnimationStatsBeta ease 0.7s 0.7s
+          animation-iteration-count: 1
+          animation-fill-mode: forwards
+          @keyframes fadeInAnimationStatsBeta
+            0%
+              opacity: 0
+              top: -100%
+            100%
+              opacity: 1
+              top: 0
+  .ingame-container-02
+    animation: fadeInAnimationCommentaryBox ease 1s 1s
+    animation-iteration-count: 1
+    animation-fill-mode: forwards
+    position: relative
+    top: -10rem
+    opacity: 0
+    scale: 0
+    margin: 1rem 0 0 0
+    z-index: 9
+    @keyframes fadeInAnimationCommentaryBox
+      0%
+        top: -10rem
+        opacity: 0
+        scale: 0
+      100%
+        top: 0
+        opacity: 1
+        scale: 1
+  .ingame-container-03
+    animation: fadeInAnimationStreamerBox ease 5s 2s
+    animation-iteration-count: 1
+    animation-fill-mode: forwards
+    position: relative
+    top: -10rem
+    opacity: 0
+    scale: 0
+    margin: 1rem 0 0 0
+    @keyframes fadeInAnimationStreamerBox
+      0%
+        top: -8rem
+        opacity: 0
+        scale: 0
+      20%
+        top: 0
+        opacity: 1
+        scale: 1
+      80%
+        top: 0
+        opacity: 1
+        scale: 1
+      100%
+        top: -8rem
+        opacity: 0
+        scale: 0

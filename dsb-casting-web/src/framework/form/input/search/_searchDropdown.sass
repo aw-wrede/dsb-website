@@ -1,0 +1,14 @@
+.ui-search-dropdown
+  input:focus + .dropdown-elements
+    max-height: 20rem
+    overflow-x: hidden
+    overflow-y: auto
+  .dropdown-elements
+    transition: max-height 200ms ease-in-out
+    transition-delay: 100ms
+    max-height: 0
+    overflow: hidden
+    .elem
+      display: block
+      padding: 0.5rem 1.5rem
+      cursor: pointer

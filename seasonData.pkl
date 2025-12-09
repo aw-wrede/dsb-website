@@ -1,0 +1,49 @@
+module dsb.SeasonData
+
+/// The name of the season
+name: String
+
+// The list of all divisions of current season
+divisions: Division[]
+
+class Match {
+    team1Id: Int32
+    team2Id: Int32
+    score1: Int16
+    score2: Int16
+}
+
+class Team {
+    id: Int32
+    name: String
+    wins: Int16
+    matchesPlayed: Int16
+    roundsWon: Int16
+    roundsLost: Int16
+    difference: Int16
+
+    /// The place of the team
+    place: Int16
+}
+
+class Division {
+    /// The name of division
+    name: String
+
+    /// Two-dimensional array containing all teams each group
+    /// If division is not in group format, first entry contains all teams
+    teams: Team[][]
+
+    /// Two-dimensional array containing all matches each group
+    /// If division is not in group format, first entry contains all matches
+    groupMatches: Match[][]
+
+    /// Two-dimensional array containg all matches of each stage
+    /// Example:
+    /// length = 0: no finals or not yet determined
+    /// length = 1: [[final]]
+    /// length = 2: [[final], [3rd]]
+    /// length = 3: [[semi1, semi2], [final], [3rd]]
+    /// length = 4: [[quarter1, quarter2, quarter3, quarter4], [semi1, semi2], [final], [3rd]]
+    finalMatches: Match[][]
+}

@@ -3,7 +3,7 @@
 public abstract class Localized
 {
     public string Name { get; set; }
-    public Dictionary<Localization, string> LocalizedNames { get; set; } = new Dictionary<Localization, string>();
+    public Dictionary<Localization, string> LocalizedNames { get; set; } = new();
         
     public string GetLocalizedName(Localization localization)
     {

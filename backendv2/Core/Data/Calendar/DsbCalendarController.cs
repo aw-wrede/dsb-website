@@ -1,4 +1,5 @@
 ﻿using Commons;
+using Commons.Logging;
 using Commons.Utils;
 using Core.Controller;
 using MongoDB.Driver;
@@ -21,11 +22,11 @@ public class DsbCalendarController : PublicDataDatabaseController<DsbCalendarCon
             foreach (var calendar in calendars.Where(cal => !Instance.Collection.FindSync(new MongoDB.Driver.ExpressionFilterDefinition<DsbCalendar>(collectionCal => collectionCal.Name == cal.Name)).Any()))
             {
                 Logger.Info($"Adding calendar '{calendar.Name}' to database");
-                Instance.InsertOne(calendar);
+                InsertOne(calendar);
             }
         }
 
-        private List<DsbCalendar> GetDefaultCalendars()
+        private static List<DsbCalendar> GetDefaultCalendars()
         {
             var list = new List<DsbCalendar>();
 
@@ -34,7 +35,7 @@ public class DsbCalendarController : PublicDataDatabaseController<DsbCalendarCon
             {
                 Name = "Seasons",
                 Uuid = UuidGenerator.GenerateUuid(),
-                ColorHex = "#fdc72c"
+                ColorHex = "#ee7600"
             };
             
             seasonCalendar.Entries.Add(new DsbCalendarEntry()
@@ -79,6 +80,12 @@ public class DsbCalendarController : PublicDataDatabaseController<DsbCalendarCon
                 StartTime = new DateTime(2023, 04, 24, 0, 0, 0),
                 EndTime = new DateTime(2023, 06, 18, 23, 59, 59)
             });
+            seasonCalendar.Entries.Add(new DsbCalendarEntry()
+            {
+                Name = "DSB Season 8",
+                StartTime = new DateTime(2024, 04, 08, 0, 0, 0),
+                EndTime = new DateTime(2024, 06, 02, 23, 59, 59)
+            });
             
             #endregion SEASONS
 
@@ -88,7 +95,7 @@ public class DsbCalendarController : PublicDataDatabaseController<DsbCalendarCon
             {
                 Name = "DSP",
                 Uuid = UuidGenerator.GenerateUuid(),
-                ColorHex = "#d43e39"
+                ColorHex = "#9acd32"
             };
             dspCalendar.Entries.Add(new DsbCalendarEntry()
             {
@@ -116,11 +123,105 @@ public class DsbCalendarController : PublicDataDatabaseController<DsbCalendarCon
             });
             
             #endregion DSP
+
+            #region OFF-SEASON
+
+            var offSeasonCalendar = new DsbCalendar()
+            {
+                Name = "Off-Season",
+                Uuid = UuidGenerator.GenerateUuid(),
+                ColorHex = "#4f94cd"
+            };
+
+            offSeasonCalendar.Entries.Add(new DsbCalendarEntry()
+            {
+                Name = "DSB Splatfest",
+                StartTime = new DateTime(2020, 09, 12),
+                EndTime = new DateTime(2020, 09, 12)
+            });
+            offSeasonCalendar.Entries.Add(new DsbCalendarEntry()
+            {
+                Name = "DSB Turmhorror",
+                StartTime = new DateTime(2021, 03, 06),
+                EndTime = new DateTime(2021, 03, 06)
+            });
+            offSeasonCalendar.Entries.Add(new DsbCalendarEntry()
+            {
+                Name = "DSB Bundesländer Brawl",
+                StartTime = new DateTime(2021, 03, 20),
+                EndTime = new DateTime(2021, 03, 21)
+            });
+            offSeasonCalendar.Entries.Add(new DsbCalendarEntry()
+            {
+                Name = "DSB League Rush",
+                StartTime = new DateTime(2021, 10, 09),
+                EndTime = new DateTime(2021, 10, 09)
+            });
+            offSeasonCalendar.Entries.Add(new DsbCalendarEntry()
+            {
+                Name = "Striking Turnier",
+                StartTime = new DateTime(2021, 10, 23),
+                EndTime = new DateTime(2021, 10, 23)
+            });
+            offSeasonCalendar.Entries.Add(new DsbCalendarEntry()
+            {
+                Name = "DSB Princess Tower",
+                StartTime = new DateTime(2021, 10, 30),
+                EndTime = new DateTime(2021, 10, 30)
+            });
+            offSeasonCalendar.Entries.Add(new DsbCalendarEntry()
+            {
+                Name = "King Protection",
+                StartTime = new DateTime(2022, 04, 02),
+                EndTime = new DateTime(2022, 04, 02)
+            });
+            offSeasonCalendar.Entries.Add(new DsbCalendarEntry()
+            {
+                Name = "DSB Payload",
+                StartTime = new DateTime(2022, 04, 09),
+                EndTime = new DateTime(2022, 04, 09)
+            });
+            offSeasonCalendar.Entries.Add(new DsbCalendarEntry()
+            {
+                Name = "Striking Turnier: Special Edition",
+                StartTime = new DateTime(2022, 07, 09),
+                EndTime = new DateTime(2022, 07, 09)
+            });
+            offSeasonCalendar.Entries.Add(new DsbCalendarEntry()
+            {
+                Name = "Shopping Spree",
+                StartTime = new DateTime(2023, 09, 02),
+                EndTime = new DateTime(2023, 09, 02)
+            });
+            offSeasonCalendar.Entries.Add(new DsbCalendarEntry()
+            {
+                Name = "DSB Bundesländer Brawl 2",
+                StartTime = new DateTime(2023, 10, 14),
+                EndTime = new DateTime(2023, 10, 15)
+            });
+            
+            #endregion
             
             list.Add(seasonCalendar);
             list.Add(dspCalendar);
+            list.Add(offSeasonCalendar);
             
             return list;
+        }
+
+        public List<DsbCalendar> GetAllCleaned()
+        {
+            var now = DateTime.Now;
+            var result = GetAll();
+
+            result.ForEach(calendar =>
+            {
+                calendar.Entries = calendar.Entries
+                    .FindAll(e => !e.Hidden)
+                    .FindAll(e => !(e.HideAfterEvent && e.EndTime < now));
+            });
+
+            return result;
         }
         
     }

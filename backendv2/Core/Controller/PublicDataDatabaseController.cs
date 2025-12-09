@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 
 namespace Core.Controller;
 
@@ -17,9 +16,9 @@ public abstract class PublicDataDatabaseController<TController, T> : DatabaseCon
         return Collection.FindSync(x => x.Uuid == uuid).FirstOrDefault();
     }
 
-    public List<T> GetAll()
+    public bool DeleteOne(string uuid)
     {
-        return Collection.FindSync(_ => true).ToList();
+        return Collection.DeleteOne(t => t.Uuid == uuid).DeletedCount == 1;
     }
-
+    
 }

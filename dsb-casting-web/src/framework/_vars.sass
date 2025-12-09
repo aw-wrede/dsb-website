@@ -1,0 +1,83 @@
+//========== VARS ==========
+$font-stack: Lato, sans-serif
+$default-font-size: 1.4rem
+
+$border-radius: 0.8rem
+
+$bg-color: #ecf0f3
+$bg-panel: #dadada
+
+$bg-color-dark: #1b1f23
+$bg-panel-dark: #1A1B1F
+
+$color: #5f5f5f
+$weak-color: #808080
+
+$color-dark: #fcfcfc
+$weak-color-dark: #808080
+
+$prime: #db4646
+
+$primary-red: #db4646
+$primary-green: #66cd05
+
+//box shadow colors
+$box-shadow-1-light: #fefefe
+$box-shadow-2-light: #ccc
+$box-shadow-1-dark: #262830
+$box-shadow-2-dark: #111316
+
+//ui toggle backgrounds
+$ui-toggle-unchecked-light: #e0e0e0
+$ui-toggle-unchecked-dark: #262830
+$ui-toggle-checked-light: $primary-green
+$ui-toggle-checked-dark: $primary-green
+
+//for own light/dark mode
+html
+  --bg: #{$bg-color}
+  --bg-panel: #{$bg-color}
+  --color: #{$color}
+  --weak-color: #{$weak-color}
+  --prime: #{$prime}
+  --ui-toggle-unchecked: #{$ui-toggle-unchecked-light}
+  --ui-toggle-checked: #{$ui-toggle-checked-light}
+  --bs-1: #{$box-shadow-1-light}
+  --bs-2: #{$box-shadow-2-light}
+  --primary-green: #{$primary-green}
+  --primary-red: #{$primary-red}
+  --border-radius: #{$border-radius}
+  font-size: 10px
+  &.hd
+    font-size: 7.5px
+  &.fhd
+    font-size: 10px
+  &.uhd
+    font-size: 20px
+//for own light/dark mode
+html[data-theme="dark"]
+  --bg: #{$bg-color-dark}
+  --bg-panel: #{$bg-panel-dark}
+  --color: #{$color-dark}
+  --weak-color: #{$weak-color}
+  --bs-1: #{$box-shadow-1-dark}
+  --bs-2: #{$box-shadow-2-dark}
+  --ui-toggle-unchecked: #{$ui-toggle-unchecked-dark}
+  --ui-toggle-checked: #{$ui-toggle-checked-dark}
+
+//for system based dark/mode
+@media (prefers-color-scheme: dark)
+  \:root
+    --bg: #{$bg-color-dark}
+    --bg-panel: #{$bg-panel-dark}
+    --color: #{$color-dark}
+    --weak-color: #{$weak-color}
+    --bs-1: #{$box-shadow-1-dark}
+    --bs-2: #{$box-shadow-2-dark}
+    --ui-toggle-unchecked: #{$ui-toggle-unchecked-dark}
+    --ui-toggle-checked: #{$ui-toggle-checked-dark}
+
+\:root
+  color-sheme: light dark
+
+//========== END VARS ==========

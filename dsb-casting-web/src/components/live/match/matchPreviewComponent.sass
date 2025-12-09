@@ -1,0 +1,33 @@
+@use 'src/framework/vars'
+
+.match-preview
+  background: vars.$bg-panel-dark
+  border-radius: 3rem
+  width: 70%
+  padding: 2rem
+  margin: 2rem auto
+  box-shadow: 0 0 0 0.6rem rgba(0, 0, 0, 0.25)
+  &.current
+    transform: scale(1.2)
+    margin: 2rem auto 5rem auto
+  p
+    font-size: 3rem
+    text-align: center
+    color: vars.$color-dark
+  .preview-header
+    padding: 0 0 2rem 0
+  .preview-content
+    display: flex
+    justify-content: center
+    align-items: center
+    padding: 0 0 2rem 0
+    .preview-content-info
+      padding: 0 2rem
+    .preview-team-logo
+      width: 10rem
+      height: 10rem
+      object-fit: contain
+      border-radius: 5rem
+  .preview-teams
+    p
+      font-weight: bold
