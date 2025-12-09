@@ -5,7 +5,7 @@ import {SunnyTwitchData} from "./interfaces/SunnyTwitchData";
 
 const API_URL = "https://splatbundesliga.de/api" //PRODUCTION
 //const API_URL = "http://localhost:5000/api" //TESTING
-const SUNNY_API_URL = "https://sunny.eucliwood.eu"
+const SUNNY_API_URL = "https://dsb.inkelberg.de"
 
 export const axiosInstance = axios.create({
     baseURL: API_URL
