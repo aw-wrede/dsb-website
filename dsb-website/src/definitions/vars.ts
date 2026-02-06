@@ -3,7 +3,7 @@ export const SITE_HOME_URL:string = "/"
 export const SITE_TEAM_URL:string = "/team"
 export const SITE_SEASON_URL:string = "/season"
 export const SITE_ARCHIVE_URL:string = "/archiv"
-export const SITE_CALENDAR_URL:string = "/calendar"
+export const SITE_CALENDAR_URL:string = "https://kalender.splatbundesliga.de"
 
 export const SITE_IMPRINT_URL:string = "/about/imprint"
 export const SITE_PRIVACY_URL:string = "/about/privacy"
