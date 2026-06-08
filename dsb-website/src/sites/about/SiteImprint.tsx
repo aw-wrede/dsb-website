@@ -35,7 +35,7 @@ export default function SiteImprint() {
                         <p>Wacholderweg 8</p>
                         <p>38440, Wolfsburg</p>
                         <p>Telefon: +49 162 33 54 859</p>
-                        <p>E-Mail: deutschesplatoonbundesliga@gmail.com</p>
+                        <p>E-Mail: kontakt@splatbundesliga.de</p>
                     </div>
                 </div>
 
@@ -43,6 +43,13 @@ export default function SiteImprint() {
                     <h3>Eintragung</h3>
                     <p>Register: Amtsgericht Braunschweig</p>
                     <p>Registernummer: 202281</p>
+                </div>
+
+                <div>
+                    <h3>Vorsitz</h3>
+                    <p>1. Vorsitzender: Tim Fröbe</p>
+                    <p>Telefon: +49 162 33 54 859</p>
+                    <p>E-Mail: nindotimrs@splatbundesliga.de</p>
                 </div>
 
             </div>

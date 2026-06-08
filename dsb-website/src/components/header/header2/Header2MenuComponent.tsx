@@ -42,6 +42,7 @@ export default function Header2MenuComponent({activeSite}:{activeSite:string}) {
                     {IS_A_CURRENT_SEASON ? <MenuElement activeSite={activeSite} siteUrl={SITE_SEASON_URL} /> : null}
                     { /*<MenuElement activeSite={activeSite} siteUrl={SITE_CALENDAR_URL} /> */}
                     <MenuElement activeSite={activeSite} siteUrl={SITE_ARCHIVE_URL} />
+                    <MenuElement activeSite={activeSite} siteUrl={SITE_CALENDAR_URL} />
                 </ul>
             </div>
         </header>
@@ -50,7 +51,7 @@ export default function Header2MenuComponent({activeSite}:{activeSite:string}) {
 
 class MenuElement extends Component<{ activeSite: string, siteUrl: string }> {
     render() {
-        let {activeSite, siteUrl} = this.props;
+        const {activeSite, siteUrl} = this.props;
         return (
             <li className={`${activeSite === siteUrl ? "current" : ""}`}>
                 <a href={siteUrl}>{getSiteName(siteUrl)}</a>
